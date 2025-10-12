@@ -7,78 +7,77 @@ export function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section - Improved */}
-      <section className="relative overflow-hidden">
+      <section className="relative w-full max-w-full h-screen overflow-hidden">
         {/* Hero Background Image */}
-        <div className="absolute inset-0">
+        <div className="absolute inset-0 w-full h-full overflow-hidden">
           <img
             src="/heroimg.avif"
             alt="Temple Aviv Judea"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover object-top"
+            style={{ maxWidth: '100%', maxHeight: '100%' }}
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/80"></div>
         </div>
 
         {/* Content */}
-        <div className="relative z-10 container mx-auto px-4 py-24 md:py-32">
-          <div className="max-w-5xl mx-auto text-center space-y-10">
-            {/* Live Badge */}
-            <div className="flex justify-center">
-              <Badge variant="destructive" className="px-6 py-3 text-sm font-semibold rounded-full shadow-lg animate-pulse">
-                <div className="w-2.5 h-2.5 bg-white rounded-full mr-3 animate-ping absolute"></div>
-                <div className="w-2.5 h-2.5 bg-white rounded-full mr-3"></div>
-                <Video className="w-4 h-4 mr-2" />
-                LIVE NOW • Saturdays at 11:00 AM PST
-              </Badge>
-            </div>
+        <div className="relative z-10 h-full flex flex-col justify-center">
+          <div className="container mx-auto px-4">
+            <div className="max-w-5xl mx-auto text-center space-y-8">
+              {/* Live Badge */}
+              <div className="flex justify-center">
+                <Badge variant="destructive" className="px-6 py-3 text-sm font-semibold rounded-full shadow-lg animate-pulse">
+                  <div className="w-2.5 h-2.5 bg-white rounded-full mr-3 animate-ping absolute"></div>
+                  <div className="w-2.5 h-2.5 bg-white rounded-full mr-3"></div>
+                  <Video className="w-4 h-4 mr-2" />
+                  LIVE NOW • Saturdays at 11:00 AM PST
+                </Badge>
+              </div>
 
-            {/* Main Heading */}
-            <div className="space-y-6">
-              <h1 className="text-5xl md:text-7xl font-elegant font-bold text-primary tracking-tight leading-tight">
-                Welcome to<br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/60">
-                  Temple Aviv Judea
-                </span>
-              </h1>
+              {/* Main Heading */}
+              <div className="space-y-6">
+                <h1 className="text-5xl md:text-7xl font-elegant font-bold text-primary tracking-tight leading-tight drop-shadow-lg">
+                  Welcome to<br />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-primary/60">
+                    Temple Aviv Judea
+                  </span>
+                </h1>
 
-              <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                A vibrant Messianic Jewish congregation in Fullerton, CA — where faith, tradition, and community come together
-              </p>
-            </div>
+                <p className="text-xl md:text-2xl text-foreground/90 max-w-3xl mx-auto leading-relaxed drop-shadow-md font-medium">
+                  A vibrant Messianic Jewish congregation in Fullerton, CA — where faith, tradition, and community come together
+                </p>
+              </div>
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
-              <a href="https://youtube.com/live/YwyfCisYfEI?feature=share" target="_blank" rel="noopener noreferrer">
-                <Button size="lg" className="text-base px-8 py-6 shadow-xl hover:shadow-2xl transition-all hover:scale-105">
-                  <Play className="w-5 h-5 mr-2 fill-current" />
-                  Watch Live Stream
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
+                <a href="https://youtube.com/live/YwyfCisYfEI?feature=share" target="_blank" rel="noopener noreferrer">
+                  <Button size="lg" className="text-base px-8 py-6 shadow-xl hover:shadow-2xl transition-all hover:scale-105">
+                    <Play className="w-5 h-5 mr-2 fill-current" />
+                    Watch Live Stream
+                  </Button>
+                </a>
+
+                <Button variant="outline" size="lg" className="text-base px-8 py-6 bg-white/95 hover:bg-white hover:scale-105 transition-all shadow-lg">
+                  <Calendar className="w-5 h-5 mr-2" />
+                  View Schedule
                 </Button>
-              </a>
+              </div>
 
-              <Button variant="outline" size="lg" className="text-base px-8 py-6 hover:bg-accent hover:scale-105 transition-all">
-                <Calendar className="w-5 h-5 mr-2" />
-                View Schedule
-              </Button>
-            </div>
-
-            {/* Info Badge */}
-            <div className="pt-8">
-              <div className="inline-flex items-center space-x-4 bg-card border rounded-full px-8 py-4 shadow-lg">
-                <div className="flex items-center space-x-2 text-sm">
-                  <MapPin className="w-4 h-4 text-primary" />
-                  <span className="font-medium">Fullerton, California</span>
-                </div>
-                <div className="h-4 w-px bg-border"></div>
-                <div className="flex items-center space-x-2 text-sm">
-                  <Clock className="w-4 h-4 text-primary" />
-                  <span className="font-medium">Every Saturday 11 AM</span>
+              {/* Info Badge */}
+              <div className="pt-6">
+                <div className="inline-flex items-center space-x-4 bg-white/95 border rounded-full px-8 py-4 shadow-xl backdrop-blur-sm">
+                  <div className="flex items-center space-x-2 text-sm">
+                    <MapPin className="w-4 h-4 text-primary" />
+                    <span className="font-semibold text-foreground">Fullerton, California</span>
+                  </div>
+                  <div className="h-4 w-px bg-border"></div>
+                  <div className="flex items-center space-x-2 text-sm">
+                    <Clock className="w-4 h-4 text-primary" />
+                    <span className="font-semibold text-foreground">Every Saturday 11 AM</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-        {/* Bottom Wave */}
-        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background to-transparent"></div>
       </section>
 
       {/* Service Times Section - New */}
