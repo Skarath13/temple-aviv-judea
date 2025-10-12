@@ -5,22 +5,34 @@ import { Play, Calendar, MapPin, CalendarPlus, Baby, Users, BookHeart, Navigatio
 
 export function HomePage() {
   return (
-    <div className="min-h-screen">
+    <div className="w-full min-h-screen overflow-x-hidden">
       {/* Hero Section - Improved */}
-      <section className="relative w-full max-w-full h-screen overflow-hidden">
+      <section
+        className="relative w-full"
+        style={{
+          height: 'auto',
+          aspectRatio: '16/9',
+          maxHeight: '500px'
+        }}
+      >
         {/* Hero Background Image */}
-        <div className="absolute inset-0 w-full h-full overflow-hidden">
-          <img
-            src="/heroimg.avif"
-            alt="Temple Aviv Judea"
-            className="w-full h-full object-cover object-top"
-            style={{ maxWidth: '100%', maxHeight: '100%' }}
-          />
-        </div>
+        <img
+          src="/heroimg.avif?v=3"
+          alt="Temple Aviv Judea"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'contain',
+            objectPosition: 'center top'
+          }}
+        />
 
         {/* Content */}
-        <div className="relative z-10 h-full flex flex-col justify-center">
-          <div className="container mx-auto px-4">
+        <div className="relative z-10 h-full flex items-center justify-center">
+          <div className="container mx-auto px-4 max-w-6xl">
             <div className="max-w-5xl mx-auto text-center space-y-8">
               {/* Live Badge */}
               <div className="flex justify-center">
