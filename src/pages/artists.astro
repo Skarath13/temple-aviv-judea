@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+---
+
+<BaseLayout title="Artists’ Gallery" description="Explore visual art from the creative community at Temple Aviv Judea.">
+  <PageHero eyebrow="Creative worship" title="Faith in full color." intro="Visual art is one of the ways our community reflects on Scripture, Jewish identity, worship, and the unfolding story of G-d’s people." accent="blue" />
+
+  <section class="section artists-section">
+    <div class="shell artists-grid">
+      <figure><img src="/images/live/artist-gallery-1.webp" alt="Colorful congregational artwork of two women with jewelry and a garment bearing Hebrew text" width="487" height="640" /><figcaption>Beauty, identity, and the generations of Israel.</figcaption></figure>
+      <figure><img src="/images/live/artist-gallery-2.webp" alt="Colorful congregational artwork depicting Moses holding the tablets" width="929" height="1200" /><figcaption>Torah, revelation, and the faithfulness of G-d.</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="shell cta-inner"><div><span class="eyebrow">Create with us</span><h2>Bring your imagination into worship.</h2><p>Ask about visual art, music, drama, and dance at Temple Aviv Judea.</p></div><a class="button" href="mailto:info@avivjudea.org?subject=Creative%20Arts%20at%20TAJ">Connect with creative arts</a></div>
+  </section>
+</BaseLayout>

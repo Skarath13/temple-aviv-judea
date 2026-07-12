@@ -1,0 +1,29 @@
+---
+import { Icon } from 'astro-icon/components';
+
+type IconName =
+  | 'arrow-right'
+  | 'book'
+  | 'brand-facebook'
+  | 'brand-youtube'
+  | 'external-link'
+  | 'heart-handshake'
+  | 'jewish-star'
+  | 'map-pin'
+  | 'menorah'
+  | 'music'
+  | 'pray'
+  | 'script'
+  | 'users-group';
+
+interface Props {
+  name: IconName;
+  size?: number | string;
+  class?: string;
+}
+
+const { name, size = 20, class: className } = Astro.props;
+const iconName = `tabler:${name}` as const;
+---
+
+<Icon name={iconName} size={size} class={className} aria-hidden="true" />

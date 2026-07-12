@@ -1,0 +1,42 @@
+---
+import { navItems, site } from '../data/site';
+import SiteIcon from './SiteIcon.astro';
+---
+
+<footer class="site-footer">
+  <div class="footer-art" aria-hidden="true"></div>
+  <div class="shell footer-grid">
+    <div class="footer-intro">
+      <span class="eyebrow eyebrow-light">Shalom & welcome</span>
+      <h2>There is a place for you in the story.</h2>
+      <p>Join us as we worship, learn, celebrate, and grow together in Messiah.</p>
+      <a class="button button-gold" href="/visit/">Come this Shabbat</a>
+    </div>
+
+    <div>
+      <h3>Explore</h3>
+      <ul class="footer-links">
+        {navItems.slice(1).map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        <li><a href="/artists/">Artists’ Gallery</a></li>
+        <li><a href="/give/">Give</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h3>Connect</h3>
+      <address>
+        <a href={site.address.maps} target="_blank" rel="noreferrer">{site.address.street}<br />{site.address.city}</a>
+        <a href={site.phoneHref}>{site.phone}</a>
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+      </address>
+      <div class="social-links">
+        <a href={site.youtube} target="_blank" rel="noreferrer"><SiteIcon name="brand-youtube" size={18} /> YouTube</a>
+        <a href={site.facebook} target="_blank" rel="noreferrer"><SiteIcon name="brand-facebook" size={18} /> Facebook</a>
+      </div>
+    </div>
+  </div>
+  <div class="shell footer-bottom">
+    <span>© {new Date().getFullYear()} {site.name}</span>
+    <span>Jewish roots · Living faith · Open doors</span>
+  </div>
+</footer>

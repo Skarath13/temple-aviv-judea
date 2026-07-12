@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SiteIcon from '../components/SiteIcon.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout title="Plan Your Visit" description="Plan your first Shabbat visit to Temple Aviv Judea in Fullerton. Find service times, what to expect, directions, and family information.">
+  <PageHero eyebrow="Come this Shabbat" title="Your seat is waiting." intro="New to Messianic Jewish worship? You are welcome here. Here is everything you need to feel at home before you arrive." accent="coral" />
+
+  <section class="mosaic-feature mosaic-coral" aria-label="Shabbat artwork">
+    <div class="shell mosaic-frame"><img src="/images/shofar-jerusalem-mosaic.webp" alt="Mosaic artwork of a worshipper sounding the shofar over Jerusalem" width="853" height="309" /></div>
+  </section>
+
+  <section class="section">
+    <div class="shell visit-grid">
+      <div class="sticky-card">
+        <span class="eyebrow">Saturday rhythm</span>
+        <h2>Make a day of it.</h2>
+        <div class="vertical-schedule">
+          {site.schedule.map((item, index) => (
+            <div class="vertical-schedule-item">
+              <span class="timeline-dot">{index + 1}</span>
+              <div><strong>{item.time}</strong><h3>{item.label}</h3><p>{item.note}</p></div>
+            </div>
+          ))}
+        </div>
+        <a class="button" href={site.address.maps} target="_blank" rel="noreferrer"><SiteIcon name="map-pin" size={18} /> Get directions</a>
+      </div>
+
+      <div class="content-stack">
+        <article class="content-card feature-card">
+          <span class="card-kicker">What happens in a service?</span>
+          <h2>Ancient patterns, wholehearted praise.</h2>
+          <p>Our Shabbat gathering weaves together traditional Jewish liturgy, musical worship, singing, and Davidic dance. We bless our children, hear a message from Scripture through a Jewish perspective, and close with the Aaronic Blessing.</p>
+        </article>
+        <article class="content-card">
+          <h3>What should I wear?</h3>
+          <p>Come presentable, modest, and comfortable. You do not need special clothing or prior knowledge of Jewish tradition to participate.</p>
+        </article>
+        <article class="content-card">
+          <h3>What about children?</h3>
+          <p>Children are part of our community. We offer Shabbat School during the morning and have a crying room available for families with little ones.</p>
+        </article>
+        <article class="content-card">
+          <h3>Can I stay for lunch?</h3>
+          <p>Absolutely. People visiting for the first time are our guests at the weekly Oneg potluck. If you choose to bring food, please do not bring pork or shellfish.</p>
+        </article>
+        <article class="content-card accent-card">
+          <h3>Still have a question?</h3>
+          <p>Rabbi Corey and our community would be glad to help you feel prepared.</p>
+          <div class="inline-links"><a href={site.phoneHref}>{site.phone}</a><a href={`mailto:${site.email}`}>{site.email}</a></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="location-section">
+    <div class="shell location-grid">
+      <div>
+        <span class="eyebrow eyebrow-light">Find us in Fullerton</span>
+        <h2>{site.address.street}<br />{site.address.city}</h2>
+        <p>Just a few blocks from downtown Fullerton on Commonwealth Avenue.</p>
+      </div>
+      <a class="button button-gold" href={site.address.maps} target="_blank" rel="noreferrer"><SiteIcon name="map-pin" size={18} /> Open in Google Maps</a>
+    </div>
+  </section>
+</BaseLayout>

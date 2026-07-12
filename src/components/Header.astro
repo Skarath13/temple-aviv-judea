@@ -1,0 +1,48 @@
+---
+import { navItems, site } from '../data/site';
+import SiteIcon from './SiteIcon.astro';
+
+interface Props { currentPath: string }
+const { currentPath } = Astro.props;
+const isCurrent = (href: string) => href === '/' ? currentPath === '/' : currentPath.startsWith(href);
+---
+
+<header class="site-header">
+  <div class="header-ribbon">
+    <div class="shell ribbon-inner">
+      <span>Shabbat service every Saturday at 11:00 AM</span>
+      <a class="youtube-live-pill" href={site.youtube} target="_blank" rel="noreferrer"><span class="live-dot" aria-hidden="true"></span><SiteIcon name="brand-youtube" size={18} /> YouTube Live · Saturdays at 11:00 AM PT</a>
+    </div>
+  </div>
+  <div class="shell header-main">
+    <a class="brand" href="/" aria-label={`${site.name} home`}>
+      <img class="brand-logo" src="/images/taj-logo.png" alt="" width="512" height="512" />
+      <span class="brand-copy">
+        <strong>{site.name}</strong>
+        <small>A Messianic Jewish Congregation</small>
+      </span>
+    </a>
+
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      {navItems.map((item) => (
+        <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>
+      ))}
+    </nav>
+
+    <div class="header-actions">
+      <a class="text-link desktop-only" href="/give/">Give</a>
+      <a class="button button-small button-gold" href="/visit/">Plan a visit</a>
+    </div>
+
+    <details class="mobile-menu">
+      <summary aria-label="Open navigation"><span></span><span></span><span></span></summary>
+      <nav aria-label="Mobile navigation">
+        {navItems.map((item) => (
+          <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>
+        ))}
+        <a href="/give/">Give</a>
+        <a class="mobile-youtube-live" href={site.youtube} target="_blank" rel="noreferrer"><span class="live-dot" aria-hidden="true"></span><SiteIcon name="brand-youtube" size={21} /><span><strong>Watch live on YouTube</strong><small>Saturdays · 11:00 AM PT</small></span></a>
+      </nav>
+    </details>
+  </div>
+</header>

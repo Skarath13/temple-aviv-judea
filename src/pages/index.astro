@@ -1,0 +1,185 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteIcon from '../components/SiteIcon.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout description="Temple Aviv Judea is a vibrant Messianic Jewish congregation in Fullerton where Jewish and Gentile believers worship, learn, and grow together in Yeshua.">
+  <section class="home-hero">
+    <picture class="hero-picture">
+      <source media="(max-width: 719px)" srcset="/images/hero-mobile.jpg" />
+      <img src="/images/hero-desktop.jpg" alt="A radiant artistic view of Jerusalem and the Temple at sunset" width="1280" height="720" fetchpriority="high" />
+    </picture>
+    <div class="hero-scrim" aria-hidden="true"></div>
+    <div class="shell hero-content">
+      <div class="hero-copy">
+        <span class="eyebrow eyebrow-light">Messianic Jewish · Fullerton, California</span>
+        <h1>Ancient roots.<br /><em>Living faith.</em><br />Open arms.</h1>
+        <p>Worship the G-d of Israel, encounter the Jewish Messiah Yeshua, and find your place in a joyful, diverse mishpachah.</p>
+        <div class="button-row">
+          <a class="button button-gold" href="/visit/">Plan your first visit</a>
+          <a class="button button-youtube" href={site.youtube} target="_blank" rel="noreferrer"><SiteIcon name="brand-youtube" size={25} /><span class="youtube-button-copy"><strong>Watch live on YouTube</strong><small>Saturdays · 11:00 AM PT</small></span></a>
+        </div>
+      </div>
+    </div>
+    <a class="hero-location" href={site.address.maps} target="_blank" rel="noreferrer">
+      <span class="location-pin"><SiteIcon name="map-pin" size={22} /></span>
+      <span><strong>{site.address.street}</strong><small>{site.address.city}</small></span>
+      <SiteIcon name="external-link" size={17} />
+    </a>
+  </section>
+
+  <section class="schedule-strip" aria-label="Saturday schedule">
+    <div class="shell schedule-grid">
+      <div class="schedule-heading">
+        <span class="schedule-icon"><SiteIcon name="menorah" size={25} /></span>
+        <span><small>Every Saturday</small><strong>Shabbat at TAJ</strong></span>
+      </div>
+      {site.schedule.map((item) => (
+        <div class="schedule-item">
+          <strong>{item.time}</strong>
+          <span>{item.label}</span>
+          <small>{item.note}</small>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section welcome-section">
+    <div class="shell split-layout welcome-layout">
+      <div>
+        <span class="eyebrow">A bridge, a family, a home</span>
+        <h2>Jewish tradition.<br />A life centered on Messiah.</h2>
+      </div>
+      <div class="welcome-copy">
+        <p class="lead">At Temple Aviv Judea, the walls of partition are broken down. Jewish and Gentile believers come together to honor Shabbat, celebrate the biblical feasts, study the whole Word of G-d, and follow Yeshua within the rich context of Jewish faith.</p>
+        <p>You do not need to know the liturgy or have the right words before you walk through the door. Come curious. Come hungry. Come ready to be welcomed.</p>
+        <a class="arrow-link" href="/beliefs/">Explore what we believe <SiteIcon name="arrow-right" size={19} /></a>
+      </div>
+    </div>
+    <div class="shell value-ribbon">
+      <article class="value-card value-prayer">
+        <img class="value-card-art" src="/images/card-prayer.webp" alt="" width="720" height="640" loading="lazy" />
+        <span class="value-number">01</span>
+        <div class="value-icon"><SiteIcon name="pray" size={32} /></div>
+        <h3>Prayer</h3>
+        <p>Drawing near through praise, repentance, expectation, and surrender.</p>
+      </article>
+      <article class="value-card value-proclamation">
+        <img class="value-card-art" src="/images/card-proclamation.webp" alt="" width="720" height="640" loading="lazy" />
+        <span class="value-number">02</span>
+        <div class="value-icon"><SiteIcon name="script" size={32} /></div>
+        <h3>Proclamation</h3>
+        <p>Sharing the Good News of Messiah first with Jewish people and also with the Nations.</p>
+      </article>
+      <article class="value-card value-people">
+        <img class="value-card-art" src="/images/card-people.webp" alt="" width="720" height="640" loading="lazy" />
+        <span class="value-number">03</span>
+        <div class="value-icon"><SiteIcon name="users-group" size={32} /></div>
+        <h3>People</h3>
+        <p>Growing as mishpachah through worship, learning, service, and shared life.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="art-story-section">
+    <div class="art-panel">
+      <img src="/images/community-art.webp" alt="An original watercolor illustration of a diverse congregation celebrating Torah, music, and dance" width="1672" height="941" loading="lazy" />
+    </div>
+    <div class="art-story-copy">
+      <span class="eyebrow eyebrow-light">Since 1978</span>
+      <h2>From wandering<br />to <em>wonder.</em></h2>
+      <p>TAJ began as a Bible study that met on Friday nights and became one of the early modern Messianic Jewish congregations. After decades of gathering across Southern California, the congregation found its permanent Fullerton home in 2014. The building was paid off in 2020.</p>
+      <a class="button button-ghost-light" href="/story/">Read our story</a>
+      <div class="story-stats">
+        <div><strong>1978</strong><span>Congregation established</span></div>
+        <div><strong>2014</strong><span>A permanent home</span></div>
+        <div><strong>2020</strong><span>The loan paid in full</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section visit-preview">
+    <div class="shell">
+      <div class="section-heading centered">
+        <span class="eyebrow">Your first Shabbat</span>
+        <h2>Come expecting more than a service.</h2>
+        <p>Expect ancient liturgy and living music, Davidic dance and biblical teaching, children being blessed, and a meal where conversations become friendships.</p>
+      </div>
+      <div class="expect-grid">
+        <article>
+          <img class="expect-card-art" src="/images/expect-worship.webp" alt="" width="900" height="900" loading="lazy" />
+          <span class="expect-icon coral"><SiteIcon name="music" size={25} /></span>
+          <h3>Joyful worship</h3>
+          <p>Traditional Jewish liturgy, instruments, singing, and dance in a warm, participatory setting.</p>
+        </article>
+        <article>
+          <img class="expect-card-art" src="/images/expect-teaching.webp" alt="" width="900" height="900" loading="lazy" />
+          <span class="expect-icon blue"><SiteIcon name="book" size={25} /></span>
+          <h3>Rooted teaching</h3>
+          <p>A weekly message from Scripture through a Jewish lens, followed by time to learn and ask questions.</p>
+        </article>
+        <article>
+          <img class="expect-card-art" src="/images/expect-family.webp" alt="" width="900" height="900" loading="lazy" />
+          <span class="expect-icon gold"><SiteIcon name="heart-handshake" size={25} /></span>
+          <h3>Room for family</h3>
+          <p>Shabbat School for children, a welcoming Oneg lunch, and space for every generation to belong.</p>
+        </article>
+      </div>
+      <div class="centered-action"><a class="button" href="/visit/">Everything you need to know</a></div>
+    </div>
+  </section>
+
+  <section class="section live-moments-section">
+    <div class="shell">
+      <div class="section-heading"><span class="eyebrow">This is our mishpachah</span><h2>Real people. Shared tables. Living worship.</h2><p>Life at TAJ is built through every generation learning, celebrating, and showing up for one another.</p></div>
+      <div class="live-moments-grid">
+        <figure><img src="/images/live/shabbat-school.webp" alt="The Temple Aviv Judea Shabbat School welcome display" width="1800" height="1178" loading="lazy" /><figcaption>Learning from the beginning</figcaption></figure>
+        <figure><img src="/images/live/womens-group.webp" alt="The Temple Aviv Judea women’s group gathered together" width="1800" height="1350" loading="lazy" /><figcaption>Friendship through every season</figcaption></figure>
+        <a class="recordings-card" href={site.youtube} target="_blank" rel="noreferrer"><img src="/images/live/youtube-recordings.webp" alt="A collection of Temple Aviv Judea Shabbat recordings" width="1298" height="707" loading="lazy" /><span><span class="recordings-label"><SiteIcon name="brand-youtube" size={22} /> Watch recent Shabbat recordings</span><SiteIcon name="external-link" size={19} /></span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section home-location-section">
+    <div class="shell">
+      <div class="home-location-heading">
+        <div>
+          <span class="eyebrow">Find us in Fullerton</span>
+          <h2>A real place.<br />An open door.</h2>
+        </div>
+        <p>Temple Aviv Judea is just a few blocks from downtown Fullerton. Come for Shabbat worship, stay for Oneg, and look for our sign between the trees.</p>
+      </div>
+      <div class="home-location-grid">
+        <figure class="location-card building-card">
+          <picture>
+            <source media="(max-width: 760px)" srcset="/images/building-mobile.webp" />
+            <img src="/images/live/worship-dance.webp" alt="The Temple Aviv Judea building at 704 East Commonwealth Avenue in Fullerton" width="1280" height="720" loading="lazy" />
+          </picture>
+          <figcaption><SiteIcon name="jewish-star" size={21} /><span><strong>Temple Aviv Judea</strong><small>Our congregation’s home since 2014</small></span></figcaption>
+        </figure>
+        <div class="location-card map-card">
+          <iframe src={site.address.embed} title="Google Map showing Temple Aviv Judea in Fullerton" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+          <div class="map-card-footer">
+            <SiteIcon name="map-pin" size={22} />
+            <span><strong>{site.address.street}</strong><small>{site.address.city}</small></span>
+            <a class="button button-small" href={site.address.maps} target="_blank" rel="noreferrer">Get directions</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ministries-preview">
+    <div class="shell ministries-preview-inner">
+      <div>
+        <span class="eyebrow eyebrow-light">Life together</span>
+        <h2>There is more to community than Saturday morning.</h2>
+      </div>
+      <div class="ministry-pills" aria-label="Ministries">
+        <span>Children</span><span>Young adults</span><span>Women</span><span>Men</span><span>Dance</span><span>Creative arts</span>
+      </div>
+      <a class="arrow-link arrow-link-light" href="/ministries/">Find your place <SiteIcon name="arrow-right" size={19} /></a>
+    </div>
+  </section>
+</BaseLayout>

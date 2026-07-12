@@ -1,0 +1,18 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  intro: string;
+  accent?: 'blue' | 'coral' | 'gold' | 'teal';
+}
+const { eyebrow, title, intro, accent = 'blue' } = Astro.props;
+---
+
+<section class={`page-hero page-hero-${accent}`}>
+  <div class="page-hero-pattern" aria-hidden="true"></div>
+  <div class="shell page-hero-inner">
+    <span class="eyebrow">{eyebrow}</span>
+    <h1>{title}</h1>
+    <p>{intro}</p>
+  </div>
+</section>
