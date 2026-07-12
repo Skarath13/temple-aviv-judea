@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SiteIcon from '../components/SiteIcon.astro';
+---
+
+<BaseLayout title="Admin Access" description="Temple Aviv Judea event publishing access." robots="noindex, nofollow">
+  <PageHero eyebrow="Private publishing access" title="Upcoming events, made simple." intro="This preview shows the future publishing flow for authorized Temple Aviv Judea leadership." accent="gold" />
+
+  <section class="section admin-preview-section">
+    <div class="shell admin-preview-grid">
+      <div class="admin-access-card" data-reveal>
+        <span class="admin-lock"><SiteIcon name="lock" size={28} /></span>
+        <span class="eyebrow">Publishing preview</span>
+        <h2>Admin access is not connected yet.</h2>
+        <p>This page is intentionally dormant while the website remains on static GitHub Pages. No PIN is stored in the site and no upload can be submitted.</p>
+        <div class="admin-pin-preview" aria-describedby="admin-preview-note">
+          <label for="admin-pin">Admin PIN</label>
+          <div><input id="admin-pin" type="password" inputmode="numeric" placeholder="Enter PIN" disabled /><button class="button" type="button" disabled>Continue</button></div>
+        </div>
+        <p id="admin-preview-note" class="admin-preview-note"><SiteIcon name="shield-check" size={18} /> Secure publishing will be enabled during the future Cloudflare migration.</p>
+      </div>
+
+      <ol class="admin-workflow" data-stagger>
+        <li><span>01</span><div><h3>Sign in</h3><p>Use a short, secure access step designed for a nontechnical publisher.</p></div></li>
+        <li><span>02</span><div><h3>Add up to three events</h3><p>Enter the title, date, time, location, and a short description for each upcoming event.</p></div></li>
+        <li><span>03</span><div><h3>Upload one photo</h3><p>The photo will be checked, optimized, cropped to fit, and previewed before publishing.</p></div></li>
+        <li><span>04</span><div><h3>Preview and publish</h3><p>The landing page section appears only while at least one event is published.</p></div></li>
+        <li><span>05</span><div><h3>Edit or delete later</h3><p>Return any time to update details, replace a photo, unpublish an event, or delete it to make room for another.</p></div></li>
+      </ol>
+    </div>
+  </section>
+</BaseLayout>

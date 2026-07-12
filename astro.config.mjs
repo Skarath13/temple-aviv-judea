@@ -14,6 +14,7 @@ export default defineConfig({
           'brand-facebook',
           'brand-paypal',
           'brand-youtube',
+          'calendar-event',
           'external-link',
           'heart-handshake',
           'jewish-star',
@@ -28,6 +29,6 @@ export default defineConfig({
         ],
       },
     }),
-    sitemap(),
+    sitemap({ filter: (page) => !page.endsWith('/admin/') }),
   ],
 });

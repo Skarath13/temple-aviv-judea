@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteIcon from '../components/SiteIcon.astro';
+import UpcomingEvents from '../components/UpcomingEvents.astro';
+import { upcomingEvents } from '../data/events';
 import { site } from '../data/site';
 import { withBase } from '../lib/urls';
 ---
@@ -130,6 +132,8 @@ import { withBase } from '../lib/urls';
       <div class="centered-action" data-reveal="scale"><a class="button" href={withBase('/visit/')}>Everything you need to know</a></div>
     </div>
   </section>
+
+  <UpcomingEvents events={upcomingEvents} />
 
   <section class="section live-moments-section">
     <div class="shell">

@@ -60,7 +60,7 @@ import { withBase } from '../lib/urls';
     <div class="shell location-grid" data-stagger>
       <div>
         <span class="eyebrow eyebrow-light">Find us in Fullerton</span>
-        <h2>{site.address.street}<br />{site.address.city}</h2>
+        <h2 class="location-address"><span>{site.address.street}</span><span>{site.address.city}</span></h2>
         <p>Just a few blocks from downtown Fullerton on Commonwealth Avenue.</p>
       </div>
       <a class="button button-gold" href={site.address.maps} target="_blank" rel="noreferrer"><SiteIcon name="map-pin" size={18} /> Open in Google Maps</a>

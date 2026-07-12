@@ -38,6 +38,6 @@ import SiteIcon from './SiteIcon.astro';
   </div>
   <div class="shell footer-bottom">
     <span>© {new Date().getFullYear()} {site.name}</span>
-    <span>Jewish roots · Living faith · Open doors</span>
+    <span class="footer-bottom-links"><span>Jewish roots · Living faith · Open doors</span><a class="footer-admin-link" href={withBase('/admin/')}><SiteIcon name="lock" size={14} />Admin</a></span>
   </div>
 </footer>
