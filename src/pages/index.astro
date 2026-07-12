@@ -31,7 +31,7 @@ import { withBase } from '../lib/urls';
   </section>
 
   <section class="schedule-strip" aria-label="Saturday schedule">
-    <div class="shell schedule-grid">
+    <div class="shell schedule-grid" data-stagger>
       <div class="schedule-heading">
         <span class="schedule-icon"><SiteIcon name="menorah" size={25} /></span>
         <span><small>Every Saturday</small><strong>Shabbat at TAJ</strong></span>
@@ -47,7 +47,7 @@ import { withBase } from '../lib/urls';
   </section>
 
   <section class="section welcome-section">
-    <div class="shell split-layout welcome-layout">
+    <div class="shell split-layout welcome-layout" data-stagger>
       <div>
         <span class="eyebrow">A bridge, a family, a home</span>
         <h2>Jewish tradition.<br />A life centered on Messiah.</h2>
@@ -58,7 +58,7 @@ import { withBase } from '../lib/urls';
         <a class="arrow-link" href={withBase('/beliefs/')}>Explore what we believe <SiteIcon name="arrow-right" size={19} /></a>
       </div>
     </div>
-    <div class="shell value-ribbon">
+    <div class="shell value-ribbon" data-stagger>
       <article class="value-card value-prayer">
         <img class="value-card-art" src={withBase('/images/card-prayer.webp')} alt="" width="720" height="640" loading="lazy" />
         <span class="value-number">01</span>
@@ -84,10 +84,10 @@ import { withBase } from '../lib/urls';
   </section>
 
   <section class="art-story-section">
-    <div class="art-panel">
+    <div class="art-panel" data-reveal="wipe">
       <img src={withBase('/images/community-art.webp')} alt="An original watercolor illustration of a diverse congregation celebrating Torah, music, and dance" width="1672" height="941" loading="lazy" />
     </div>
-    <div class="art-story-copy">
+    <div class="art-story-copy" data-reveal="right">
       <span class="eyebrow eyebrow-light">Since 1978</span>
       <h2>From wandering<br />to <em>wonder.</em></h2>
       <p>TAJ began as a Bible study that met on Friday nights and became one of the early modern Messianic Jewish congregations. After decades of gathering across Southern California, the congregation found its permanent Fullerton home in 2014. The building was paid off in 2020.</p>
@@ -102,12 +102,12 @@ import { withBase } from '../lib/urls';
 
   <section class="section visit-preview">
     <div class="shell">
-      <div class="section-heading centered">
+      <div class="section-heading centered" data-reveal>
         <span class="eyebrow">Your first Shabbat</span>
         <h2>Come expecting more than a service.</h2>
         <p>Expect ancient liturgy and living music, Davidic dance and biblical teaching, children being blessed, and a meal where conversations become friendships.</p>
       </div>
-      <div class="expect-grid">
+      <div class="expect-grid" data-stagger>
         <article>
           <img class="expect-card-art" src={withBase('/images/expect-worship.webp')} alt="" width="900" height="900" loading="lazy" />
           <span class="expect-icon coral"><SiteIcon name="music" size={25} /></span>
@@ -127,14 +127,14 @@ import { withBase } from '../lib/urls';
           <p>Shabbat School for children, a welcoming Oneg lunch, and space for every generation to belong.</p>
         </article>
       </div>
-      <div class="centered-action"><a class="button" href={withBase('/visit/')}>Everything you need to know</a></div>
+      <div class="centered-action" data-reveal="scale"><a class="button" href={withBase('/visit/')}>Everything you need to know</a></div>
     </div>
   </section>
 
   <section class="section live-moments-section">
     <div class="shell">
-      <div class="section-heading"><span class="eyebrow">This is our mishpachah</span><h2>Real people. Shared tables. Living worship.</h2><p>Life at TAJ is built through every generation learning, celebrating, and showing up for one another.</p></div>
-      <div class="live-moments-grid">
+      <div class="section-heading" data-reveal><span class="eyebrow">This is our mishpachah</span><h2>Real people. Shared tables. Living worship.</h2><p>Life at TAJ is built through every generation learning, celebrating, and showing up for one another.</p></div>
+      <div class="live-moments-grid" data-stagger>
         <figure><img src={withBase('/images/live/shabbat-school.webp')} alt="The Temple Aviv Judea Shabbat School welcome display" width="1800" height="1178" loading="lazy" /><figcaption>Learning from the beginning</figcaption></figure>
         <figure><img src={withBase('/images/live/womens-group.webp')} alt="The Temple Aviv Judea women’s group gathered together" width="1800" height="1350" loading="lazy" /><figcaption>Friendship through every season</figcaption></figure>
         <a class="recordings-card" href={site.youtube} target="_blank" rel="noreferrer"><img src={withBase('/images/live/youtube-recordings.webp')} alt="A collection of Temple Aviv Judea Shabbat recordings" width="1298" height="707" loading="lazy" /><span><span class="recordings-label"><SiteIcon name="brand-youtube" size={22} /> Watch recent Shabbat recordings</span><SiteIcon name="external-link" size={19} /></span></a>
@@ -144,14 +144,14 @@ import { withBase } from '../lib/urls';
 
   <section class="section home-location-section">
     <div class="shell">
-      <div class="home-location-heading">
+      <div class="home-location-heading" data-stagger>
         <div>
           <span class="eyebrow">Find us in Fullerton</span>
           <h2>A real place.<br />An open door.</h2>
         </div>
         <p>Temple Aviv Judea is just a few blocks from downtown Fullerton. Come for Shabbat worship, stay for Oneg, and look for our sign between the trees.</p>
       </div>
-      <div class="home-location-grid">
+      <div class="home-location-grid" data-stagger>
         <figure class="location-card building-card">
           <picture>
             <source media="(max-width: 760px)" srcset={withBase('/images/building-mobile.webp')} />
@@ -172,7 +172,7 @@ import { withBase } from '../lib/urls';
   </section>
 
   <section class="ministries-preview">
-    <div class="shell ministries-preview-inner">
+    <div class="shell ministries-preview-inner" data-stagger>
       <div>
         <span class="eyebrow eyebrow-light">Life together</span>
         <h2>There is more to community than Saturday morning.</h2>

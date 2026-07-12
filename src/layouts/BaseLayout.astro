@@ -50,6 +50,11 @@ const structuredData = {
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content={site.shortName} />
+    <script is:inline>
+      if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('motion-ready');
+      }
+    </script>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -70,11 +75,59 @@ const structuredData = {
     <title>{pageTitle}</title>
   </head>
   <body>
+    <div class="scroll-progress" aria-hidden="true"></div>
     <a class="skip-link" href="#main-content">Skip to content</a>
     <Header currentPath={Astro.url.pathname} />
     <main id="main-content">
       <slot />
     </main>
     <Footer />
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        if (!root.classList.contains('motion-ready')) return;
+
+        const targets = [...document.querySelectorAll('[data-reveal], [data-stagger]')];
+        const reveal = (element) => element.classList.add('is-visible');
+        const observer = new IntersectionObserver((entries) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            reveal(entry.target);
+            observer.unobserve(entry.target);
+          }
+        }, { threshold: 0.12, rootMargin: '0px 0px -7% 0px' });
+
+        for (const target of targets) observer.observe(target);
+
+        const revealInView = () => {
+          for (const target of targets) {
+            if (target.classList.contains('is-visible')) continue;
+            const bounds = target.getBoundingClientRect();
+            if (bounds.bottom <= 0 || bounds.top >= window.innerHeight * 0.93) continue;
+            reveal(target);
+            observer.unobserve(target);
+          }
+        };
+
+        const progress = document.querySelector('.scroll-progress');
+        let queued = false;
+        const updateProgress = () => {
+          const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+          const ratio = scrollable > 0 ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
+          progress?.style.setProperty('--scroll-progress', String(ratio));
+          revealInView();
+          queued = false;
+        };
+        const queueProgress = () => {
+          if (queued) return;
+          queued = true;
+          requestAnimationFrame(updateProgress);
+        };
+
+        updateProgress();
+        window.addEventListener('scroll', queueProgress, { passive: true });
+        window.addEventListener('resize', queueProgress, { passive: true });
+      })();
+    </script>
   </body>
 </html>

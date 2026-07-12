@@ -9,18 +9,18 @@ import { withBase } from '../lib/urls';
   <PageHero eyebrow="From the wilderness to the promised land" title="A story of faithfulness." intro="What began around a table in a living room grew into one of the early modern Messianic Jewish congregations. It became a lasting home for Jewish and Gentile believers." accent="gold" />
 
   <section class="mosaic-feature mosaic-gold" aria-label="Temple artwork">
-    <div class="shell mosaic-frame"><img src={withBase('/images/temple-mosaic.webp')} alt="Mosaic artwork of Jerusalem, the Temple, and worshippers at the Western Wall" width="853" height="364" /></div>
+    <div class="shell mosaic-frame" data-reveal="wipe"><img src={withBase('/images/temple-mosaic.webp')} alt="Mosaic artwork of Jerusalem, the Temple, and worshippers at the Western Wall" width="853" height="364" /></div>
   </section>
 
   <section class="section story-intro">
-    <div class="shell narrow prose-large">
+    <div class="shell narrow prose-large" data-reveal>
       <span class="drop-mark"><SiteIcon name="jewish-star" size={27} /></span>
       <p>In 1974, a Jewish believer shared the Good News separately with Mike Davis and Corey Sylvester in Fullerton. Their paths soon met, and an informal Bible study on Friday nights began to grow.</p>
     </div>
   </section>
 
   <section class="timeline-section">
-    <div class="shell timeline">
+    <div class="shell timeline" data-stagger>
       <article class="timeline-entry">
         <div class="timeline-year">1978</div>
         <div class="timeline-content"><span class="eyebrow">A congregation is born</span><h2>Jewish faith made whole in Yeshua.</h2><p>On February 24, the growing Bible study became Temple Aviv Judea. Mike Davis served as founding Messianic Rabbi and Corey Sylvester as cantor. Among the first priorities: a kosher Torah and an ark. The community was blessed with two Torah scrolls.</p></div>
@@ -45,14 +45,14 @@ import { withBase } from '../lib/urls';
   </section>
 
   <section class="section rabbi-section">
-    <div class="shell rabbi-grid">
+    <div class="shell rabbi-grid" data-stagger>
       <img src={withBase('/images/live/rabbi-corey.webp')} alt="Rabbi Corey Sylvester teaching outdoors with a book and headset microphone" width="1254" height="1254" loading="lazy" />
       <div><span class="eyebrow">Meet Rabbi Corey Sylvester</span><h2>Clarity, kindness, and joyful faith.</h2><p class="lead">Rabbi Corey is known for teaching with clarity, offering grounded spiritual guidance, and bringing warmth and humor to community life.</p><p>Together with his wife, Hilary, he has served Temple Aviv Judea with a deep love for the L-RD and for the congregation’s mishpachah.</p><a class="arrow-link" href="mailto:info@avivjudea.org?subject=Connect%20with%20Rabbi%20Corey">Connect with Rabbi Corey <SiteIcon name="arrow-right" size={19} /></a></div>
     </div>
   </section>
 
   <section class="vision-section">
-    <div class="shell vision-inner">
+    <div class="shell vision-inner" data-reveal>
       <span class="eyebrow eyebrow-light">The story still unfolds</span>
       <h2>A light to the community and to the world.</h2>
       <p>TAJ’s vision is a thriving Messianic Jewish community center: a place for Torah learning, dialogue about Yeshua, Shabbat dinners, creative arts, and open doors.</p>

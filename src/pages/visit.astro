@@ -10,11 +10,11 @@ import { withBase } from '../lib/urls';
   <PageHero eyebrow="Come this Shabbat" title="Your seat is waiting." intro="New to Messianic Jewish worship? You are welcome here. Here is everything you need to feel at home before you arrive." accent="coral" />
 
   <section class="mosaic-feature mosaic-coral" aria-label="Shabbat artwork">
-    <div class="shell mosaic-frame"><img src={withBase('/images/shofar-jerusalem-mosaic.webp')} alt="Mosaic artwork of a worshipper sounding the shofar over Jerusalem" width="853" height="309" /></div>
+    <div class="shell mosaic-frame" data-reveal="wipe"><img src={withBase('/images/shofar-jerusalem-mosaic.webp')} alt="Mosaic artwork of a worshipper sounding the shofar over Jerusalem" width="853" height="309" /></div>
   </section>
 
   <section class="section">
-    <div class="shell visit-grid">
+    <div class="shell visit-grid" data-stagger>
       <div class="sticky-card">
         <span class="eyebrow">Saturday rhythm</span>
         <h2>Make a day of it.</h2>
@@ -57,7 +57,7 @@ import { withBase } from '../lib/urls';
   </section>
 
   <section class="location-section">
-    <div class="shell location-grid">
+    <div class="shell location-grid" data-stagger>
       <div>
         <span class="eyebrow eyebrow-light">Find us in Fullerton</span>
         <h2>{site.address.street}<br />{site.address.city}</h2>
