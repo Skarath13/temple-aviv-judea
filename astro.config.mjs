@@ -10,6 +10,7 @@ export default defineConfig({
       include: {
         tabler: [
           'arrow-right',
+          'arrow-up',
           'book',
           'brand-facebook',
           'brand-paypal',

@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import SiteIcon from '../components/SiteIcon.astro';
 import '../styles/global.css';
 import { site } from '../data/site';
 import { withBase } from '../lib/urls';
@@ -86,6 +87,7 @@ const structuredData = {
       <slot />
     </main>
     <Footer />
+    <button class="back-to-top" type="button" aria-label="Back to top" title="Back to top"><SiteIcon name="arrow-up" size={22} /></button>
     <script is:inline>
       (() => {
         const root = document.documentElement;
@@ -131,6 +133,33 @@ const structuredData = {
         updateProgress();
         window.addEventListener('scroll', queueProgress, { passive: true });
         window.addEventListener('resize', queueProgress, { passive: true });
+      })();
+    </script>
+    <script is:inline>
+      (() => {
+        const button = document.querySelector('.back-to-top');
+        if (!button) return;
+
+        let queued = false;
+        const update = () => {
+          const threshold = Math.max(560, window.innerHeight * 0.65);
+          button.classList.toggle('is-visible', window.scrollY > threshold);
+          queued = false;
+        };
+        const queueUpdate = () => {
+          if (queued) return;
+          queued = true;
+          requestAnimationFrame(update);
+        };
+
+        button.addEventListener('click', () => {
+          const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          window.scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' });
+          button.blur();
+        });
+        update();
+        window.addEventListener('scroll', queueUpdate, { passive: true });
+        window.addEventListener('resize', queueUpdate, { passive: true });
       })();
     </script>
   </body>
