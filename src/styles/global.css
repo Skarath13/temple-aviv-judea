@@ -18,8 +18,8 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { background: #03182a; scroll-behavior: smooth; color-scheme: light; -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: rgba(245,193,78,.25); }
-body { min-height: 100vh; min-height: 100dvh; margin: 0; overflow-x: clip; background: #03182a; color: var(--ink); font-family: 'DM Sans', system-ui, sans-serif; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+html { background: #071f37; scroll-behavior: smooth; color-scheme: light; -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: rgba(245,193,78,.25); }
+body { min-height: 100vh; min-height: 100dvh; margin: 0; overflow-x: clip; background: #071f37; color: var(--ink); font-family: 'DM Sans', system-ui, sans-serif; line-height: 1.65; -webkit-font-smoothing: antialiased; }
 main { background: var(--paper); }
 body::selection { background: var(--gold); color: var(--blue-deep); }
 img { display: block; max-width: 100%; height: auto; }
@@ -63,11 +63,6 @@ p { text-wrap: pretty; }
 
 /* Header */
 .site-header { position: relative; z-index: 20; background: linear-gradient(105deg, #071f37 0%, #0a3559 58%, #0d4b76 100%); border-bottom: 1px solid rgba(255,255,255,.16); box-shadow: 0 8px 24px rgba(4,25,43,.15); }
-.header-ribbon { background: #03182a; color: var(--white); font-size: .7rem; border-bottom: 1px solid rgba(255,255,255,.1); }
-.ribbon-inner { display: flex; justify-content: space-between; align-items: center; min-height: 1.9rem; }
-.ribbon-inner a { display: inline-flex; align-items: center; gap: .35rem; color: #ffd775; font-weight: 700; text-decoration: none; }
-.ribbon-inner .youtube-live-pill { gap: .38rem; padding: .24rem .65rem; border-radius: 999px; background: #ff0000; color: var(--white); line-height: 1; }
-.ribbon-inner .youtube-live-pill:hover { background: #cc0000; }
 .live-dot { width: .45rem; height: .45rem; border: 2px solid rgba(255,255,255,.65); border-radius: 50%; background: var(--white); box-shadow: 0 0 0 2px rgba(255,255,255,.15); }
 .header-main { display: flex; align-items: center; min-height: 5.5rem; gap: 1.5rem; }
 .brand { display: flex; align-items: center; gap: .8rem; min-width: 0; margin-right: auto; color: var(--white); text-decoration: none; }
@@ -160,11 +155,8 @@ p { text-wrap: pretty; }
 .expect-grid article::before { content: ''; position: absolute; z-index: 1; inset: 0; background: linear-gradient(180deg, rgba(6,31,55,.08) 0%, rgba(6,31,55,.22) 35%, rgba(6,31,55,.9) 78%, rgba(6,31,55,.98) 100%); }
 .expect-grid article > :not(.expect-card-art) { position: relative; z-index: 2; }
 .expect-card-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.expect-icon { display: grid; place-items: center; width: 3.7rem; height: 3.7rem; margin-bottom: 2.5rem; border-radius: 50%; color: var(--white); font-size: 1.4rem; }
+.expect-icon { display: grid; place-items: center; width: 3.7rem; height: 3.7rem; margin-bottom: 2.5rem; border: 1px solid rgba(255,255,255,.4); border-radius: 50%; background: transparent; color: var(--white); font-size: 1.4rem; }
 .expect-grid article .expect-icon { margin-bottom: auto; }
-.expect-icon.coral { background: var(--coral); }
-.expect-icon.blue { background: var(--azure); }
-.expect-icon.gold { background: var(--gold); color: var(--blue); }
 .expect-grid h3 { color: var(--white); text-shadow: 0 2px 12px rgba(0,0,0,.35); }
 .expect-grid p { margin-bottom: 0; color: rgba(255,255,255,.86); text-shadow: 0 2px 12px rgba(0,0,0,.32); }
 .centered-action { margin-top: 3rem; text-align: center; }
@@ -522,8 +514,6 @@ p { text-wrap: pretty; }
 @media (max-width: 760px) {
   :root { --shell: min(100% - 2rem, 640px); }
   .section { padding: 5rem 0; }
-  .ribbon-inner { justify-content: center; }
-  .ribbon-inner > span { display: none; }
   .header-main { min-height: 4.65rem; gap: .45rem; }
   .brand { gap: .55rem; }
   .brand-logo { width: 2.8rem; height: 3rem; }
@@ -616,6 +606,5 @@ p { text-wrap: pretty; }
 }
 
 @media (display-mode: standalone) {
-  .header-ribbon { padding-top: env(safe-area-inset-top); }
   .site-footer { padding-bottom: calc(2rem + env(safe-area-inset-bottom)); }
 }

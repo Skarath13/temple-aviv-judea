@@ -10,12 +10,6 @@ const isCurrent = (href: string) => href === '/' ? localPath === '/' : localPath
 ---
 
 <header class="site-header">
-  <div class="header-ribbon">
-    <div class="shell ribbon-inner">
-      <span>Shabbat service every Saturday at 11:00 AM</span>
-      <a class="youtube-live-pill" href={site.youtube} target="_blank" rel="noreferrer"><span class="live-dot" aria-hidden="true"></span><SiteIcon name="brand-youtube" size={18} /> YouTube Live · Saturdays at 11:00 AM PT</a>
-    </div>
-  </div>
   <div class="shell header-main">
     <a class="brand" href={withBase('/')} aria-label={`${site.name} home`}>
       <img class="brand-logo" src={withBase('/images/taj-logo.png')} alt="" width="512" height="512" />
