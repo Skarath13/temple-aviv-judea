@@ -330,8 +330,17 @@ p { text-wrap: pretty; }
 .give-grid { display: grid; grid-template-columns: 1fr .75fr; gap: clamp(3rem, 8vw, 7rem); align-items: start; }
 .give-grid h2 { color: var(--blue); }
 .give-grid > div > p:not(.lead) { color: var(--muted); }
-.give-grid .button { margin-top: 1rem; }
-.security-note { margin-top: 1rem; color: var(--muted); font-size: .82rem; }
+.paypal-give-panel { max-width: 580px; margin-top: 2rem; padding: 1.15rem; border: 1px solid rgba(0,48,135,.16); border-radius: 1.35rem; background: #f3f8ff; box-shadow: 0 16px 40px rgba(0,48,135,.08); }
+.paypal-give-button { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 4.1rem; padding: .9rem 1.25rem; border: 1px solid #e7ad00; border-radius: .9rem; background: #ffc439; color: #111820; font-size: 1rem; font-weight: 650; line-height: 1.1; text-decoration: none; box-shadow: 0 8px 18px rgba(0,48,135,.12); transition: transform .2s ease, background .2s ease, box-shadow .2s ease; }
+.paypal-give-button:hover { transform: translateY(-2px); background: #ffb900; box-shadow: 0 12px 24px rgba(0,48,135,.18); }
+.paypal-give-button > span { display: inline-flex; align-items: center; gap: .7rem; }
+.paypal-give-button > span > [data-icon] { color: #003087; }
+.paypal-give-button strong { color: #003087; font-size: 1.08em; }
+.paypal-give-button > [data-icon] { color: #003087; }
+.paypal-trust-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; margin: 1rem 0 0; padding: 0; color: #344b67; font-size: .78rem; font-weight: 650; list-style: none; }
+.paypal-trust-list li { display: flex; align-items: center; gap: .45rem; }
+.paypal-trust-list [data-icon] { color: #0070ba; }
+.security-note { margin: .85rem 0 0; color: var(--muted); font-size: .78rem; line-height: 1.45; }
 .give-card { overflow: hidden; border-radius: var(--radius); background: var(--blue); color: var(--white); box-shadow: var(--shadow); }
 .give-photo { display: block; width: 100%; height: auto; }
 .give-card-body { padding: clamp(2rem, 5vw, 3rem); }
@@ -374,9 +383,10 @@ p { text-wrap: pretty; }
   .ribbon-inner { justify-content: center; }
   .ribbon-inner > span { display: none; }
   .header-main { min-height: 6.2rem; gap: .65rem; }
-  .brand { gap: .75rem; }
-  .brand-logo { width: 3.8rem; height: 4.05rem; }
-  .brand-copy strong { font-size: clamp(1.2rem, 6vw, 1.42rem); }
+  .brand { gap: .55rem; min-width: 0; }
+  .brand-logo { width: 3.45rem; height: 3.7rem; }
+  .brand-copy { min-width: 0; }
+  .brand-copy strong { font-size: clamp(1.28rem, 5.95vw, 1.46rem); white-space: nowrap; }
   .brand-copy small { display: none; }
   .desktop-only, .header-actions { display: none; }
   .home-hero { min-height: max(58rem, calc(125svh - 8.4rem)); }
@@ -395,6 +405,7 @@ p { text-wrap: pretty; }
   .schedule-item { grid-template-columns: 100px 1fr; align-items: center; }
   .schedule-item small { grid-column: 2; }
   .split-layout, .visit-grid, .give-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .paypal-trust-list { grid-template-columns: 1fr; }
   .value-ribbon, .expect-grid, .pillars-grid { grid-template-columns: 1fr; }
   .expect-grid article { min-height: 360px; aspect-ratio: auto; }
   .value-card { min-height: 360px; }
@@ -436,8 +447,9 @@ p { text-wrap: pretty; }
 }
 
 @media (max-width: 374px) {
-  .brand { gap: .45rem; }
-  .brand-copy strong { font-size: 1.05rem; }
+  .brand { gap: .4rem; }
+  .brand-logo { width: 3.1rem; height: 3.35rem; }
+  .brand-copy strong { font-size: 1.12rem; }
   .mobile-menu summary { width: 2.5rem; }
 }
 

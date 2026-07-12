@@ -22,4 +22,4 @@ The responsive Jerusalem hero, transparent logo, mosaic illustrations, Give page
 
 ## Iconography
 
-The interface uses [Tabler Icons](https://tabler.io/icons), an open-source MIT-licensed outline set by Paweł Kuna. Only the icons listed in `astro.config.mjs` are included in the static build. The menorah and Jewish star are reserved for Jewish identity and story moments; general actions use plain semantic icons from the same family.
+The interface uses [Tabler Icons](https://tabler.io/icons), an open-source MIT-licensed outline set by Paweł Kuna. Only the icons listed in `astro.config.mjs` are included in the static build. The menorah and Jewish star are reserved for Jewish identity and story moments; general actions use plain semantic icons from the same family. The Give page uses Tabler's `brand-paypal` mark only to identify the external payment provider. PayPal remains a trademark of PayPal and the surrounding copy does not imply sponsorship or endorsement.
