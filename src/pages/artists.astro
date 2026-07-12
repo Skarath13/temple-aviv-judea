@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
+import { withBase } from '../lib/urls';
 ---
 
 <BaseLayout title="Artists’ Gallery" description="Explore visual art from the creative community at Temple Aviv Judea.">
@@ -8,8 +9,8 @@ import PageHero from '../components/PageHero.astro';
 
   <section class="section artists-section">
     <div class="shell artists-grid">
-      <figure><img src="/images/live/artist-gallery-1.webp" alt="Colorful congregational artwork of two women with jewelry and a garment bearing Hebrew text" width="487" height="640" /><figcaption>Beauty, identity, and the generations of Israel.</figcaption></figure>
-      <figure><img src="/images/live/artist-gallery-2.webp" alt="Colorful congregational artwork depicting Moses holding the tablets" width="929" height="1200" /><figcaption>Torah, revelation, and the faithfulness of G-d.</figcaption></figure>
+      <figure><img src={withBase('/images/live/artist-gallery-1.webp')} alt="Colorful congregational artwork of two women with jewelry and a garment bearing Hebrew text" width="487" height="640" /><figcaption>Beauty, identity, and the generations of Israel.</figcaption></figure>
+      <figure><img src={withBase('/images/live/artist-gallery-2.webp')} alt="Colorful congregational artwork depicting Moses holding the tablets" width="929" height="1200" /><figcaption>Torah, revelation, and the faithfulness of G-d.</figcaption></figure>
     </div>
   </section>
 

@@ -3,13 +3,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import SiteIcon from '../components/SiteIcon.astro';
 import { site } from '../data/site';
+import { withBase } from '../lib/urls';
 ---
 
 <BaseLayout title="Plan Your Visit" description="Plan your first Shabbat visit to Temple Aviv Judea in Fullerton. Find service times, what to expect, directions, and family information.">
   <PageHero eyebrow="Come this Shabbat" title="Your seat is waiting." intro="New to Messianic Jewish worship? You are welcome here. Here is everything you need to feel at home before you arrive." accent="coral" />
 
   <section class="mosaic-feature mosaic-coral" aria-label="Shabbat artwork">
-    <div class="shell mosaic-frame"><img src="/images/shofar-jerusalem-mosaic.webp" alt="Mosaic artwork of a worshipper sounding the shofar over Jerusalem" width="853" height="309" /></div>
+    <div class="shell mosaic-frame"><img src={withBase('/images/shofar-jerusalem-mosaic.webp')} alt="Mosaic artwork of a worshipper sounding the shofar over Jerusalem" width="853" height="309" /></div>
   </section>
 
   <section class="section">

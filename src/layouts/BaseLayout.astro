@@ -3,6 +3,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
 import { site } from '../data/site';
+import { withBase } from '../lib/urls';
 
 interface Props {
   title?: string;
@@ -17,13 +18,13 @@ const {
 } = Astro.props;
 const pageTitle = title === site.name ? title : `${title} | ${site.name}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const socialImage = new URL(image, Astro.site);
+const socialImage = new URL(withBase(image), Astro.site);
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'PlaceOfWorship',
   name: site.name,
-  url: Astro.site?.href,
-  image: new URL('/images/taj-logo.png', Astro.site).href,
+  url: new URL(withBase('/'), Astro.site).href,
+  image: new URL(withBase('/images/taj-logo.png'), Astro.site).href,
   email: site.email,
   telephone: site.phone,
   address: {
@@ -64,8 +65,8 @@ const structuredData = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImage} />
     <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
-    <link rel="icon" href="/favicon.png" type="image/png" sizes="96x96" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="icon" href={withBase('/favicon.png')} type="image/png" sizes="96x96" />
+    <link rel="apple-touch-icon" href={withBase('/apple-touch-icon.png')} sizes="180x180" />
     <title>{pageTitle}</title>
   </head>
   <body>

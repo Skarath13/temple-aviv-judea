@@ -1,13 +1,14 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
+import { withBase } from '../lib/urls';
 ---
 
 <BaseLayout title="Beliefs" description="Learn about Temple Aviv Judea's Messianic Jewish statement of faith, biblical foundations, and core values of Prayer, Proclamation, and People.">
   <PageHero eyebrow="Statement of faith & core values" title="One story. One Messiah. One family." intro="We embrace the Tanakh and Brit Chadashah as one continuous revelation, and Yeshua as Israel’s promised Messiah and King." accent="teal" />
 
   <section class="mosaic-feature mosaic-teal" aria-label="Torah artwork">
-    <div class="shell mosaic-frame"><img src="/images/torah-shofar-mosaic.webp" alt="Mosaic artwork of a Torah scroll, shofar, and tallit" width="853" height="294" /></div>
+    <div class="shell mosaic-frame"><img src={withBase('/images/torah-shofar-mosaic.webp')} alt="Mosaic artwork of a Torah scroll, shofar, and tallit" width="853" height="294" /></div>
   </section>
 
   <section class="section belief-summary">
@@ -18,7 +19,7 @@ import PageHero from '../components/PageHero.astro';
   </section>
 
   <section class="live-banner-section">
-    <div class="shell"><img src="/images/live/core-values-banner.webp" alt="A Temple Aviv Judea teaching banner showing a rabbi under a tallit" width="1800" height="599" loading="lazy" /></div>
+    <div class="shell"><img src={withBase('/images/live/core-values-banner.webp')} alt="A Temple Aviv Judea teaching banner showing a rabbi under a tallit" width="1800" height="599" loading="lazy" /></div>
   </section>
 
   <section class="belief-grid-section">
@@ -36,9 +37,9 @@ import PageHero from '../components/PageHero.astro';
     <div class="shell">
       <div class="section-heading centered light"><span class="eyebrow eyebrow-light">The three P’s</span><h2>Values we practice together.</h2></div>
       <div class="pillars-grid">
-        <article><img class="pillar-card-art" src="/images/card-blue-top.webp" alt="" width="720" height="640" loading="lazy" /><strong>Prayer</strong><p>We praise, repent, await with expectation, and yield to the Father, Messiah, and the Ruach HaKodesh.</p></article>
-        <article><img class="pillar-card-art" src="/images/card-coral-top.webp" alt="" width="720" height="640" loading="lazy" /><strong>Proclamation</strong><p>We worship in Jewish context and lovingly share the fullness and Jewishness of Messiah. We bring this message first to Jewish people and also to the Nations.</p></article>
-        <article><img class="pillar-card-art" src="/images/card-purple-top.webp" alt="" width="720" height="640" loading="lazy" /><strong>People</strong><p>We nurture mishpachah through discipleship, shared life, spiritual gifts, acts of service, and care for our wider community.</p></article>
+        <article><img class="pillar-card-art" src={withBase('/images/card-blue-top.webp')} alt="" width="720" height="640" loading="lazy" /><strong>Prayer</strong><p>We praise, repent, await with expectation, and yield to the Father, Messiah, and the Ruach HaKodesh.</p></article>
+        <article><img class="pillar-card-art" src={withBase('/images/card-coral-top.webp')} alt="" width="720" height="640" loading="lazy" /><strong>Proclamation</strong><p>We worship in Jewish context and lovingly share the fullness and Jewishness of Messiah. We bring this message first to Jewish people and also to the Nations.</p></article>
+        <article><img class="pillar-card-art" src={withBase('/images/card-purple-top.webp')} alt="" width="720" height="640" loading="lazy" /><strong>People</strong><p>We nurture mishpachah through discipleship, shared life, spiritual gifts, acts of service, and care for our wider community.</p></article>
       </div>
     </div>
   </section>

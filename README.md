@@ -16,6 +16,14 @@ npm run check
 npm run build
 ```
 
+## Deployment
+
+Pushes to `main` deploy automatically through GitHub Actions to:
+
+`https://skarath13.github.io/temple-aviv-judea/`
+
+The production `avivjudea.org` domain is intentionally not connected. Its current website and DNS remain unchanged until a separate cutover is approved.
+
 ## Content sources
 
 Shared service times, contact details, external links, and address information live in `src/data/site.ts`. Update them there to keep all pages consistent.

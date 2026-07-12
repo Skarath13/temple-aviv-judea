@@ -1,5 +1,6 @@
 ---
 import { navItems, site } from '../data/site';
+import { withBase } from '../lib/urls';
 import SiteIcon from './SiteIcon.astro';
 ---
 
@@ -10,15 +11,15 @@ import SiteIcon from './SiteIcon.astro';
       <span class="eyebrow eyebrow-light">Shalom & welcome</span>
       <h2>There is a place for you in the story.</h2>
       <p>Join us as we worship, learn, celebrate, and grow together in Messiah.</p>
-      <a class="button button-gold" href="/visit/">Come this Shabbat</a>
+      <a class="button button-gold" href={withBase('/visit/')}>Come this Shabbat</a>
     </div>
 
     <div>
       <h3>Explore</h3>
       <ul class="footer-links">
-        {navItems.slice(1).map((item) => <li><a href={item.href}>{item.label}</a></li>)}
-        <li><a href="/artists/">Artists’ Gallery</a></li>
-        <li><a href="/give/">Give</a></li>
+        {navItems.slice(1).map((item) => <li><a href={withBase(item.href)}>{item.label}</a></li>)}
+        <li><a href={withBase('/artists/')}>Artists’ Gallery</a></li>
+        <li><a href={withBase('/give/')}>Give</a></li>
       </ul>
     </div>
 
