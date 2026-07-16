@@ -277,16 +277,25 @@ p { text-wrap: pretty; }
 
 /* Beliefs */
 .belief-summary { background: var(--paper); }
-.live-banner-section { padding: 0 0 6rem; background: var(--paper); }
+.unity-section { padding: 0 0 7rem; background: var(--paper); }
+.unity-callout { padding: clamp(2.5rem, 6vw, 4.5rem); border-left: 6px solid var(--gold); border-radius: 0 var(--radius) var(--radius) 0; background: var(--cream); }
+.unity-callout blockquote { max-width: 900px; margin: 0 0 1rem; color: var(--blue); font-family: 'Eagle Lake', Georgia, serif; font-size: clamp(1.45rem, 3vw, 2.35rem); line-height: 1.5; text-wrap: balance; }
+.unity-callout cite { display: block; margin-bottom: 2rem; color: var(--coral); font-size: .8rem; font-style: normal; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.unity-callout p { max-width: 830px; margin-bottom: 0; color: var(--muted); font-size: 1.08rem; }
+.live-banner-section { padding: 0 0 8rem; background: var(--paper); }
 .live-banner-section img { width: 100%; border-radius: var(--radius); box-shadow: var(--shadow); }
 .belief-grid-section { padding: 0 0 9rem; }
-.belief-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
-.belief-grid article { min-height: 300px; padding: 2.4rem; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--white); }
-.belief-grid article > span { display: inline-block; margin-bottom: 4rem; color: var(--coral); font-weight: 700; }
+.faith-heading { margin-bottom: 3rem; }
+.belief-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+.belief-grid article { display: flex; min-height: 360px; padding: clamp(2rem, 4vw, 3rem); flex-direction: column; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--white); }
+.belief-grid article > span { display: inline-block; margin-bottom: 2.5rem; color: var(--coral); font-weight: 700; }
 .belief-grid h3 { color: var(--blue); }
 .belief-grid p { margin-bottom: 0; color: var(--muted); }
+.belief-grid .scripture-references { display: grid; gap: .35rem; margin-top: auto; padding-top: 2rem; color: var(--blue); font-size: .88rem; line-height: 1.5; }
+.scripture-references strong { color: var(--coral); font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
 .pillars-section { padding: 8rem 0; background: var(--teal); color: var(--white); }
 .section-heading.light h2 { color: var(--white); }
+.section-heading.light p { color: rgba(255,255,255,.78); }
 .pillars-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
 .pillars-grid article { position: relative; display: flex; flex-direction: column; justify-content: flex-end; min-height: 380px; padding: 2.5rem; overflow: hidden; border: 1px solid rgba(255,255,255,.3); border-radius: var(--radius); background: rgba(255,255,255,.08); }
 .pillars-grid article::before { content: ''; position: absolute; z-index: 1; inset: 0; background: linear-gradient(180deg, rgba(4,48,58,.08) 0%, rgba(4,48,58,.68) 55%, rgba(4,48,58,.96) 100%); }
@@ -294,6 +303,26 @@ p { text-wrap: pretty; }
 .pillar-card-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .pillars-grid strong { font-family: 'Eagle Lake', serif; font-size: 1.7rem; font-weight: 400; }
 .pillars-grid p { margin: 1rem 0 0; color: rgba(255,255,255,.85); }
+.core-values-detail-section { padding: 2rem 0 9rem; background: var(--paper); }
+.core-value-detail { display: grid; grid-template-columns: minmax(220px, .48fr) 1.52fr; gap: clamp(3rem, 8vw, 8rem); padding: clamp(5rem, 9vw, 8rem) 0; border-bottom: 1px solid var(--line); }
+.core-value-detail:last-child { border-bottom: 0; }
+.core-value-detail > header > span { display: grid; width: 3rem; height: 3rem; margin-bottom: 2rem; place-items: center; border: 1px solid var(--coral); border-radius: 50%; color: var(--coral); font-size: .78rem; font-weight: 700; }
+.core-value-detail > header > p { margin-bottom: .5rem; color: var(--azure); font-size: .75rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
+.core-value-detail > header h2 { color: var(--blue); font-size: clamp(2.7rem, 5vw, 4.5rem); }
+.core-value-copy > .lead { max-width: 760px; color: var(--blue); }
+.scripture-line { color: var(--azure); font-size: .88rem; font-weight: 600; }
+.prayer-practices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin: 2.5rem 0 0; padding: 0; list-style: none; }
+.prayer-practices li { display: grid; gap: .35rem; padding: 1.5rem; border: 1px solid var(--line); border-radius: 1rem; background: var(--white); }
+.prayer-practices strong { color: var(--blue); }
+.prayer-practices span { color: var(--muted); }
+.value-detail-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.value-detail-grid > section { padding: clamp(1.6rem, 4vw, 2.4rem); border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); }
+.value-detail-grid h3 { color: var(--blue); }
+.value-detail-grid p { color: var(--muted); }
+.value-detail-grid p:last-child { margin-bottom: 0; }
+.value-detail-grid p strong { color: var(--blue); }
+.value-detail-grid .scripture-line { color: var(--azure); }
+.people-detail-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
 /* Ministries */
 .ministries-grid-section { background: var(--paper); }
@@ -572,6 +601,13 @@ p { text-wrap: pretty; }
   .belief-grid { grid-template-columns: 1fr; }
   .belief-grid article { min-height: auto; }
   .belief-grid article > span { margin-bottom: 2rem; }
+  .unity-section { padding-bottom: 5rem; }
+  .unity-callout { border-left-width: 4px; }
+  .live-banner-section { padding-bottom: 6rem; }
+  .core-values-detail-section { padding-bottom: 5rem; }
+  .core-value-detail { grid-template-columns: 1fr; gap: 2rem; padding: 5rem 0; }
+  .core-value-detail > header h2 { margin-bottom: 0; }
+  .prayer-practices, .value-detail-grid, .people-detail-grid { grid-template-columns: 1fr; }
   .ministry-card-grid { grid-template-columns: 1fr; }
   .ministry-card, .wide-card { grid-column: auto; grid-template-columns: 1fr; min-height: auto; }
   .ministry-card.has-photo > img { width: 100%; height: auto; aspect-ratio: auto; object-fit: contain; }

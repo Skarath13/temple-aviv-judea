@@ -2,6 +2,59 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import { withBase } from '../lib/urls';
+
+const faithStatements = [
+  {
+    title: 'The Scriptures',
+    body: 'The Bible—both the Tanakh and Brit Chadashah—is verbally inspired and completely inerrant in the original writings as delivered to Israel. It is the supreme and final authority for faith and life.',
+    references: '2 Timothy 3:16',
+  },
+  {
+    title: 'The G-d of Israel',
+    body: 'There is one G-d, who eternally exists in three persons: Father (Abba), Son (Ben), and Holy Spirit (Ruach HaKodesh).',
+    references: 'Isaiah 48:16; Deuteronomy 6:4; Matthew 3:16–17',
+  },
+  {
+    title: 'Messiah Yeshua’s Nature',
+    body: 'Messiah Yeshua was begotten of the Holy Spirit and born of a virgin. He is fully G-d and fully man.',
+    references: 'Isaiah 7:14; Matthew 1:21–23',
+  },
+  {
+    title: 'Humanity & Sin',
+    body: 'Humanity was created in the image of G-d. Through sin came both physical death and spiritual separation from G-d. Every person is born with a sinful nature and, upon reaching moral responsibility, sins in thought, word, and deed.',
+    references: 'Genesis 3; Romans 6:23',
+  },
+  {
+    title: 'Atonement & Salvation',
+    body: 'Yeshua died for our sins according to the Scriptures as our representative and substitutionary sacrifice. All who trust Him as personal Savior are justified by His shed blood—not by works or merit of their own.',
+    references: '1 Corinthians 15:3–4; Ephesians 2:8–9',
+  },
+  {
+    title: 'Resurrection & Ascension',
+    body: 'We believe in the bodily resurrection of our L-rd, His ascension into heaven, and His present ministry for us as High Priest and Advocate.',
+    references: '1 Corinthians 15; Hebrews 7:25; Psalm 110:1',
+  },
+  {
+    title: 'Messiah’s Return',
+    body: 'Our blessed hope is the physical, pre-millennial, and imminent return of Yeshua as the Messiah of Israel and King of the Universe, reigning from Mount Zion.',
+    references: 'Zechariah 14:4; Titus 2:13',
+  },
+  {
+    title: 'Final Judgment',
+    body: 'We believe in the bodily resurrection of the just and the unjust, the everlasting blessedness of the saved, and the everlasting punishment of the lost.',
+    references: 'Daniel 12:1–3; Matthew 25:46',
+  },
+  {
+    title: 'Ruach HaKodesh',
+    body: 'The Holy Spirit indwells every believer in Yeshua and empowers believers to exercise the biblical gifts of the Spirit.',
+    references: '1 Corinthians 12:13, 27–28',
+  },
+  {
+    title: 'Believers’ Identity',
+    body: 'Jewish believers in Yeshua are called to maintain their biblical Jewish heritage and remain part of both Israel and the universal body of believers. Gentile believers called to practice their faith within this cultural expression are received as full and equal members. The dividing wall has been broken down.',
+    references: 'Acts 21:20–24; Ephesians 2:19–22',
+  },
+];
 ---
 
 <BaseLayout title="Beliefs" description="Learn about Temple Aviv Judea's Messianic Jewish statement of faith, biblical foundations, and core values of Prayer, Proclamation, and People.">
@@ -18,29 +71,112 @@ import { withBase } from '../lib/urls';
     </div>
   </section>
 
+  <section class="unity-section">
+    <div class="shell unity-callout" data-reveal>
+      <blockquote>“For He is our peace, who made both groups into one, and broke down the barrier of the dividing wall … that in Himself He made the two into one new man, thus establishing peace.”</blockquote>
+      <cite>Ephesians 2:14–15</cite>
+      <p>Jewish people do not leave their Jewish identity behind when they accept Yeshua HaMashiach. In Him, their Jewish faith is made whole. Temple Aviv Judea is a place where Jewish and Gentile believers worship YHWH together while remembering the Jewish roots of our faith.</p>
+    </div>
+  </section>
+
   <section class="live-banner-section">
     <div class="shell" data-reveal="wipe"><img src={withBase('/images/live/core-values-banner.webp')} alt="A Temple Aviv Judea teaching banner showing a rabbi under a tallit" width="1800" height="599" loading="lazy" /></div>
   </section>
 
   <section class="belief-grid-section">
-    <div class="shell belief-grid" data-stagger>
-      <article><span>01</span><h3>The Scriptures</h3><p>The Tanakh and Brit Chadashah are inspired and the supreme authority for faith and life.</p></article>
-      <article><span>02</span><h3>The G-d of Israel</h3><p>There is one G-d, eternally existing as Father, Son, and Ruach HaKodesh.</p></article>
-      <article><span>03</span><h3>Messiah Yeshua</h3><p>Yeshua is fully G-d and fully man, born of a virgin, crucified for sin, bodily raised, ascended, and returning as King.</p></article>
-      <article><span>04</span><h3>Salvation</h3><p>We are reconciled to G-d by trusting in Yeshua’s atoning sacrifice. Our own works or merit cannot save us.</p></article>
-      <article><span>05</span><h3>Ruach HaKodesh</h3><p>The Holy Spirit indwells and empowers every believer, distributing gifts for worship, witness, and service.</p></article>
-      <article><span>06</span><h3>Israel & the Nations</h3><p>In Messiah, the dividing wall is broken down while Jewish identity and G-d’s covenant with Israel are honored.</p></article>
+    <div class="shell">
+      <div class="section-heading faith-heading" data-reveal>
+        <span class="eyebrow">Statement of faith</span>
+        <h2>What we believe.</h2>
+        <p>These convictions shape our teaching, worship, community life, and hope.</p>
+      </div>
+      <div class="belief-grid" data-stagger>
+        {faithStatements.map((statement, index) => (
+          <article>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <h3>{statement.title}</h3>
+            <p>{statement.body}</p>
+            <p class="scripture-references"><strong>Scripture</strong>{statement.references}</p>
+          </article>
+        ))}
+      </div>
     </div>
   </section>
 
   <section class="pillars-section">
     <div class="shell">
-      <div class="section-heading centered light" data-reveal><span class="eyebrow eyebrow-light">The three P’s</span><h2>Values we practice together.</h2></div>
+      <div class="section-heading centered light" data-reveal><span class="eyebrow eyebrow-light">The three P’s</span><h2>Values we practice together.</h2><p>Prayer, Proclamation, and People reflect the ministry of Yeshua and guide our life as a congregation.</p></div>
       <div class="pillars-grid" data-stagger>
         <article><img class="pillar-card-art" src={withBase('/images/card-blue-top.webp')} alt="" width="720" height="640" loading="lazy" /><strong>Prayer</strong><p>We praise, repent, await with expectation, and yield to the Father, Messiah, and the Ruach HaKodesh.</p></article>
-        <article><img class="pillar-card-art" src={withBase('/images/card-coral-top.webp')} alt="" width="720" height="640" loading="lazy" /><strong>Proclamation</strong><p>We worship in Jewish context and lovingly share the fullness and Jewishness of Messiah. We bring this message first to Jewish people and also to the Nations.</p></article>
+        <article><img class="pillar-card-art" src={withBase('/images/card-coral-top.webp')} alt="" width="720" height="640" loading="lazy" /><strong>Proclamation</strong><p>We worship in Jewish context and lovingly share the fullness and Jewishness of Messiah—to the Jew first and also to the Nations.</p></article>
         <article><img class="pillar-card-art" src={withBase('/images/card-purple-top.webp')} alt="" width="720" height="640" loading="lazy" /><strong>People</strong><p>We nurture mishpachah through discipleship, shared life, spiritual gifts, acts of service, and care for our wider community.</p></article>
       </div>
+    </div>
+  </section>
+
+  <section class="core-values-detail-section">
+    <div class="shell core-values-detail">
+      <article class="core-value-detail" data-reveal>
+        <header><span>01</span><p>Our first value</p><h2>Prayer</h2></header>
+        <div class="core-value-copy">
+          <p class="lead">We value the power of tefillah and have the blessed assurance that when we ask according to His will, He hears us.</p>
+          <p class="scripture-line">1 Yochanan (John) 5:14–15</p>
+          <ul class="prayer-practices" aria-label="Our practices in prayer">
+            <li><strong>Praise</strong><span>Honor Him for who He is.</span></li>
+            <li><strong>Practice repentance</strong><span>Turn toward G-d with honesty and humility.</span></li>
+            <li><strong>Await</strong><span>Come with an expectant heart.</span></li>
+            <li><strong>Yield</strong><span>Seek the Father’s heart, the mind of Yeshua, and the power of the Ruach HaKodesh.</span></li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="core-value-detail" data-reveal>
+        <header><span>02</span><p>Our second value</p><h2>Proclamation</h2></header>
+        <div class="core-value-copy value-detail-grid">
+          <section>
+            <h3>Worship</h3>
+            <p>We are committed to authentic Jewish worship on the biblical Shabbat and observe the Moedim—the appointed Feasts of the L-rd described in Vayikra (Leviticus) 23.</p>
+            <p>We share the message of the Bible in a way that is culturally relevant to Jewish people. Our worship includes traditional Jewish liturgy, prayer, Messianic Jewish music, praise, Davidic dancing, creative arts, and drama, practiced within our Messianic Jewish identity.</p>
+            <p class="scripture-line">Deuteronomy 6:5; Mark 12:30; Luke 10:27; Yochanan 4:23–24; Leviticus 23:2</p>
+          </section>
+          <section>
+            <h3>Biblical Truths</h3>
+            <p>We are a Torah-conforming congregation committed to the biblical truth that YHWH’s covenant with Israel is unconditional, irrevocable, and absolute.</p>
+            <p>We teach the Tanakh and Brit Chadashah as one continuous revelation. Biblical teaching takes precedence over tradition or human opinion, and we embrace the Hebraic roots of faith in Yeshua.</p>
+            <p>Our purpose is to present Yeshua as the final, sinless sacrificial Lamb, lead people to saving knowledge of Him, and provide a place where Jewish people can remain in their culture while worshipping in the liberty of Messiah.</p>
+            <p class="scripture-line">1 Timothy 2:3–6; Romans 1:16–17; 1 Corinthians 7:17–20; 1 Corinthians 10:32–33</p>
+          </section>
+          <section>
+            <h3>Proclaiming the Message</h3>
+            <p>We lovingly proclaim the B’sorat HaMashiach—the Good News of the Messiah—in the fullness of Yeshua’s Jewish identity, to the Jew first and also to the Nations.</p>
+            <p>We seek to serve as a bridge: educating believers about their Jewish roots and working toward reconciliation between the Body of Messiah and Traditional Judaism.</p>
+            <p class="scripture-line">Romans 1:16–17; Romans 11:16–24</p>
+          </section>
+          <section>
+            <h3>Biblical Ordinances</h3>
+            <p><strong>Messianic Immersion</strong> is a public sign of faith in Yeshua.</p>
+            <p><strong>Shulchan Adonai</strong>, the Table of the L-rd, is an act of remembrance of Messiah Yeshua and His sacrifice.</p>
+            <p class="scripture-line">Luke 3:16; Acts 8:38–39; Matthew 26:26–29; Matthew 28:19–20; 1 Corinthians 11:23–30</p>
+          </section>
+        </div>
+      </article>
+
+      <article class="core-value-detail" data-reveal>
+        <header><span>03</span><p>Our third value</p><h2>People</h2></header>
+        <div class="core-value-copy value-detail-grid people-detail-grid">
+          <section>
+            <h3>Community</h3>
+            <p>We are committed to being a loving, supportive, encouraging, and nurturing community where people grow in relationship with Yeshua, learn the Hebraic roots of faith, live a Messianic Jewish lifestyle, and help restore the Jewish framework of the first-century believers.</p>
+            <p>Faithful attendance is essential to becoming part of our mishpachah. As family, we care for and serve one another, the wider Body of Messiah, and the Jewish community locally and globally.</p>
+          </section>
+          <section>
+            <h3>Leadership & Discipleship</h3>
+            <p>Following the first-century biblical model of leadership, we value the spiritual gifts and talents of Jewish and Gentile believers and invest in training people to carry out G-d’s mission.</p>
+            <p>Weekly chavurah—small fellowship groups such as Bible studies, Sisterhood, and Brotherhood—support growth. Through discipleship and education, people are encouraged to use their gifts in ministry.</p>
+            <p class="scripture-line">Acts 2</p>
+          </section>
+        </div>
+      </article>
     </div>
   </section>
 </BaseLayout>
