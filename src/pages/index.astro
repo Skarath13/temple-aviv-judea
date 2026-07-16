@@ -177,14 +177,18 @@ import { withBase } from '../lib/urls';
 
   <section class="ministries-preview">
     <div class="shell ministries-preview-inner" data-stagger>
-      <div>
+      <div class="ministries-preview-copy">
         <span class="eyebrow eyebrow-light">Life together</span>
-        <h2>There is more to community than Saturday morning.</h2>
+        <h2>Community grows all week long.</h2>
+        <p>There is a place here for every generation to learn, create, and serve together.</p>
+        <a class="arrow-link arrow-link-light" href={withBase('/ministries/')}>Explore ministries <SiteIcon name="arrow-right" size={19} /></a>
       </div>
-      <div class="ministry-pills" aria-label="Ministries">
-        <span>Children</span><span>Young adults</span><span>Women</span><span>Men</span><span>Dance</span><span>Creative arts</span>
+      <div class="ministries-preview-directory">
+        <span class="eyebrow eyebrow-light">Find your place</span>
+        <div class="ministry-pills" aria-label="Ministries">
+          <span>Children</span><span>Young adults</span><span>Women</span><span>Men</span><span>Davidic dance</span><span>Creative arts</span>
+        </div>
       </div>
-      <a class="arrow-link arrow-link-light" href={withBase('/ministries/')}>Find your place <SiteIcon name="arrow-right" size={19} /></a>
     </div>
   </section>
 </BaseLayout>
