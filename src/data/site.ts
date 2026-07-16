@@ -12,7 +12,7 @@ export const site = {
   phone: '(714) 748-4504',
   phoneHref: 'tel:+17147484504',
   email: 'info@avivjudea.org',
-  youtube: 'https://www.youtube.com/@templeavivjudea1558/streams',
+  youtube: 'https://www.youtube.com/@templeavivjudea1558/live',
   facebook: 'https://www.facebook.com/templeavivjudea/',
   baruchDesignsEtsy: 'https://www.etsy.com/shop/BaruchDesignsStudio?etsrc=sdt#items',
   giving: 'https://www.paypal.com/donate/?business=avivjudea613%40gmail.com&no_recurring=0&item_name=Temple%20Aviv%20Judea&currency_code=USD',
