@@ -161,12 +161,12 @@ p { text-wrap: pretty; }
 .expect-grid p { margin-bottom: 0; color: rgba(255,255,255,.86); text-shadow: 0 2px 12px rgba(0,0,0,.32); }
 .centered-action { margin-top: 3rem; text-align: center; }
 .live-moments-section { background: var(--paper); }
-.live-moments-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-.live-moments-grid figure, .recordings-card { position: relative; min-height: 360px; margin: 0; overflow: hidden; border-radius: var(--radius); }
+.live-moments-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.live-moments-grid figure, .recordings-card { position: relative; aspect-ratio: 1 / 1; min-width: 0; margin: 0; overflow: hidden; border-radius: var(--radius); }
 .live-moments-grid img { width: 100%; height: 100%; object-fit: cover; }
 .live-moments-grid figure::after, .recordings-card::after { content: ''; position: absolute; inset: 45% 0 0; background: linear-gradient(transparent, rgba(6,31,55,.88)); }
 .live-moments-grid figcaption, .recordings-card span { position: absolute; z-index: 1; left: 1.5rem; right: 1.5rem; bottom: 1.4rem; color: var(--white); font-weight: 700; }
-.recordings-card { grid-column: 1 / -1; min-height: 420px; color: var(--white); text-decoration: none; }
+.recordings-card { color: var(--white); text-decoration: none; }
 .recordings-card span { display: flex; justify-content: space-between; align-items: center; font-size: 1.05rem; }
 .recordings-card .recordings-label { position: static; justify-content: flex-start; gap: .65rem; }
 .home-location-section { background: #eaf4f7; }
@@ -596,7 +596,7 @@ p { text-wrap: pretty; }
   .art-panel img { object-position: 63% center; }
   .art-story-copy { padding: 4rem 1.25rem; }
   .live-moments-grid { grid-template-columns: 1fr; }
-  .live-moments-grid figure, .recordings-card { grid-column: auto; min-height: 300px; }
+  .live-moments-grid figure, .recordings-card { min-height: 0; }
   .home-location-heading, .home-location-grid { grid-template-columns: 1fr; }
   .home-location-heading { gap: 1.5rem; margin-bottom: 2.5rem; }
   .building-card > picture img, .story-building img { aspect-ratio: 1 / 1; object-fit: cover; }
