@@ -189,7 +189,7 @@ p { text-wrap: pretty; }
 .ministry-pills span { padding: .75rem 1rem; border: 1px solid rgba(255,255,255,.35); border-radius: 999px; background: rgba(255,255,255,.08); }
 
 /* Inner page hero */
-.page-hero { position: relative; padding: clamp(6rem, 12vw, 11rem) 0; overflow: hidden; background: var(--cream); }
+.page-hero { position: relative; padding: clamp(5rem, 8vw, 7.5rem) 0; overflow: hidden; background: var(--cream); }
 .page-hero::after { content: ''; position: absolute; width: min(52vw, 750px); aspect-ratio: 1; right: -12vw; top: -45%; border-radius: 50%; opacity: .85; }
 .page-hero-blue::after { background: var(--azure); }
 .page-hero-coral::after { background: var(--coral); }
@@ -197,8 +197,8 @@ p { text-wrap: pretty; }
 .page-hero-teal::after { background: var(--teal); }
 .page-hero-pattern { position: absolute; inset: 0; opacity: .2; background: radial-gradient(circle at 90% 20%, transparent 0 18%, var(--paper) 18.2% 18.6%, transparent 18.8% 25%, var(--paper) 25.2% 25.5%, transparent 25.7%); }
 .page-hero-inner { position: relative; z-index: 1; }
-.page-hero h1 { max-width: 900px; margin-bottom: 1.5rem; color: var(--blue); }
-.page-hero p { max-width: 720px; margin-bottom: 0; color: #3c4b5a; font-family: 'DM Sans', sans-serif; font-size: clamp(1.15rem, 2.3vw, 1.5rem); font-weight: 500; line-height: 1.55; }
+.page-hero h1 { max-width: 1040px; margin-bottom: 1.25rem; color: var(--blue); font-size: clamp(3rem, 6.25vw, 6.25rem); }
+.page-hero p { max-width: 790px; margin-bottom: 0; color: #3c4b5a; font-family: 'DM Sans', sans-serif; font-size: clamp(1.1rem, 1.7vw, 1.35rem); font-weight: 500; line-height: 1.55; }
 .mosaic-feature { padding: clamp(1.5rem, 4vw, 2.5rem) 0; background: var(--paper); }
 .mosaic-coral, .mosaic-gold, .mosaic-teal { background: var(--paper); }
 .mosaic-frame { position: relative; overflow: hidden; border: 1px solid rgba(18,61,105,.24); border-radius: clamp(.75rem, 2vw, 1.25rem); background: transparent; }
@@ -274,6 +274,8 @@ p { text-wrap: pretty; }
 
 /* Beliefs */
 .belief-summary { background: var(--paper); }
+.belief-summary .split-layout { grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); gap: clamp(3rem, 6vw, 6rem); align-items: center; }
+.belief-summary h2 { max-width: 10ch; font-size: clamp(3rem, 4.4vw, 4.25rem); }
 .unity-section { padding: 0 0 7rem; background: var(--paper); }
 .unity-callout { padding: clamp(2.5rem, 6vw, 4.5rem); border-left: 6px solid var(--gold); border-radius: 0 var(--radius) var(--radius) 0; background: var(--cream); }
 .unity-callout blockquote { max-width: 900px; margin: 0 0 1rem; color: var(--blue); font-family: 'Eagle Lake', Georgia, serif; font-size: clamp(1.45rem, 3vw, 2.35rem); line-height: 1.5; text-wrap: balance; }
@@ -600,8 +602,12 @@ p { text-wrap: pretty; }
   .building-card > picture img, .story-building img { aspect-ratio: 1 / 1; object-fit: cover; }
   .map-card-footer { align-items: flex-start; flex-wrap: wrap; }
   .map-card-footer .button { width: 100%; margin-top: .25rem; }
-  .page-hero { padding: 5.5rem 0; }
+  .page-hero { padding: 4.5rem 0; }
+  .page-hero h1 { max-width: 100%; font-size: clamp(2.75rem, 12vw, 3rem); }
+  .page-hero p { font-size: clamp(1.05rem, 4.6vw, 1.15rem); }
   .page-hero::after { width: 400px; right: -270px; top: -100px; }
+  .belief-summary .split-layout { grid-template-columns: 1fr; gap: 2.5rem; align-items: start; }
+  .belief-summary h2 { max-width: 12ch; font-size: clamp(2.45rem, 10.5vw, 2.9rem); }
   .sticky-card { position: static; }
   .location-grid, .cta-inner { align-items: flex-start; flex-direction: column; }
   .location-grid .location-address { font-size: clamp(1.35rem, 7vw, 2.5rem); letter-spacing: -.03em; }
