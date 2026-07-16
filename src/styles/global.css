@@ -304,11 +304,11 @@ p { text-wrap: pretty; }
 .pillars-grid strong { font-family: 'Eagle Lake', serif; font-size: 1.7rem; font-weight: 400; }
 .pillars-grid p { margin: 1rem 0 0; color: rgba(255,255,255,.85); }
 .core-values-detail-section { padding: 2rem 0 9rem; background: var(--paper); }
-.core-value-detail { display: grid; grid-template-columns: minmax(220px, .48fr) 1.52fr; gap: clamp(3rem, 8vw, 8rem); padding: clamp(5rem, 9vw, 8rem) 0; border-bottom: 1px solid var(--line); }
+.core-value-detail { display: grid; grid-template-columns: minmax(320px, 360px) 1fr; gap: clamp(3rem, 5vw, 4rem); padding: clamp(5rem, 9vw, 8rem) 0; border-bottom: 1px solid var(--line); }
 .core-value-detail:last-child { border-bottom: 0; }
 .core-value-detail > header > span { display: grid; width: 3rem; height: 3rem; margin-bottom: 2rem; place-items: center; border: 1px solid var(--coral); border-radius: 50%; color: var(--coral); font-size: .78rem; font-weight: 700; }
 .core-value-detail > header > p { margin-bottom: .5rem; color: var(--azure); font-size: .75rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
-.core-value-detail > header h2 { color: var(--blue); font-size: clamp(2.7rem, 5vw, 4.5rem); }
+.core-value-detail > header h2 { color: var(--blue); font-size: clamp(2.7rem, 4vw, 3rem); }
 .core-value-copy > .lead { max-width: 760px; color: var(--blue); }
 .scripture-line { color: var(--azure); font-size: .88rem; font-weight: 600; }
 .prayer-practices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; margin: 2.5rem 0 0; padding: 0; list-style: none; }
@@ -536,6 +536,7 @@ p { text-wrap: pretty; }
   .art-story-copy { padding: 5rem max(1.5rem, calc((100vw - 760px)/2)); }
   .ministries-preview-inner { grid-template-columns: 1fr; align-items: start; }
   .belief-grid { grid-template-columns: repeat(2, 1fr); }
+  .core-value-detail { grid-template-columns: 1fr; gap: 2.5rem; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .footer-intro { grid-column: 1 / -1; }
 }
