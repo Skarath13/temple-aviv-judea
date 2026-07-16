@@ -340,9 +340,9 @@ p { text-wrap: pretty; }
 .teal-card { background: #d9f3ee; color: #136b69; }
 .purple-card { background: var(--violet); color: var(--white); }
 .purple-card p { color: rgba(255,255,255,.76); }
-.wide-card { grid-column: 1 / -1; grid-template-columns: auto 1fr auto; min-height: 280px; align-items: center; }
-.artist-thumbnails { display: grid; grid-template-columns: repeat(2, 120px); gap: .75rem; }
-.artist-thumbnails img { width: 120px; height: 160px; object-fit: cover; border-radius: 1rem; }
+.wide-card { grid-column: 1 / -1; grid-template-columns: auto minmax(0, 1fr) auto; min-height: 280px; align-items: center; }
+.artist-thumbnails { display: grid; grid-template-columns: repeat(2, 170px); gap: .75rem; }
+.artist-thumbnails img { width: 170px; height: 224px; object-fit: cover; border-radius: 1rem; }
 .cta-section { padding: 6rem 0; background: var(--cream); }
 .cta-inner { display: flex; justify-content: space-between; align-items: end; gap: 3rem; }
 .cta-inner h2 { margin-bottom: .6rem; color: var(--blue); }
@@ -535,6 +535,8 @@ p { text-wrap: pretty; }
   .art-panel { height: min(70vw, 650px); }
   .art-story-copy { padding: 5rem max(1.5rem, calc((100vw - 760px)/2)); }
   .ministries-preview-inner { grid-template-columns: 1fr; align-items: start; }
+  .wide-card { grid-template-columns: auto minmax(0, 1fr); }
+  .wide-card > .button { grid-column: 2; justify-self: start; }
   .belief-grid { grid-template-columns: repeat(2, 1fr); }
   .core-value-detail { grid-template-columns: 1fr; gap: 2.5rem; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
@@ -615,6 +617,7 @@ p { text-wrap: pretty; }
   .ministry-card, .wide-card { grid-column: auto; grid-template-columns: 1fr; min-height: auto; }
   .ministry-card.has-photo > img { width: 100%; height: auto; aspect-ratio: auto; object-fit: contain; }
   .wide-card { align-items: start; }
+  .wide-card > .button { grid-column: auto; justify-self: stretch; }
   .artist-thumbnails { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
   .artist-thumbnails img { width: 100%; height: auto; aspect-ratio: auto; object-fit: contain; }
   .artists-grid { grid-template-columns: 1fr; }

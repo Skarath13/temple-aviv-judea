@@ -14,6 +14,7 @@ export const site = {
   email: 'info@avivjudea.org',
   youtube: 'https://www.youtube.com/@templeavivjudea1558/streams',
   facebook: 'https://www.facebook.com/templeavivjudea/',
+  baruchDesignsEtsy: 'https://www.etsy.com/shop/BaruchDesignsStudio?etsrc=sdt#items',
   giving: 'https://www.paypal.com/donate/?business=avivjudea613%40gmail.com&no_recurring=0&item_name=Temple%20Aviv%20Judea&currency_code=USD',
   schedule: [
     { time: '11:00 AM', label: 'Shabbat Service', note: 'In person & livestream' },
