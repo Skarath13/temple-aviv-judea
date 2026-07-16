@@ -6,8 +6,8 @@ import { site } from '../data/site';
 import { withBase } from '../lib/urls';
 ---
 
-<BaseLayout title="Plan Your Visit" description="Plan your first Shabbat visit to Temple Aviv Judea in Fullerton. Find service times, what to expect, directions, and family information.">
-  <PageHero eyebrow="Come this Shabbat" title="Your seat is waiting." intro="New to Messianic Jewish worship? You are welcome here. Here is everything you need to feel at home before you arrive." accent="coral" />
+<BaseLayout title="Prepare for Shabbat" description="Prepare for your first Shabbat visit to Temple Aviv Judea in Fullerton. Find service times, what to expect, family information, meal guidance, and ways to connect.">
+  <PageHero eyebrow="Prepare for Shabbat" title="Come curious. You are welcome." intro="Whether Messianic Jewish worship is familiar or completely new, here is what to expect so you and your family can arrive at ease." accent="coral" />
 
   <section class="mosaic-feature mosaic-coral" aria-label="Shabbat artwork">
     <div class="shell mosaic-frame" data-reveal="wipe"><img src={withBase('/images/shofar-jerusalem-mosaic.webp')} alt="Mosaic artwork of a worshipper sounding the shofar over Jerusalem" width="853" height="309" /></div>
@@ -26,10 +26,17 @@ import { withBase } from '../lib/urls';
             </div>
           ))}
         </div>
-        <a class="button" href={site.address.maps} target="_blank" rel="noreferrer"><SiteIcon name="map-pin" size={18} /> Get directions</a>
+        <div class="button-row">
+          <a class="button button-gold" href={site.address.maps} target="_blank" rel="noreferrer"><SiteIcon name="map-pin" size={18} /> Get directions</a>
+          <a class="button button-ghost-light" href={site.youtube} target="_blank" rel="noreferrer"><SiteIcon name="brand-youtube" size={18} /> Watch livestream</a>
+        </div>
       </div>
 
       <div class="content-stack">
+        <article class="content-card">
+          <h3>Who will I meet?</h3>
+          <p>Our mishpachah is a diverse community of Jewish and Gentile believers from many ethnicities and faith backgrounds. What draws us together is love—for G-d, for one another, and for every person who walks through the door.</p>
+        </article>
         <article class="content-card feature-card">
           <span class="card-kicker">What happens in a service?</span>
           <h2>Ancient patterns, wholehearted praise.</h2>
@@ -47,9 +54,13 @@ import { withBase } from '../lib/urls';
           <h3>Can I stay for lunch?</h3>
           <p>Absolutely. People visiting for the first time are our guests at the weekly Oneg potluck. If you choose to bring food, please do not bring pork or shellfish.</p>
         </article>
+        <article class="content-card">
+          <h3>What happens after the service?</h3>
+          <p>Stay for Oneg and conversation, then join Rabbi’s Corner to explore the weekly Torah portion and ask questions. Community life also includes a monthly women’s gathering, Davidic dance instruction, and opportunities to serve one another and our neighbors.</p>
+        </article>
         <article class="content-card accent-card">
-          <h3>Still have a question?</h3>
-          <p>Rabbi Corey and our community would be glad to help you feel prepared.</p>
+          <h3>Let us welcome you personally.</h3>
+          <p>Rabbi Corey would be glad to meet you over lunch or by appointment and answer your questions. First-time visitors may also receive a hospitality package. Call and leave a message, or send an email, and we will help you feel prepared.</p>
           <div class="inline-links"><a href={site.phoneHref}>{site.phone}</a><a href={`mailto:${site.email}`}>{site.email}</a></div>
         </article>
       </div>
