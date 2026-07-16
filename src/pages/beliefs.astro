@@ -80,7 +80,10 @@ const faithStatements = [
   </section>
 
   <section class="live-banner-section">
-    <div class="shell" data-reveal="wipe"><img src={withBase('/images/live/core-values-banner.webp')} alt="A Temple Aviv Judea teaching banner showing a rabbi under a tallit" width="1800" height="599" loading="lazy" /></div>
+    <figure class="shell belief-banner-card" data-reveal="wipe">
+      <img src={withBase('/images/live/core-values-banner.webp')} alt="A Temple Aviv Judea teaching banner showing a rabbi under a tallit" width="1800" height="599" loading="lazy" />
+      <figcaption>The walls of partition have been broken down</figcaption>
+    </figure>
   </section>
 
   <section class="belief-grid-section">
@@ -107,16 +110,16 @@ const faithStatements = [
     <div class="shell">
       <div class="section-heading centered light" data-reveal><span class="eyebrow eyebrow-light">The three P’s</span><h2>Values we practice together.</h2><p>Prayer, Proclamation, and People reflect the ministry of Yeshua and guide our life as a congregation.</p></div>
       <div class="pillars-grid" data-stagger>
-        <article><img class="pillar-card-art" src={withBase('/images/card-blue-top.webp')} alt="" width="720" height="640" loading="lazy" /><strong>Prayer</strong><p>We praise, repent, await with expectation, and yield to the Father, Messiah, and the Ruach HaKodesh.</p></article>
-        <article><img class="pillar-card-art" src={withBase('/images/card-coral-top.webp')} alt="" width="720" height="640" loading="lazy" /><strong>Proclamation</strong><p>We worship in Jewish context and lovingly share the fullness and Jewishness of Messiah, to the Jew first and also to the Nations.</p></article>
-        <article><img class="pillar-card-art" src={withBase('/images/card-purple-top.webp')} alt="" width="720" height="640" loading="lazy" /><strong>People</strong><p>We nurture mishpachah through discipleship, shared life, spiritual gifts, acts of service, and care for our wider community.</p></article>
+        <a class="pillar-card" href="#prayer"><img class="pillar-card-art" src={withBase('/images/card-blue-top.webp')} alt="" width="720" height="640" loading="lazy" /><strong>Prayer</strong><p>We praise, repent, await with expectation, and yield to the Father, Messiah, and the Ruach HaKodesh.</p></a>
+        <a class="pillar-card" href="#proclamation"><img class="pillar-card-art" src={withBase('/images/card-coral-top.webp')} alt="" width="720" height="640" loading="lazy" /><strong>Proclamation</strong><p>We worship in Jewish context and lovingly share the fullness and Jewishness of Messiah, to the Jew first and also to the Nations.</p></a>
+        <a class="pillar-card" href="#people"><img class="pillar-card-art" src={withBase('/images/card-purple-top.webp')} alt="" width="720" height="640" loading="lazy" /><strong>People</strong><p>We nurture mishpachah through discipleship, shared life, spiritual gifts, acts of service, and care for our wider community.</p></a>
       </div>
     </div>
   </section>
 
   <section class="core-values-detail-section">
     <div class="shell core-values-detail">
-      <article class="core-value-detail" data-reveal>
+      <article class="core-value-detail" id="prayer" data-reveal>
         <header><span>01</span><p>Our first value</p><h2>Prayer</h2></header>
         <div class="core-value-copy">
           <p class="lead">We value the power of tefillah and have the blessed assurance that when we ask according to His will, He hears us.</p>
@@ -130,7 +133,7 @@ const faithStatements = [
         </div>
       </article>
 
-      <article class="core-value-detail" data-reveal>
+      <article class="core-value-detail" id="proclamation" data-reveal>
         <header><span>02</span><p>Our second value</p><h2>Proclamation</h2></header>
         <div class="core-value-copy value-detail-grid">
           <section>
@@ -161,7 +164,7 @@ const faithStatements = [
         </div>
       </article>
 
-      <article class="core-value-detail" data-reveal>
+      <article class="core-value-detail" id="people" data-reveal>
         <header><span>03</span><p>Our third value</p><h2>People</h2></header>
         <div class="core-value-copy value-detail-grid people-detail-grid">
           <section>

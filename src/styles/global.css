@@ -122,7 +122,7 @@ p { text-wrap: pretty; }
 .welcome-copy { max-width: 650px; }
 .welcome-copy p:not(.lead) { color: var(--muted); }
 .value-ribbon { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 5rem; }
-.value-card { --overlay-rgb: 7, 40, 70; position: relative; min-height: 390px; padding: 2rem; overflow: hidden; border-radius: var(--radius); color: var(--white); }
+.value-card { --overlay-rgb: 7, 40, 70; position: relative; display: block; min-height: 390px; padding: 2rem; overflow: hidden; border-radius: var(--radius); color: var(--white); text-decoration: none; }
 .value-card::before { content: ''; position: absolute; z-index: 1; inset: 0; background: linear-gradient(180deg, rgba(var(--overlay-rgb),.12) 0%, rgba(var(--overlay-rgb),.72) 52%, rgba(var(--overlay-rgb),.97) 100%); }
 .value-card::after { content: ''; position: absolute; z-index: 1; width: 220px; height: 220px; right: -90px; bottom: -100px; border: 1px solid rgba(255,255,255,.2); border-radius: 50%; box-shadow: 0 0 0 22px rgba(255,255,255,.04), 0 0 0 48px rgba(255,255,255,.03); }
 .value-card > :not(.value-card-art) { position: relative; z-index: 2; }
@@ -283,7 +283,10 @@ p { text-wrap: pretty; }
 .unity-callout cite { display: block; margin-bottom: 2rem; color: var(--coral); font-size: .8rem; font-style: normal; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
 .unity-callout p { max-width: 830px; margin-bottom: 0; color: var(--muted); font-size: 1.08rem; }
 .live-banner-section { padding: 0 0 8rem; background: var(--paper); }
-.live-banner-section img { width: 100%; border-radius: var(--radius); box-shadow: var(--shadow); }
+.belief-banner-card { position: relative; margin-block: 0; overflow: hidden; border: 1px solid rgba(18,61,105,.16); border-radius: var(--radius); background: var(--blue-deep); box-shadow: var(--shadow); }
+.belief-banner-card img { width: 100%; aspect-ratio: 3 / 1; object-fit: cover; object-position: center; }
+.belief-banner-card::after { content: ''; position: absolute; inset: 45% 0 0; background: linear-gradient(180deg, transparent, rgba(4,26,47,.48)); pointer-events: none; }
+.belief-banner-card figcaption { position: absolute; z-index: 2; right: clamp(1rem, 3vw, 2rem); bottom: clamp(1rem, 3vw, 2rem); left: clamp(1rem, 3vw, 2rem); padding: clamp(.9rem, 2vw, 1.35rem) clamp(1rem, 2.5vw, 1.6rem); border-left: 5px solid var(--gold); border-radius: .35rem 1rem 1rem .35rem; background: rgba(9,40,70,.9); color: var(--white); font-size: clamp(.95rem, 2vw, 1.55rem); font-weight: 700; letter-spacing: .08em; line-height: 1.3; text-transform: uppercase; text-wrap: balance; backdrop-filter: blur(10px); }
 .belief-grid-section { padding: 0 0 9rem; }
 .faith-heading { margin-bottom: 3rem; }
 .belief-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
@@ -297,14 +300,14 @@ p { text-wrap: pretty; }
 .section-heading.light h2 { color: var(--white); }
 .section-heading.light p { color: rgba(255,255,255,.78); }
 .pillars-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-.pillars-grid article { position: relative; display: flex; flex-direction: column; justify-content: flex-end; min-height: 380px; padding: 2.5rem; overflow: hidden; border: 1px solid rgba(255,255,255,.3); border-radius: var(--radius); background: rgba(255,255,255,.08); }
-.pillars-grid article::before { content: ''; position: absolute; z-index: 1; inset: 0; background: linear-gradient(180deg, rgba(4,48,58,.08) 0%, rgba(4,48,58,.68) 55%, rgba(4,48,58,.96) 100%); }
-.pillars-grid article > :not(.pillar-card-art) { position: relative; z-index: 2; }
+.pillar-card { position: relative; display: flex; min-height: 380px; padding: 2.5rem; overflow: hidden; flex-direction: column; justify-content: flex-end; border: 1px solid rgba(255,255,255,.3); border-radius: var(--radius); background: rgba(255,255,255,.08); color: var(--white); text-decoration: none; }
+.pillar-card::before { content: ''; position: absolute; z-index: 1; inset: 0; background: linear-gradient(180deg, rgba(4,48,58,.08) 0%, rgba(4,48,58,.68) 55%, rgba(4,48,58,.96) 100%); }
+.pillar-card > :not(.pillar-card-art) { position: relative; z-index: 2; }
 .pillar-card-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .pillars-grid strong { font-family: 'Eagle Lake', serif; font-size: 1.7rem; font-weight: 400; }
 .pillars-grid p { margin: 1rem 0 0; color: rgba(255,255,255,.85); }
 .core-values-detail-section { padding: 2rem 0 9rem; background: var(--paper); }
-.core-value-detail { display: grid; grid-template-columns: minmax(320px, 360px) 1fr; gap: clamp(3rem, 5vw, 4rem); padding: clamp(5rem, 9vw, 8rem) 0; border-bottom: 1px solid var(--line); }
+.core-value-detail { display: grid; grid-template-columns: minmax(320px, 360px) 1fr; gap: clamp(3rem, 5vw, 4rem); padding: clamp(5rem, 9vw, 8rem) 0; scroll-margin-top: 2rem; border-bottom: 1px solid var(--line); }
 .core-value-detail:last-child { border-bottom: 0; }
 .core-value-detail > header > span { display: grid; width: 3rem; height: 3rem; margin-bottom: 2rem; place-items: center; border: 1px solid var(--coral); border-radius: 50%; color: var(--coral); font-size: .78rem; font-weight: 700; }
 .core-value-detail > header > p { margin-bottom: .5rem; color: var(--azure); font-size: .75rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
@@ -518,8 +521,8 @@ p { text-wrap: pretty; }
 
 @media (hover: hover) and (pointer: fine) {
   .button:hover::before, .paypal-give-button:hover::before { opacity: 1; transform: skewX(-18deg) translateX(650%); }
-  .value-card, .expect-grid article, .live-moments-grid figure, .recordings-card, .location-card, .content-card, .belief-grid article, .pillars-grid article, .ministry-card, .artists-grid figure, .give-card, .paypal-give-panel { transition: transform .4s cubic-bezier(.22, 1, .36, 1), box-shadow .4s ease; }
-  .value-card:hover, .expect-grid article:hover, .live-moments-grid figure:hover, .recordings-card:hover, .location-card:hover, .content-card:hover, .pillars-grid article:hover, .ministry-card:hover, .artists-grid figure:hover, .give-card:hover, .paypal-give-panel:hover { transform: translateY(-6px); box-shadow: 0 28px 74px rgba(12,43,72,.19); }
+  .value-card, .expect-grid article, .live-moments-grid figure, .recordings-card, .location-card, .content-card, .belief-grid article, .pillar-card, .ministry-card, .artists-grid figure, .give-card, .paypal-give-panel { transition: transform .4s cubic-bezier(.22, 1, .36, 1), box-shadow .4s ease; }
+  .value-card:hover, .expect-grid article:hover, .live-moments-grid figure:hover, .recordings-card:hover, .location-card:hover, .content-card:hover, .pillar-card:hover, .ministry-card:hover, .artists-grid figure:hover, .give-card:hover, .paypal-give-panel:hover { transform: translateY(-6px); box-shadow: 0 28px 74px rgba(12,43,72,.19); }
   .belief-grid article:hover { transform: translateY(-4px); box-shadow: inset 0 3px 0 var(--gold), 0 18px 40px rgba(12,43,72,.1); }
   .value-card-art, .expect-card-art, .live-moments-grid img, .building-card img, .mosaic-frame img, .ministry-card.has-photo > img, .artists-grid img, .give-photo, .rabbi-grid > img { transition: transform .8s cubic-bezier(.22, 1, .36, 1); }
   .value-card:hover .value-card-art, .expect-grid article:hover .expect-card-art, .live-moments-grid figure:hover img, .recordings-card:hover img, .building-card:hover img, .mosaic-frame:hover img, .ministry-card.has-photo:hover > img, .artists-grid figure:hover img, .give-card:hover .give-photo, .rabbi-grid > img:hover { transform: scale(1.035); }
@@ -605,6 +608,8 @@ p { text-wrap: pretty; }
   .unity-section { padding-bottom: 5rem; }
   .unity-callout { border-left-width: 4px; }
   .live-banner-section { padding-bottom: 6rem; }
+  .belief-banner-card img { aspect-ratio: 16 / 10; object-position: center; }
+  .belief-banner-card figcaption { right: .75rem; bottom: .75rem; left: .75rem; padding: .8rem .9rem; border-left-width: 4px; border-radius: .25rem .8rem .8rem .25rem; font-size: .8rem; letter-spacing: .06em; }
   .core-values-detail-section { padding-bottom: 5rem; }
   .core-value-detail { grid-template-columns: 1fr; gap: 2rem; padding: 5rem 0; }
   .core-value-detail > header h2 { margin-bottom: 0; }
