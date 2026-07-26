@@ -5,6 +5,16 @@ import { createMobileHeroVideoController } from '../src/lib/mobile-hero-video.mj
 const wait = (milliseconds) =>
   new Promise((resolve) => setTimeout(resolve, milliseconds));
 
+const waitFor = async (predicate, timeoutMilliseconds = 100) => {
+  const deadline = Date.now() + timeoutMilliseconds;
+  while (!predicate()) {
+    if (Date.now() >= deadline) {
+      throw new Error('Timed out waiting for the expected controller state.');
+    }
+    await wait(2);
+  }
+};
+
 class FakeMediaQuery extends EventTarget {
   constructor(matches) {
     super();
@@ -410,7 +420,11 @@ test('brief progress cannot bypass the bounded recovery budget', async () => {
   harness.controller.start();
   await wait(0);
   harness.video.dispatchEvent(new Event('stalled'));
-  await wait(6);
+  await waitFor(
+    () =>
+      harness.video.loadCalls === 1 &&
+      !harness.controller.getState().recoveryInFlight,
+  );
   assert.equal(harness.video.loadCalls, 1);
 
   harness.video.currentTime = 0.1;
@@ -418,7 +432,7 @@ test('brief progress cannot bypass the bounded recovery budget', async () => {
   harness.video.currentTime = 0.2;
   harness.video.dispatchEvent(new Event('timeupdate'));
   harness.video.dispatchEvent(new Event('stalled'));
-  await wait(6);
+  await waitFor(() => harness.root.dataset.heroVideoState === 'failed');
 
   assert.equal(harness.video.loadCalls, 1);
   assert.equal(harness.root.dataset.heroVideoState, 'failed');
