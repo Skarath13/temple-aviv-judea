@@ -14,6 +14,13 @@ const site = {
   email: 'info@avivjudea.org',
   youtube: 'https://www.youtube.com/@templeavivjudea1558/live',
   facebook: 'https://www.facebook.com/templeavivjudea/',
+  publicHours: [
+    {
+      dayOfWeek: 'Saturday',
+      opens: '09:00',
+      closes: '16:00',
+    },
+  ],
   schedule: [
     {
       time: '11:00 AM',
@@ -57,6 +64,7 @@ test('renders deterministic, base-aware public and optional links', () => {
     result,
     /\[Visit\]\(https:\/\/example\.com\/temple-aviv-judea\/visit\/\)/,
   );
+  assert.match(result, /Public building hours: Saturday 9 AM–4 PM\./);
   assert.match(
     result,
     /## Optional\n\n- \[Give\]\(https:\/\/example\.com\/temple-aviv-judea\/give\/\)/,

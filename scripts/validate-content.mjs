@@ -1,6 +1,7 @@
 import { access, readFile, readdir } from 'node:fs/promises';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { normalizePublicHours } from '../src/lib/site-structured-data.mjs';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 const errors = [];
@@ -220,12 +221,33 @@ if (settings) {
     requiredString(settings[field], `site.${field}`);
   }
 
-  for (const field of ['street', 'city', 'mailing', 'maps', 'embed']) {
+  for (const field of [
+    'street',
+    'city',
+    'locality',
+    'region',
+    'postalCode',
+    'country',
+    'mailing',
+    'maps',
+    'embed',
+  ]) {
     requiredString(settings.address?.[field], `site.address.${field}`);
   }
 
   for (const field of ['phoneHref', 'youtube', 'facebook', 'baruchDesignsEtsy', 'giving']) {
     if (!isSafeLink(settings[field])) errors.push(`site.${field} is not an allowed URL.`);
+  }
+  for (const field of ['maps', 'embed']) {
+    if (!isSafeLink(settings.address?.[field])) {
+      errors.push(`site.address.${field} is not an allowed URL.`);
+    }
+  }
+
+  try {
+    normalizePublicHours(settings.publicHours);
+  } catch (error) {
+    errors.push(error.message);
   }
 
   if (!Array.isArray(settings.schedule) || settings.schedule.length === 0 || settings.schedule.length > 6) {

@@ -46,6 +46,10 @@ export const SiteSettingsCollection: Collection = {
       fields: [
         { name: 'street', label: 'Street', type: 'string', required: true },
         { name: 'city', label: 'City, state, and ZIP', type: 'string', required: true },
+        { name: 'locality', label: 'City', type: 'string', required: true },
+        { name: 'region', label: 'State abbreviation', type: 'string', required: true },
+        { name: 'postalCode', label: 'ZIP code', type: 'string', required: true },
+        { name: 'country', label: 'Country code', type: 'string', required: true },
         { name: 'mailing', label: 'Mailing address', type: 'string', required: true },
         { name: 'maps', label: 'Google Maps link', type: 'string', required: true },
         { name: 'embed', label: 'Google Maps embed link', type: 'string', required: true },
@@ -74,6 +78,52 @@ export const SiteSettingsCollection: Collection = {
       type: 'string',
       required: true,
       description: 'Changing this affects every donation button. Verify it before saving.',
+    },
+    {
+      name: 'publicHours',
+      label: 'Public building hours',
+      type: 'object',
+      list: true,
+      required: true,
+      description:
+        'Shown only as a subdued footer detail and in structured data. Keep these hours synchronized with the Google Business Profile.',
+      ui: {
+        max: 7,
+        itemProps: (item) => ({
+          label: item?.dayOfWeek || 'Public hours',
+        }),
+      },
+      fields: [
+        {
+          name: 'dayOfWeek',
+          label: 'Day',
+          type: 'string',
+          required: true,
+          options: [
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday',
+            'Sunday',
+          ],
+        },
+        {
+          name: 'opens',
+          label: 'Opens',
+          type: 'string',
+          required: true,
+          description: 'Use 24-hour HH:MM format, for example 09:00.',
+        },
+        {
+          name: 'closes',
+          label: 'Closes',
+          type: 'string',
+          required: true,
+          description: 'Use 24-hour HH:MM format, for example 16:00.',
+        },
+      ],
     },
     {
       name: 'schedule',

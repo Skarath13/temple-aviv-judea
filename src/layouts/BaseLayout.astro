@@ -4,6 +4,7 @@ import Footer from '../components/Footer.astro';
 import SiteIcon from '../components/SiteIcon.astro';
 import '../styles/global.css';
 import { site } from '../data/site';
+import { createSiteStructuredData, serializeJsonLd } from '../lib/site-structured-data.mjs';
 import { withBase } from '../lib/urls';
 
 interface Props {
@@ -31,23 +32,12 @@ const socialImage = new URL(withBase(image), Astro.site);
 const preloadImageUrl = preloadImage ? withBase(preloadImage) : undefined;
 const eagleLakeFont = withBase('/fonts/eagle-lake-regular.ttf');
 const eagleLakeFontFace = `@font-face{font-family:'Eagle Lake';src:url('${eagleLakeFont}') format('truetype');font-display:swap;font-style:normal;font-weight:400;}`;
-const structuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'PlaceOfWorship',
-  name: site.name,
-  url: new URL(withBase('/'), Astro.site).href,
-  image: new URL(withBase('/assets/images/taj-logo.png'), Astro.site).href,
-  email: site.email,
-  telephone: site.phone,
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: site.address.street,
-    addressLocality: 'Fullerton',
-    addressRegion: 'CA',
-    postalCode: '92831',
-    addressCountry: 'US',
-  },
-};
+const structuredData = createSiteStructuredData({
+  site,
+  siteRoot: new URL(withBase('/'), Astro.site),
+  imageUrl: new URL(withBase('/assets/images/taj-logo.png'), Astro.site),
+});
+const serializedStructuredData = serializeJsonLd(structuredData);
 ---
 
 <!doctype html>
@@ -107,7 +97,7 @@ const structuredData = {
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImage} />
-    <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    <script is:inline type="application/ld+json" set:html={serializedStructuredData} />
     <link rel="icon" href={withBase('/favicon.png')} type="image/png" sizes="96x96" />
     <link rel="apple-touch-icon" href={withBase('/apple-touch-icon.png')} sizes="180x180" />
     <link rel="manifest" href={withBase('/site.webmanifest')} />

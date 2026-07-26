@@ -1,3 +1,5 @@
+import { formatPublicHours } from './site-structured-data.mjs';
+
 const ROUTE_PRIORITY = new Map([
   ['/', 0],
   ['/visit/', 1],
@@ -132,6 +134,10 @@ export const renderLlmsTxt = ({ pages, site, siteRoot }) => {
   const city = markdownText(site.address?.city, 'site.address.city');
   const phone = markdownText(site.phone, 'site.phone');
   const email = markdownText(site.email, 'site.email');
+  const publicHours = markdownText(
+    formatPublicHours(site.publicHours),
+    'site.publicHours',
+  );
 
   if (!Array.isArray(site.schedule) || site.schedule.length === 0) {
     throw new TypeError('site.schedule must be a nonempty array.');
@@ -152,6 +158,8 @@ export const renderLlmsTxt = ({ pages, site, siteRoot }) => {
     `> ${description}`,
     '',
     `${name} is located at ${street}, ${city}. Contact: ${phone} or ${email}.`,
+    '',
+    `Public building hours: ${publicHours}.`,
     '',
     `Weekly Shabbat schedule: ${schedule}.`,
     '',
