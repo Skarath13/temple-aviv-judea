@@ -65,7 +65,8 @@ pnpm exec wrangler deploy --dry-run
 - `pnpm run build:cloudflare` is the Tina-enabled Cloudflare build. It must emit `/admin/`, the Tina bridge markers on editable pages, and the dynamic `/tina-island/[name]` route.
 - `pnpm exec wrangler deploy` follows Astro's generated `dist/server/wrangler.json`. Do not replace it with a hand-written entry point.
 - Before deployment, require zero content-validation failures and zero Astro diagnostics.
-- Inspect the dry-run upload size. The July 25 artifact was about 2.505 MiB gzip against the current 3 MiB Workers Free limit, so bundle headroom is limited.
+- Inspect the dry-run upload size. The July 26 artifact was 2,517.72 KiB gzip
+  against the current 3 MiB Workers Free limit, so bundle headroom is limited.
 
 Pushes to `main` trigger:
 
@@ -110,6 +111,35 @@ Native integration proof on July 26, 2026:
   `736b6a1d-77a0-407b-8957-ab9644b676a5`, succeeded.
 - Worker version created by the successful native build:
   `af4791a3-a897-4287-bec6-108987ab6d24`.
+
+Final Cloudflare-only production proof on July 26, 2026:
+
+- Git commit: `33eb261aac5b9ba54ea9c92803dd2e02eab7d125`
+- Commit contents: all previously dirty responsive/UI work, deployment
+  documentation, and deletion of `.github/workflows/deploy-worker.yml`.
+- Cloudflare Workers Build:
+  `d802b91b-b512-42ca-aff8-0c09a8ed3b59`, succeeded for the exact Git SHA.
+- Worker version:
+  `fcd025b1-2937-4f5f-be33-025d2cc02b94`.
+- GitHub created no production Worker Action run for this commit. Only the
+  GitHub Pages rollback workflow ran, and run `30192531788` succeeded.
+- Local `main`, `origin/main`, and the native Workers Build were synchronized.
+- Node 24.18.0 verification passed: frozen install, content validation, zero
+  Astro diagnostics, static build, Tina/Cloudflare build, production dependency
+  audit, and Worker dry run.
+- Live verification passed for all seven public routes, `/admin/`, sitemap,
+  manifest, favicon, 29 distinct emitted images including social images,
+  canonical/OpenGraph URLs, and Tina bridge markers.
+- Tina island behavior passed: direct GET `405`, valid preview POST `200`, and
+  explicit cross-site POST `403`.
+- Apex HTTP and HTTPS redirects preserved path/query and ended at canonical
+  HTTPS `www`; both MX records remained at `mail.crazysimon.com`.
+- Desktop rendered checks passed for the homepage and Visit page without a
+  reproducible browser error. Real iPhone/iPad, installed-YouTube-app, zoom, and
+  full cross-browser acceptance remain explicit device QA gates.
+- The mobile YouTube handoff uses delegated click handling, runs only in a
+  top-level coarse-pointer context, and does not mutate links inside the Tina
+  preview iframe. Preserve those guards when changing external-link behavior.
 
 ## TinaCMS invariants
 
@@ -178,6 +208,11 @@ Keep the prior Worker version and GitHub Pages deployment available through the 
   remove the obsolete GitHub Worker secrets, and remove unused AWS/R2 variables
   from the project `.env`. Do not revoke the distinct Cloudflare-generated
   Workers Builds token used by the native Git integration.
+- The Tina build token value surfaced in a dashboard inspection result during
+  release verification. Treat it as exposed: rotate it in TinaCloud, replace
+  the encrypted `TINA_TOKEN` Cloudflare build variable, and prove a new native
+  Workers Build before considering the incident closed. Never repeat the old or
+  replacement value in logs, documentation, commits, or chat.
 - R2/AWS credentials are not part of this site's production runtime.
 - Keep TinaCloud publisher membership narrow; add a named backup owner only when authorized.
 - `main` currently needs a branch-protection/ruleset design compatible with Tina's GitHub App publishing path.
