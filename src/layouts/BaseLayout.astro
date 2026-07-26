@@ -57,7 +57,19 @@ const structuredData = {
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content={site.shortName} />
     <script is:inline>
-      if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      let fromTinaAdmin = false;
+      try {
+        const referrer = new URL(document.referrer);
+        fromTinaAdmin =
+          referrer.origin === window.location.origin &&
+          referrer.pathname.startsWith('/admin/');
+      } catch {}
+
+      if (
+        !fromTinaAdmin &&
+        'IntersectionObserver' in window &&
+        !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      ) {
         document.documentElement.classList.add('motion-ready');
       }
     </script>

@@ -97,7 +97,11 @@ Never print, commit, or copy secret values into issues, logs, documentation, wor
 - Cloudflare mode must compile `import.meta.env.TINA_CMS` to `"true"`. Do not switch page modules back to runtime `process.env` checks; prerendered pages otherwise omit the Tina island and bridge.
 - The Worker build needs `PUBLIC_TINA_CLIENT_ID`, read-only `TINA_TOKEN`, `SITE_URL`, and the intended branch.
 - `/tina-island/page` is POST-only for Tina preview requests. Normal GET should return 405. Invalid or cross-site requests must not become a write path.
-- Tina visual preview replaces the editable island after form acknowledgement. The layout deliberately removes `motion-ready` only inside a Tina iframe so replacement content never remains hidden by one-time reveal animations. Preserve top-level public motion and reduced-motion behavior when changing this guard.
+- Tina visual preview replaces the editable island after form acknowledgement.
+  The layout deliberately avoids `motion-ready` when the same-origin referrer is
+  `/admin/`, then retains a frame/island fallback, so replacement content never
+  remains hidden by one-time reveal animations. Preserve top-level public motion
+  and reduced-motion behavior when changing these guards.
 - `SESSION` must remain bound to the pinned namespace above. Do not create a fresh namespace per deploy.
 
 No-save CMS acceptance requires:
