@@ -52,6 +52,19 @@ const isSafeImage = (value) =>
     (value.startsWith('/') && !value.startsWith('//'))
   );
 
+const validateImageSource = (value, label) => {
+  if (!isSafeImage(value)) {
+    errors.push(`${label} is not an allowed image source.`);
+    return;
+  }
+  if (value.startsWith('/')) {
+    if (!value.startsWith('/images/')) {
+      errors.push(`${label} must use the managed /images/ media root.`);
+    }
+    referencedLocalImages.add(value);
+  }
+};
+
 const requiredKeys = (value, label, keys) => {
   if (!value || typeof value !== 'object' || Array.isArray(value)) {
     errors.push(`${label} must be an object.`);
@@ -86,11 +99,7 @@ const validateContentTree = (value, label, fieldName = '') => {
       errors.push(`${label} is not an allowed URL.`);
     }
     if (imageField.test(fieldName)) {
-      if (!isSafeImage(value)) {
-        errors.push(`${label} is not an allowed image source.`);
-      } else if (value.startsWith('/')) {
-        referencedLocalImages.add(value);
-      }
+      validateImageSource(value, label);
     }
     return;
   }
@@ -337,6 +346,9 @@ if (eventDocument) {
       }
       if (event.detailsUrl && !isSafeLink(event.detailsUrl)) {
         errors.push(`events[${index}].detailsUrl is not an allowed URL.`);
+      }
+      if (event.image) {
+        validateImageSource(event.image, `events[${index}].image`);
       }
     });
   }
