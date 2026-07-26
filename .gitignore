@@ -12,6 +12,16 @@ node_modules
 dist
 dist-ssr
 *.local
+.wrangler
+
+# TinaCMS generated output. Content and schema stay versioned.
+public/admin
+tina/__generated__
+
+# Secrets and local TinaCloud credentials.
+.env
+.env.*
+!.env.example
 
 # Editor directories and files
 .vscode/*

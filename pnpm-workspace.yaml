@@ -1,0 +1,15 @@
+allowBuilds:
+  better-sqlite3: true
+  core-js: false
+  esbuild: true
+  workerd: true
+
+overrides:
+  postcss: ^8.5.23
+  tar: ^7.5.22
+supportedArchitectures:
+  os:
+    - current
+  cpu:
+    - current
+    - wasm32

@@ -1,0 +1,101 @@
+---
+import { tinaField } from '@tinacms/astro/tina-field';
+import type { PageStory } from '../../../tina/__generated__/types';
+import CmsSections from '../CmsSections.astro';
+import PageHero from '../PageHero.astro';
+import SiteIcon from '../SiteIcon.astro';
+import { cmsImageSource, cmsLink } from '../../lib/cms';
+
+interface Props {
+  page: PageStory;
+}
+
+const { page } = Astro.props;
+const hero = page.hero!;
+const banner = page.banner!;
+const rabbi = page.rabbi!;
+const leadership = page.leadership!;
+const vision = page.vision!;
+const rabbiUrl = cmsLink(rabbi.linkUrl);
+const visionUrl = cmsLink(vision.buttonUrl);
+---
+
+<PageHero eyebrow={hero.eyebrow} title={hero.title} intro={hero.intro} accent={hero.accent as 'blue' | 'coral' | 'gold' | 'teal'} data={hero} />
+
+<section class="mosaic-feature mosaic-gold" aria-label="Temple artwork">
+  <div class="shell mosaic-frame" data-reveal="wipe">
+    <img src={cmsImageSource(banner.image)} alt={banner.imageAlt} width="853" height="364" data-tina-field={tinaField(banner, 'image')} />
+  </div>
+</section>
+
+<section class="section story-intro">
+  <div class="shell narrow prose-large" data-reveal>
+    <span class="drop-mark"><SiteIcon name="jewish-star" size={27} /></span>
+    <p data-tina-field={tinaField(page, 'introduction')}>{page.introduction}</p>
+  </div>
+</section>
+
+<section class="timeline-section">
+  <div class="shell timeline" data-stagger>
+    {page.timeline?.map((entry) => entry && (
+      <article class:list={['timeline-entry', { 'featured-entry': entry.featured }]} data-tina-field={tinaField(entry)}>
+        <div class="timeline-year">{entry.year}</div>
+        <div class="timeline-content">
+          <span class="eyebrow">{entry.eyebrow}</span>
+          <h2>{entry.heading}</h2>
+          <p>{entry.body}</p>
+          {entry.image && (
+            <picture class="story-building">
+              {entry.mobileImage && <source media="(max-width: 760px)" srcset={cmsImageSource(entry.mobileImage)} />}
+              <img src={cmsImageSource(entry.image)} alt={entry.imageAlt || ''} width="1280" height="720" loading="lazy" />
+            </picture>
+          )}
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<section class="section rabbi-section">
+  <div class="shell rabbi-grid" data-stagger>
+    <img src={cmsImageSource(rabbi.image)} alt={rabbi.imageAlt} width="1254" height="1254" loading="lazy" data-tina-field={tinaField(rabbi, 'image')} />
+    <div>
+      <span class="eyebrow" data-tina-field={tinaField(rabbi, 'eyebrow')}>{rabbi.eyebrow}</span>
+      <h2 data-tina-field={tinaField(rabbi, 'heading')}>{rabbi.heading}</h2>
+      <p class="lead" data-tina-field={tinaField(rabbi, 'lead')}>{rabbi.lead}</p>
+      <p data-tina-field={tinaField(rabbi, 'body')}>{rabbi.body}</p>
+      {rabbiUrl && <a class="arrow-link" href={rabbiUrl} data-tina-field={tinaField(rabbi, 'linkLabel')}>{rabbi.linkLabel} <SiteIcon name="arrow-right" size={19} /></a>}
+    </div>
+  </div>
+</section>
+
+<section class="section leadership-section">
+  <div class="shell">
+    <div class="section-heading leadership-heading" data-reveal>
+      <span class="eyebrow" data-tina-field={tinaField(leadership, 'eyebrow')}>{leadership.eyebrow}</span>
+      <h2 data-tina-field={tinaField(leadership, 'heading')}>{leadership.heading}</h2>
+      <p data-tina-field={tinaField(leadership, 'intro')}>{leadership.intro}</p>
+    </div>
+    <div class="leadership-grid" data-stagger>
+      {leadership.groups?.map((group) => group && (
+        <article class="leadership-card" data-tina-field={tinaField(group)}>
+          <span class="eyebrow">{group.role}</span>
+          {group.names?.length === 1
+            ? <h3>{group.names[0]}</h3>
+            : <ul class="leadership-names">{group.names?.map((name) => <li>{name}</li>)}</ul>}
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="vision-section">
+  <div class="shell vision-inner" data-reveal>
+    <span class="eyebrow eyebrow-light" data-tina-field={tinaField(vision, 'eyebrow')}>{vision.eyebrow}</span>
+    <h2 data-tina-field={tinaField(vision, 'heading')}>{vision.heading}</h2>
+    <p data-tina-field={tinaField(vision, 'body')}>{vision.body}</p>
+    {visionUrl && <a class="button button-gold" href={visionUrl} data-tina-field={tinaField(vision, 'buttonLabel')}>{vision.buttonLabel}</a>}
+  </div>
+</section>
+
+<CmsSections sections={page.sections} />

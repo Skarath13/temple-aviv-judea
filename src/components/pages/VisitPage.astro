@@ -1,0 +1,91 @@
+---
+import { tinaField } from '@tinacms/astro/tina-field';
+import type { PageVisit } from '../../../tina/__generated__/types';
+import CmsSections from '../CmsSections.astro';
+import PageHero from '../PageHero.astro';
+import SiteIcon from '../SiteIcon.astro';
+import { site } from '../../data/site';
+import { cmsImageSource } from '../../lib/cms';
+
+interface Props {
+  page: PageVisit;
+}
+
+const { page } = Astro.props;
+const hero = page.hero!;
+const banner = page.banner!;
+const schedulePanel = page.schedulePanel!;
+const welcomeCard = page.welcomeCard!;
+const service = page.service!;
+const personalWelcome = page.personalWelcome!;
+const location = page.location!;
+---
+
+<PageHero eyebrow={hero.eyebrow} title={hero.title} intro={hero.intro} accent={hero.accent as 'blue' | 'coral' | 'gold' | 'teal'} data={hero} />
+
+<section class="mosaic-feature mosaic-coral" aria-label="Shabbat artwork">
+  <div class="shell mosaic-frame" data-reveal="wipe">
+    <img src={cmsImageSource(banner.image)} alt={banner.imageAlt} width="853" height="309" data-tina-field={tinaField(banner, 'image')} />
+  </div>
+</section>
+
+<section class="section">
+  <div class="shell visit-grid" data-stagger>
+    <div class="sticky-card">
+      <span class="eyebrow" data-tina-field={tinaField(schedulePanel, 'eyebrow')}>{schedulePanel.eyebrow}</span>
+      <h2 data-tina-field={tinaField(schedulePanel, 'heading')}>{schedulePanel.heading}</h2>
+      <div class="vertical-schedule">
+        {site.schedule.map((item, index) => (
+          <div class="vertical-schedule-item">
+            <span class="timeline-dot">{index + 1}</span>
+            <div><strong>{item.time}</strong><h3>{item.label}</h3><p>{item.note}</p></div>
+          </div>
+        ))}
+      </div>
+      <div class="button-row">
+        <a class="button button-gold" href={site.address.maps} target="_blank" rel="noreferrer" data-tina-field={tinaField(schedulePanel, 'directionsLabel')}><SiteIcon name="map-pin" size={18} /> {schedulePanel.directionsLabel}</a>
+        <a class="button button-ghost-light" href={site.youtube} target="_blank" rel="noreferrer" data-tina-field={tinaField(schedulePanel, 'livestreamLabel')}><SiteIcon name="brand-youtube" size={18} /> {schedulePanel.livestreamLabel}</a>
+      </div>
+    </div>
+
+    <div class="content-stack">
+      <article class="content-card" data-tina-field={tinaField(welcomeCard)}>
+        <h3>{welcomeCard.heading}</h3>
+        <p>{welcomeCard.body}</p>
+      </article>
+      <article class="content-card feature-card" data-tina-field={tinaField(service)}>
+        <span class="card-kicker">{service.eyebrow}</span>
+        <h2>{service.heading}</h2>
+        <p>{service.body}</p>
+        <p class="service-flow-intro">{service.flowIntro}</p>
+        <ul class="service-flow">
+          {service.flow?.map((item) => <li>{item}</li>)}
+        </ul>
+      </article>
+      {page.questions?.map((question) => question && (
+        <article class="content-card" data-tina-field={tinaField(question)}>
+          <h3>{question.heading}</h3>
+          <p>{question.body}</p>
+        </article>
+      ))}
+      <article class="content-card accent-card" data-tina-field={tinaField(personalWelcome)}>
+        <h3>{personalWelcome.heading}</h3>
+        <p>{personalWelcome.body}</p>
+        <div class="inline-links"><a href={site.phoneHref}>{site.phone}</a><a href={`mailto:${site.email}`}>{site.email}</a></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="location-section">
+  <div class="shell location-grid" data-stagger>
+    <div>
+      <span class="eyebrow eyebrow-light" data-tina-field={tinaField(location, 'eyebrow')}>{location.eyebrow}</span>
+      <h2 class="location-address"><span>{site.address.street}</span><span>{site.address.city}</span></h2>
+      <p data-tina-field={tinaField(location, 'body')}>{location.body}</p>
+    </div>
+    <a class="button button-gold" href={site.address.maps} target="_blank" rel="noreferrer" data-tina-field={tinaField(location, 'buttonLabel')}><SiteIcon name="map-pin" size={18} /> {location.buttonLabel}</a>
+  </div>
+</section>
+
+<CmsSections sections={page.sections} />

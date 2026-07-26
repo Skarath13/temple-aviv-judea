@@ -1,0 +1,153 @@
+---
+import TinaMarkdown from '@tinacms/astro/TinaMarkdown.astro';
+import { tinaField } from '@tinacms/astro/tina-field';
+import type { TinaRichTextContent } from '@tinacms/astro/types';
+import { cmsImageSource, cmsLink } from '../lib/cms';
+
+interface Props {
+  sections?: unknown[] | null;
+}
+
+interface CmsSection {
+  [key: string]: unknown;
+  _template?: 'content' | 'split' | 'cards' | 'gallery' | 'callToAction';
+  __typename?: string;
+  eyebrow?: string | null;
+  heading?: string | null;
+  body?: TinaRichTextContent | null;
+  text?: string | null;
+  image?: string | null;
+  imageAlt?: string | null;
+  imageSide?: string | null;
+  intro?: string | null;
+  buttonLabel?: string | null;
+  buttonUrl?: string | null;
+  items?: Array<{
+    title?: string | null;
+    text?: string | null;
+    image?: string | null;
+    imageAlt?: string | null;
+    linkLabel?: string | null;
+    linkUrl?: string | null;
+  } | null> | null;
+  images?: Array<{
+    image?: string | null;
+    imageAlt?: string | null;
+    caption?: string | null;
+  } | null> | null;
+}
+
+const sections = (Astro.props.sections || []).filter(Boolean) as CmsSection[];
+const sectionKind = (section: CmsSection) => {
+  if (section._template) return section._template;
+  if (section.__typename?.endsWith('CallToAction')) return 'callToAction';
+  if (section.__typename?.endsWith('Content')) return 'content';
+  if (section.__typename?.endsWith('Split')) return 'split';
+  if (section.__typename?.endsWith('Cards')) return 'cards';
+  if (section.__typename?.endsWith('Gallery')) return 'gallery';
+  return undefined;
+};
+---
+
+{sections.map((section) => {
+  const kind = sectionKind(section);
+  if (kind === 'content') {
+    return (
+      <section class="section cms-content-section">
+        <div class="shell narrow content-card" data-reveal data-tina-field={tinaField(section)}>
+          {section.eyebrow && <span class="eyebrow">{section.eyebrow}</span>}
+          {section.heading && <h2>{section.heading}</h2>}
+          {section.body && <div class="cms-rich-text"><TinaMarkdown content={section.body} /></div>}
+        </div>
+      </section>
+    );
+  }
+
+  if (kind === 'split') {
+    const image = cmsImageSource(section.image || undefined);
+    return (
+      <section class="section cms-split-section">
+        <div class:list={['shell', 'cms-split-layout', section.imageSide === 'right' && 'image-right']} data-stagger data-tina-field={tinaField(section)}>
+          {image && <img src={image} alt={section.imageAlt || ''} width="1200" height="900" loading="lazy" />}
+          <div>
+            {section.eyebrow && <span class="eyebrow">{section.eyebrow}</span>}
+            {section.heading && <h2>{section.heading}</h2>}
+            {section.body && <div class="cms-rich-text"><TinaMarkdown content={section.body} /></div>}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (kind === 'cards') {
+    return (
+      <section class="section cms-cards-section">
+        <div class="shell">
+          <div class="section-heading" data-reveal>
+            {section.eyebrow && <span class="eyebrow">{section.eyebrow}</span>}
+            {section.heading && <h2>{section.heading}</h2>}
+            {section.intro && <p>{section.intro}</p>}
+          </div>
+          <div class="cms-card-grid" data-stagger>
+            {(section.items || []).map((item) => {
+              if (!item) return null;
+              const image = cmsImageSource(item.image || undefined);
+              const link = cmsLink(item.linkUrl || undefined);
+              return (
+                <article class="content-card" data-tina-field={tinaField(item)}>
+                  {image && <img src={image} alt={item.imageAlt || ''} width="900" height="640" loading="lazy" />}
+                  {item.title && <h3>{item.title}</h3>}
+                  {item.text && <p>{item.text}</p>}
+                  {link && item.linkLabel && <a class="arrow-link" href={link}>{item.linkLabel}</a>}
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (kind === 'gallery') {
+    return (
+      <section class="section cms-gallery-section">
+        <div class="shell">
+          <div class="section-heading" data-reveal>
+            {section.eyebrow && <span class="eyebrow">{section.eyebrow}</span>}
+            {section.heading && <h2>{section.heading}</h2>}
+          </div>
+          <div class="artists-grid" data-stagger>
+            {(section.images || []).map((item) => {
+              if (!item) return null;
+              const image = cmsImageSource(item.image || undefined);
+              return image && (
+                <figure data-tina-field={tinaField(item)}>
+                  <img src={image} alt={item.imageAlt || ''} width="900" height="900" loading="lazy" />
+                  {item.caption && <figcaption>{item.caption}</figcaption>}
+                </figure>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (kind === 'callToAction') {
+    const link = cmsLink(section.buttonUrl || undefined);
+    return (
+      <section class="cta-section cms-cta-section">
+        <div class="shell cta-inner" data-stagger data-tina-field={tinaField(section)}>
+          <div>
+            {section.eyebrow && <span class="eyebrow">{section.eyebrow}</span>}
+            {section.heading && <h2>{section.heading}</h2>}
+            {section.text && <p>{section.text}</p>}
+          </div>
+          {link && section.buttonLabel && <a class="button" href={link}>{section.buttonLabel}</a>}
+        </div>
+      </section>
+    );
+  }
+
+  return null;
+})}

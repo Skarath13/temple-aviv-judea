@@ -1,0 +1,35 @@
+---
+import type {
+  PageArtists,
+  PageBeliefs,
+  PageGive,
+  PageHome,
+  PageMinistries,
+  PageQuery,
+  PageStory,
+  PageVisit,
+} from '../../../tina/__generated__/types';
+import type { PageKey } from '../../data/pages';
+import ArtistsPage from './ArtistsPage.astro';
+import BeliefsPage from './BeliefsPage.astro';
+import GivePage from './GivePage.astro';
+import HomePage from './HomePage.astro';
+import MinistriesPage from './MinistriesPage.astro';
+import StoryPage from './StoryPage.astro';
+import VisitPage from './VisitPage.astro';
+
+interface Props {
+  page: PageQuery['page'];
+  pageKey: PageKey;
+}
+
+const { page, pageKey } = Astro.props;
+---
+
+{pageKey === 'home' && <HomePage page={page as PageHome} />}
+{pageKey === 'visit' && <VisitPage page={page as PageVisit} />}
+{pageKey === 'story' && <StoryPage page={page as PageStory} />}
+{pageKey === 'beliefs' && <BeliefsPage page={page as PageBeliefs} />}
+{pageKey === 'ministries' && <MinistriesPage page={page as PageMinistries} />}
+{pageKey === 'give' && <GivePage page={page as PageGive} />}
+{pageKey === 'artists' && <ArtistsPage page={page as PageArtists} />}

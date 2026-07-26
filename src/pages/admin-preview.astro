@@ -1,0 +1,33 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SiteIcon from '../components/SiteIcon.astro';
+---
+
+<BaseLayout title="CMS Preview" description="Temple Aviv Judea content-management preview." robots="noindex, nofollow">
+  <PageHero eyebrow="Private publishing access" title="The website, made editable." intro="This preview explains the planned TinaCMS publishing flow for authorized Temple Aviv Judea leadership." accent="gold" />
+
+  <section class="section admin-preview-section">
+    <div class="shell admin-preview-grid">
+      <div class="admin-access-card" data-reveal>
+        <span class="admin-lock"><SiteIcon name="lock" size={28} /></span>
+        <span class="eyebrow">TinaCMS preview</span>
+        <h2>Cloud access is not connected yet.</h2>
+        <p>The CMS schema is being prepared in the repository, but this public GitHub Pages site does not expose a working editor. No TinaCloud credentials are stored in the browser.</p>
+        <div class="admin-pin-preview" aria-describedby="admin-preview-note">
+          <label for="admin-email">Publisher email</label>
+          <div><input id="admin-email" type="email" placeholder="name@example.com" disabled /><button class="button" type="button" disabled>Continue</button></div>
+        </div>
+        <p id="admin-preview-note" class="admin-preview-note"><SiteIcon name="shield-check" size={18} /> TinaCloud sign-in will replace this preview when the Cloudflare deployment is connected.</p>
+      </div>
+
+      <ol class="admin-workflow" data-stagger>
+        <li><span>01</span><div><h3>Sign in</h3><p>Use a TinaCloud publisher account instead of a shared PIN.</p></div></li>
+        <li><span>02</span><div><h3>Edit the essentials</h3><p>Update site details, navigation, page metadata, hero copy, and upcoming events through structured fields.</p></div></li>
+        <li><span>03</span><div><h3>Build page sections</h3><p>Add text, split-image, card, gallery, and call-to-action blocks without editing source code.</p></div></li>
+        <li><span>04</span><div><h3>Preview in context</h3><p>Review changes against the real page design before saving them to the repository.</p></div></li>
+        <li><span>05</span><div><h3>Publish safely</h3><p>Saved content changes trigger the normal build and deployment flow, preserving version history and rollback.</p></div></li>
+      </ol>
+    </div>
+  </section>
+</BaseLayout>

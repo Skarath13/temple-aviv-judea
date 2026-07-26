@@ -1,0 +1,239 @@
+---
+import { tinaField } from '@tinacms/astro/tina-field';
+import type { PageHome } from '../../../tina/__generated__/types';
+import CmsSections from '../CmsSections.astro';
+import SiteIcon from '../SiteIcon.astro';
+import UpcomingEvents from '../UpcomingEvents.astro';
+import { upcomingEvents } from '../../data/events';
+import { site } from '../../data/site';
+import { cmsImageSource, cmsLink } from '../../lib/cms';
+
+interface Props {
+  page: PageHome;
+}
+
+const { page } = Astro.props;
+const hero = page.hero!;
+const heroMedia = page.heroMedia!;
+const heroActions = page.heroActions!;
+const scheduleHeading = page.scheduleHeading!;
+const welcome = page.welcome!;
+const storyFeature = page.storyFeature!;
+const visitPreview = page.visitPreview!;
+const community = page.community!;
+const location = page.location!;
+const ministriesPromo = page.ministriesPromo!;
+const valueStyles = [
+  { className: 'value-prayer', icon: 'pray', href: '/beliefs/#prayer' },
+  { className: 'value-proclamation', icon: 'script', href: '/beliefs/#proclamation' },
+  { className: 'value-people', icon: 'users-group', href: '/beliefs/#people' },
+] as const;
+const expectStyles = [
+  { color: 'coral', icon: 'music' },
+  { color: 'blue', icon: 'book' },
+  { color: 'gold', icon: 'heart-handshake' },
+] as const;
+const visitUrl = cmsLink(heroActions.visitUrl);
+const welcomeUrl = cmsLink(welcome.linkUrl);
+const storyUrl = cmsLink(storyFeature.linkUrl);
+const previewUrl = cmsLink(visitPreview.buttonUrl);
+const ministriesUrl = cmsLink(ministriesPromo.linkUrl);
+---
+
+<section class="home-hero">
+  <picture class="hero-picture" data-tina-field={tinaField(heroMedia, 'desktopImage')}>
+    <source media="(max-width: 719px)" srcset={cmsImageSource(heroMedia.mobileImage)} />
+    <img src={cmsImageSource(heroMedia.desktopImage)} alt={heroMedia.imageAlt} width="1280" height="720" fetchpriority="high" />
+  </picture>
+  <div class="hero-scrim" aria-hidden="true"></div>
+  <div class="shell hero-content">
+    <div class="hero-copy">
+      <span class="eyebrow eyebrow-light" data-tina-field={tinaField(hero, 'eyebrow')}>{hero.eyebrow}</span>
+      <h1 data-tina-field={tinaField(hero, 'title')}>{hero.title}<br /><em>{hero.emphasis}</em><br />{hero.closing}</h1>
+      <p data-tina-field={tinaField(hero, 'intro')}>{hero.intro}</p>
+      <div class="button-row">
+        {visitUrl && <a class="button button-gold" href={visitUrl} data-tina-field={tinaField(heroActions, 'visitLabel')}>{heroActions.visitLabel}</a>}
+        <a class="button button-youtube" href={site.youtube} target="_blank" rel="noreferrer">
+          <SiteIcon name="brand-youtube" size={25} />
+          <span class="youtube-button-copy">
+            <strong data-tina-field={tinaField(heroActions, 'watchLabel')}>{heroActions.watchLabel}</strong>
+            <small data-tina-field={tinaField(heroActions, 'watchNote')}>{heroActions.watchNote}</small>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <a class="hero-location" href={site.address.maps} target="_blank" rel="noreferrer">
+    <span class="location-pin"><SiteIcon name="map-pin" size={22} /></span>
+    <span><strong>{site.address.street}</strong><small>{site.address.city}</small></span>
+    <SiteIcon name="external-link" size={17} />
+  </a>
+</section>
+
+<section class="schedule-strip" aria-label="Saturday schedule">
+  <div class="shell schedule-grid" data-stagger>
+    <div class="schedule-heading">
+      <span class="schedule-icon"><SiteIcon name="menorah" size={25} /></span>
+      <span>
+        <small data-tina-field={tinaField(scheduleHeading, 'eyebrow')}>{scheduleHeading.eyebrow}</small>
+        <strong data-tina-field={tinaField(scheduleHeading, 'heading')}>{scheduleHeading.heading}</strong>
+      </span>
+    </div>
+    {site.schedule.map((item) => (
+      <div class="schedule-item">
+        <strong>{item.time}</strong>
+        <span>{item.label}</span>
+        <small>{item.note}</small>
+      </div>
+    ))}
+  </div>
+</section>
+
+<section class="section welcome-section">
+  <div class="shell split-layout welcome-layout" data-stagger>
+    <div>
+      <span class="eyebrow" data-tina-field={tinaField(welcome, 'eyebrow')}>{welcome.eyebrow}</span>
+      <h2 data-tina-field={tinaField(welcome, 'headingLines')}>
+        {welcome.headingLines?.map((line, index) => <>{index > 0 && <br />}{line}</>)}
+      </h2>
+    </div>
+    <div class="welcome-copy">
+      <p class="lead" data-tina-field={tinaField(welcome, 'lead')}>{welcome.lead}</p>
+      <p data-tina-field={tinaField(welcome, 'body')}>{welcome.body}</p>
+      {welcomeUrl && <a class="arrow-link" href={welcomeUrl} data-tina-field={tinaField(welcome, 'linkLabel')}>{welcome.linkLabel} <SiteIcon name="arrow-right" size={19} /></a>}
+    </div>
+  </div>
+  <div class="shell value-ribbon" data-stagger>
+    {welcome.values?.map((value, index) => {
+      const style = valueStyles[index];
+      if (!value || !style) return null;
+      return (
+        <a class={`value-card ${style.className}`} href={cmsLink(style.href)}>
+          <img class="value-card-art" src={cmsImageSource(value.image)} alt="" width="720" height="640" loading="lazy" data-tina-field={tinaField(value, 'image')} />
+          <span class="value-number">{String(index + 1).padStart(2, '0')}</span>
+          <div class="value-icon"><SiteIcon name={style.icon} size={32} /></div>
+          <h3 data-tina-field={tinaField(value, 'title')}>{value.title}</h3>
+          <p data-tina-field={tinaField(value, 'text')}>{value.text}</p>
+        </a>
+      );
+    })}
+  </div>
+</section>
+
+<section class="art-story-section">
+  <div class="art-panel" data-reveal="wipe">
+    <img src={cmsImageSource(storyFeature.image)} alt={storyFeature.imageAlt} width="1672" height="941" loading="lazy" data-tina-field={tinaField(storyFeature, 'image')} />
+  </div>
+  <div class="art-story-copy" data-reveal="right">
+    <span class="eyebrow eyebrow-light" data-tina-field={tinaField(storyFeature, 'eyebrow')}>{storyFeature.eyebrow}</span>
+    <h2 data-tina-field={tinaField(storyFeature, 'headingLines')}>
+      {storyFeature.headingLines?.map((line, index) => <>{index > 0 && <br />}{index === storyFeature.headingLines!.length - 1 ? <em>{line}</em> : line}</>)}
+    </h2>
+    <p data-tina-field={tinaField(storyFeature, 'body')}>{storyFeature.body}</p>
+    {storyUrl && <a class="button button-ghost-light" href={storyUrl} data-tina-field={tinaField(storyFeature, 'linkLabel')}>{storyFeature.linkLabel}</a>}
+    <div class="story-stats">
+      {storyFeature.stats?.map((stat) => stat && (
+        <div data-tina-field={tinaField(stat)}>
+          <strong>{stat.value}</strong><span>{stat.label}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="section visit-preview">
+  <div class="shell">
+    <div class="section-heading centered" data-reveal>
+      <span class="eyebrow" data-tina-field={tinaField(visitPreview, 'eyebrow')}>{visitPreview.eyebrow}</span>
+      <h2 data-tina-field={tinaField(visitPreview, 'heading')}>{visitPreview.heading}</h2>
+      <p data-tina-field={tinaField(visitPreview, 'intro')}>{visitPreview.intro}</p>
+    </div>
+    <div class="expect-grid" data-stagger>
+      {visitPreview.items?.map((item, index) => {
+        const style = expectStyles[index];
+        if (!item || !style) return null;
+        return (
+          <article data-tina-field={tinaField(item)}>
+            <img class="expect-card-art" src={cmsImageSource(item.image)} alt={item.imageAlt} width="900" height="900" loading="lazy" />
+            <span class={`expect-icon ${style.color}`}><SiteIcon name={style.icon} size={25} /></span>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </article>
+        );
+      })}
+    </div>
+    {previewUrl && <div class="centered-action" data-reveal="scale"><a class="button" href={previewUrl} data-tina-field={tinaField(visitPreview, 'buttonLabel')}>{visitPreview.buttonLabel}</a></div>}
+  </div>
+</section>
+
+<UpcomingEvents events={upcomingEvents} />
+
+<section class="section live-moments-section">
+  <div class="shell">
+    <div class="section-heading" data-reveal>
+      <span class="eyebrow" data-tina-field={tinaField(community, 'eyebrow')}>{community.eyebrow}</span>
+      <h2 data-tina-field={tinaField(community, 'heading')}>{community.heading}</h2>
+      <p data-tina-field={tinaField(community, 'intro')}>{community.intro}</p>
+    </div>
+    <div class="live-moments-grid" data-stagger>
+      {community.moments?.map((moment) => moment && (
+        <figure data-tina-field={tinaField(moment)}>
+          <img src={cmsImageSource(moment.image)} alt={moment.imageAlt} width="1200" height="1200" loading="lazy" />
+          <figcaption>{moment.caption}</figcaption>
+        </figure>
+      ))}
+      <a class="recordings-card" href={site.youtube} target="_blank" rel="noreferrer" data-tina-field={tinaField(community, 'recordingsLabel')}>
+        <img src={cmsImageSource(community.recordingsImage)} alt={community.recordingsImageAlt} width="1200" height="1200" loading="lazy" />
+        <span><span class="recordings-label"><SiteIcon name="brand-youtube" size={22} /> {community.recordingsLabel}</span><SiteIcon name="external-link" size={19} /></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section home-location-section">
+  <div class="shell">
+    <div class="home-location-heading" data-stagger>
+      <div>
+        <span class="eyebrow" data-tina-field={tinaField(location, 'eyebrow')}>{location.eyebrow}</span>
+        <h2 data-tina-field={tinaField(location, 'headingLines')}>{location.headingLines?.map((line, index) => <>{index > 0 && <br />}{line}</>)}</h2>
+      </div>
+      <p data-tina-field={tinaField(location, 'body')}>{location.body}</p>
+    </div>
+    <div class="home-location-grid" data-stagger>
+      <figure class="location-card building-card">
+        <picture data-tina-field={tinaField(location, 'desktopImage')}>
+          <source media="(max-width: 760px)" srcset={cmsImageSource(location.mobileImage)} />
+          <img src={cmsImageSource(location.desktopImage)} alt={location.imageAlt} width="1280" height="720" loading="lazy" />
+        </picture>
+        <figcaption><SiteIcon name="jewish-star" size={21} /><span><strong>{location.captionTitle}</strong><small>{location.captionSubtitle}</small></span></figcaption>
+      </figure>
+      <div class="location-card map-card">
+        <iframe src={site.address.embed} title={location.mapTitle} loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        <div class="map-card-footer">
+          <SiteIcon name="map-pin" size={22} />
+          <span><strong>{site.address.street}</strong><small>{site.address.city}</small></span>
+          <a class="button button-small" href={site.address.maps} target="_blank" rel="noreferrer" data-tina-field={tinaField(location, 'directionsLabel')}>{location.directionsLabel}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ministries-preview">
+  <div class="shell ministries-preview-inner" data-stagger>
+    <div class="ministries-preview-copy">
+      <span class="eyebrow eyebrow-light" data-tina-field={tinaField(ministriesPromo, 'eyebrow')}>{ministriesPromo.eyebrow}</span>
+      <h2 data-tina-field={tinaField(ministriesPromo, 'heading')}>{ministriesPromo.heading}</h2>
+      <p data-tina-field={tinaField(ministriesPromo, 'body')}>{ministriesPromo.body}</p>
+      {ministriesUrl && <a class="arrow-link arrow-link-light" href={ministriesUrl} data-tina-field={tinaField(ministriesPromo, 'linkLabel')}>{ministriesPromo.linkLabel} <SiteIcon name="arrow-right" size={19} /></a>}
+    </div>
+    <div class="ministries-preview-directory">
+      <span class="eyebrow eyebrow-light" data-tina-field={tinaField(ministriesPromo, 'directoryEyebrow')}>{ministriesPromo.directoryEyebrow}</span>
+      <div class="ministry-pills" aria-label="Ministries" data-tina-field={tinaField(ministriesPromo, 'ministries')}>
+        {ministriesPromo.ministries?.map((ministry) => <span>{ministry}</span>)}
+      </div>
+    </div>
+  </div>
+</section>
+
+<CmsSections sections={page.sections} />

@@ -1,0 +1,84 @@
+---
+import { tinaField } from '@tinacms/astro/tina-field';
+import type { PageMinistries } from '../../../tina/__generated__/types';
+import CmsSections from '../CmsSections.astro';
+import PageHero from '../PageHero.astro';
+import SiteIcon from '../SiteIcon.astro';
+import { site } from '../../data/site';
+import { cmsImageSource, cmsLink } from '../../lib/cms';
+
+interface Props {
+  page: PageMinistries;
+}
+
+const { page } = Astro.props;
+const hero = page.hero!;
+const bibleStudy = page.bibleStudy!;
+const artistFeature = page.artistFeature!;
+const callToAction = page.callToAction!;
+const cardStyles = ['coral-card', 'blue-card', 'gold-card', 'teal-card'];
+const ctaUrl = cmsLink(callToAction.buttonUrl);
+const bibleStudyHref = `mailto:${site.email}?subject=${encodeURIComponent(bibleStudy.emailSubject)}`;
+---
+
+<PageHero eyebrow={hero.eyebrow} title={hero.title} intro={hero.intro} accent={hero.accent as 'blue' | 'coral' | 'gold' | 'teal'} data={hero} />
+
+<section class="section ministries-grid-section">
+  <div class="shell ministry-card-grid" data-stagger>
+    {page.ministryCards?.map((card, index) => {
+      if (!card) return null;
+      const link = cmsLink(card.linkUrl || undefined);
+      return (
+        <article class={`ministry-card has-photo ${cardStyles[index] || 'blue-card'}`} data-tina-field={tinaField(card)}>
+          <img src={cmsImageSource(card.image)} alt={card.imageAlt} width="1200" height="750" loading="lazy" />
+          <div class="ministry-card-body">
+            <span class="eyebrow">{card.eyebrow}</span>
+            <h2>{card.title}</h2>
+            <p>{card.body}</p>
+            {link && card.linkLabel && <a class="arrow-link" href={link} target={link.startsWith('http') ? '_blank' : undefined} rel={link.startsWith('http') ? 'noreferrer' : undefined} aria-label={link.startsWith('http') ? `${card.linkLabel}. Opens in a new tab.` : undefined}>{card.linkLabel} {link.startsWith('http') && <SiteIcon name="external-link" size={18} />}</a>}
+          </div>
+        </article>
+      );
+    })}
+
+    <article class="ministry-card blue-card wide-card study-card" data-tina-field={tinaField(bibleStudy)}>
+      <span class="ministry-symbol"><SiteIcon name="book" size={30} /></span>
+      <div>
+        <span class="eyebrow">{bibleStudy.eyebrow}</span>
+        <h2>{bibleStudy.heading}</h2>
+        <p>{bibleStudy.body}</p>
+        <a class="arrow-link" href={bibleStudyHref}>{bibleStudy.linkLabel} <SiteIcon name="arrow-right" size={18} /></a>
+      </div>
+    </article>
+
+    <article class="ministry-card purple-card wide-card" data-tina-field={tinaField(artistFeature)}>
+      <div class="artist-thumbnails">
+        {artistFeature.artworks?.map((artwork) => artwork && (
+          <figure>
+            <img src={cmsImageSource(artwork.image)} alt={artwork.imageAlt} width="929" height="1200" loading="lazy" />
+            <figcaption><strong>{artwork.title}</strong><span>{artwork.credit}</span></figcaption>
+          </figure>
+        ))}
+      </div>
+      <div>
+        <span class="eyebrow eyebrow-light">{artistFeature.eyebrow}</span>
+        <h2>{artistFeature.heading}</h2>
+        <p>{artistFeature.body}</p>
+      </div>
+      <a class="button button-ghost-light" href={site.baruchDesignsEtsy} target="_blank" rel="noreferrer" aria-label={`${artistFeature.buttonLabel}. Opens in a new tab.`}>{artistFeature.buttonLabel} <SiteIcon name="external-link" size={18} /></a>
+    </article>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="shell cta-inner" data-stagger>
+    <div>
+      <span class="eyebrow" data-tina-field={tinaField(callToAction, 'eyebrow')}>{callToAction.eyebrow}</span>
+      <h2 data-tina-field={tinaField(callToAction, 'heading')}>{callToAction.heading}</h2>
+      <p data-tina-field={tinaField(callToAction, 'body')}>{callToAction.body}</p>
+    </div>
+    {ctaUrl && <a class="button" href={ctaUrl} data-tina-field={tinaField(callToAction, 'buttonLabel')}>{callToAction.buttonLabel}</a>}
+  </div>
+</section>
+
+<CmsSections sections={page.sections} />

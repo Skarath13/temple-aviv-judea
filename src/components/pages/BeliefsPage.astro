@@ -1,0 +1,154 @@
+---
+import { tinaField } from '@tinacms/astro/tina-field';
+import type { PageBeliefs } from '../../../tina/__generated__/types';
+import CmsSections from '../CmsSections.astro';
+import PageHero from '../PageHero.astro';
+import { cmsImageSource } from '../../lib/cms';
+
+interface Props {
+  page: PageBeliefs;
+}
+
+const { page } = Astro.props;
+const hero = page.hero!;
+const banner = page.banner!;
+const foundation = page.foundation!;
+const unity = page.unity!;
+const communityBanner = page.communityBanner!;
+const faithIntro = page.faithIntro!;
+const pillarsIntro = page.pillarsIntro!;
+const prayer = page.prayer!;
+const proclamation = page.proclamation!;
+const people = page.people!;
+const pillarAnchors = ['prayer', 'proclamation', 'people'];
+---
+
+<PageHero eyebrow={hero.eyebrow} title={hero.title} intro={hero.intro} accent={hero.accent as 'blue' | 'coral' | 'gold' | 'teal'} data={hero} />
+
+<section class="mosaic-feature mosaic-teal" aria-label="Torah artwork">
+  <div class="shell mosaic-frame" data-reveal="wipe">
+    <img src={cmsImageSource(banner.image)} alt={banner.imageAlt} width="853" height="294" data-tina-field={tinaField(banner, 'image')} />
+  </div>
+</section>
+
+<section class="section belief-summary">
+  <div class="shell split-layout" data-stagger>
+    <div>
+      <span class="eyebrow" data-tina-field={tinaField(foundation, 'eyebrow')}>{foundation.eyebrow}</span>
+      <h2 data-tina-field={tinaField(foundation, 'heading')}>{foundation.heading}</h2>
+    </div>
+    <div class="welcome-copy">
+      <p class="lead" data-tina-field={tinaField(foundation, 'lead')}>{foundation.lead}</p>
+      <p data-tina-field={tinaField(foundation, 'body')}>{foundation.body}</p>
+    </div>
+  </div>
+</section>
+
+<section class="unity-section">
+  <div class="shell unity-callout" data-reveal>
+    <blockquote data-tina-field={tinaField(unity, 'quote')}>{unity.quote}</blockquote>
+    <cite data-tina-field={tinaField(unity, 'citation')}>{unity.citation}</cite>
+    <p data-tina-field={tinaField(unity, 'body')}>{unity.body}</p>
+  </div>
+</section>
+
+<section class="live-banner-section">
+  <figure class="shell belief-banner-card" data-reveal="wipe" data-tina-field={tinaField(communityBanner)}>
+    <img src={cmsImageSource(communityBanner.image)} alt={communityBanner.imageAlt} width="1800" height="599" loading="lazy" />
+    <figcaption>{communityBanner.caption}</figcaption>
+  </figure>
+</section>
+
+<section class="belief-grid-section">
+  <div class="shell">
+    <div class="section-heading faith-heading" data-reveal>
+      <span class="eyebrow" data-tina-field={tinaField(faithIntro, 'eyebrow')}>{faithIntro.eyebrow}</span>
+      <h2 data-tina-field={tinaField(faithIntro, 'heading')}>{faithIntro.heading}</h2>
+      <p data-tina-field={tinaField(faithIntro, 'intro')}>{faithIntro.intro}</p>
+    </div>
+    <div class="belief-grid" data-stagger>
+      {page.faithStatements?.map((statement, index) => statement && (
+        <article data-tina-field={tinaField(statement)}>
+          <span>{String(index + 1).padStart(2, '0')}</span>
+          <h3>{statement.title}</h3>
+          <p>{statement.body}</p>
+          <p class="scripture-references"><strong>Scripture</strong>{statement.references}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="pillars-section">
+  <div class="shell">
+    <div class="section-heading centered light" data-reveal>
+      <span class="eyebrow eyebrow-light" data-tina-field={tinaField(pillarsIntro, 'eyebrow')}>{pillarsIntro.eyebrow}</span>
+      <h2 data-tina-field={tinaField(pillarsIntro, 'heading')}>{pillarsIntro.heading}</h2>
+      <p data-tina-field={tinaField(pillarsIntro, 'intro')}>{pillarsIntro.intro}</p>
+    </div>
+    <div class="pillars-grid" data-stagger>
+      {page.pillars?.map((pillar, index) => pillar && (
+        <a class="pillar-card" href={`#${pillarAnchors[index]}`} data-tina-field={tinaField(pillar)}>
+          <img class="pillar-card-art" src={cmsImageSource(pillar.image)} alt="" width="720" height="640" loading="lazy" />
+          <strong>{pillar.title}</strong>
+          <p>{pillar.body}</p>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="core-values-detail-section">
+  <div class="shell core-values-detail">
+    <article class="core-value-detail" id="prayer" data-reveal>
+      <header>
+        <span>01</span>
+        <p data-tina-field={tinaField(prayer, 'eyebrow')}>{prayer.eyebrow}</p>
+        <h2 data-tina-field={tinaField(prayer, 'heading')}>{prayer.heading}</h2>
+      </header>
+      <div class="core-value-copy">
+        <p class="lead" data-tina-field={tinaField(prayer, 'lead')}>{prayer.lead}</p>
+        <p class="scripture-line" data-tina-field={tinaField(prayer, 'scripture')}>{prayer.scripture}</p>
+        <ul class="prayer-practices" aria-label="Our practices in prayer">
+          {prayer.practices?.map((practice) => practice && <li data-tina-field={tinaField(practice)}><strong>{practice.title}</strong><span>{practice.text}</span></li>)}
+        </ul>
+      </div>
+    </article>
+
+    <article class="core-value-detail" id="proclamation" data-reveal>
+      <header>
+        <span>02</span>
+        <p data-tina-field={tinaField(proclamation, 'eyebrow')}>{proclamation.eyebrow}</p>
+        <h2 data-tina-field={tinaField(proclamation, 'heading')}>{proclamation.heading}</h2>
+      </header>
+      <div class="core-value-copy value-detail-grid">
+        {proclamation.sections?.map((section) => section && (
+          <section data-tina-field={tinaField(section)}>
+            <h3>{section.heading}</h3>
+            {section.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
+            <p class="scripture-line">{section.scripture}</p>
+          </section>
+        ))}
+      </div>
+    </article>
+
+    <article class="core-value-detail" id="people" data-reveal>
+      <header>
+        <span>03</span>
+        <p data-tina-field={tinaField(people, 'eyebrow')}>{people.eyebrow}</p>
+        <h2 data-tina-field={tinaField(people, 'heading')}>{people.heading}</h2>
+      </header>
+      <div class="core-value-copy value-detail-grid people-detail-grid">
+        {people.sections?.map((section) => section && (
+          <section data-tina-field={tinaField(section)}>
+            <h3>{section.heading}</h3>
+            {section.paragraphs?.map((paragraph) => <p>{paragraph}</p>)}
+            {section.scripture && <p class="scripture-line">{section.scripture}</p>}
+          </section>
+        ))}
+      </div>
+    </article>
+  </div>
+</section>
+
+<CmsSections sections={page.sections} />

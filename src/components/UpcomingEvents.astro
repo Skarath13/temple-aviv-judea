@@ -1,5 +1,6 @@
 ---
 import type { UpcomingEvent } from '../data/events';
+import { cmsLink } from '../lib/cms';
 import { withBase } from '../lib/urls';
 import SiteIcon from './SiteIcon.astro';
 
@@ -30,14 +31,14 @@ const imageSource = (src: string) => /^https?:\/\//.test(src) ? src : withBase(s
         {visibleEvents.map((event) => (
           <article class="upcoming-event-card">
             <div class="upcoming-event-image">
-              <img src={imageSource(event.image.src)} alt={event.image.alt} width={event.image.width} height={event.image.height} loading="lazy" />
+              <img src={imageSource(event.image.src)} alt={event.image.alt} width="1200" height="800" loading="lazy" />
             </div>
             <div class="upcoming-event-copy">
               <span class="event-date"><SiteIcon name="calendar-event" size={19} /> {formatDate(event.startsAt)}</span>
               <h3>{event.title}</h3>
               <p>{event.summary}</p>
               <span class="event-location"><SiteIcon name="map-pin" size={18} /> {event.location}</span>
-              {event.detailsUrl && <a class="button button-gold" href={event.detailsUrl}>Event details</a>}
+              {cmsLink(event.detailsUrl) && <a class="button button-gold" href={cmsLink(event.detailsUrl)}>Event details</a>}
             </div>
           </article>
         ))}

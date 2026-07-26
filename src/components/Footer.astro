@@ -2,6 +2,8 @@
 import { navItems, site } from '../data/site';
 import { withBase } from '../lib/urls';
 import SiteIcon from './SiteIcon.astro';
+
+const adminPath = import.meta.env.BASE_URL === '/' ? '/admin/' : '/admin-preview/';
 ---
 
 <footer class="site-footer">
@@ -39,6 +41,6 @@ import SiteIcon from './SiteIcon.astro';
   </div>
   <div class="shell footer-bottom">
     <span>© {new Date().getFullYear()} {site.name}</span>
-    <span class="footer-bottom-links"><span>Jewish roots · Living faith · Open doors</span><a class="footer-admin-link" href={withBase('/admin/')}><SiteIcon name="lock" size={14} />Admin</a></span>
+    <span class="footer-bottom-links"><span>Jewish roots · Living faith · Open doors</span><a class="footer-admin-link" href={withBase(adminPath)}><SiteIcon name="lock" size={14} />Admin</a></span>
   </div>
 </footer>
