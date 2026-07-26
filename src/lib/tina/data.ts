@@ -3,10 +3,7 @@ import client from '../../../tina/__generated__/client';
 import type { PageQuery } from '../../../tina/__generated__/types';
 import { pages, type PageKey } from '../../data/pages';
 
-export const cmsEnabled =
-  process.env.TINA_CMS === 'true' ||
-  process.env.DEPLOY_ADAPTER === 'cloudflare' ||
-  Boolean(process.env.WORKERS_CI);
+export const cmsEnabled = import.meta.env.TINA_CMS === 'true';
 
 const relativePath = (pageKey: PageKey) => `${pageKey}.json`;
 

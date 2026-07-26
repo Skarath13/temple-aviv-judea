@@ -72,6 +72,9 @@ export default defineConfig({
   integrations,
   vite: cmsEnabled
     ? {
+        define: {
+          'import.meta.env.TINA_CMS': JSON.stringify('true'),
+        },
         plugins: [tinaAdminDevRedirect()],
         ssr: {
           optimizeDeps: {
