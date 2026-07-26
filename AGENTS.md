@@ -83,7 +83,13 @@ Never print, commit, or copy secret values into issues, logs, documentation, wor
 
 ## TinaCMS invariants
 
-- CMS content lives in `src/content/`; schema lives in `tina/`; uploads live in `public/uploads/`.
+- CMS content lives in `src/content/`; schema lives in `tina/`; managed media
+  lives in `public/images/`. All modeled local images, including the social
+  sharing image, must remain under that configured `mediaRoot`.
+- TinaCloud rewrites modeled image paths to `assets.tina.io` in production.
+  After adding existing media or changing `mediaRoot`, trigger TinaCloud's Media
+  sync and require every referenced CDN image to return `200 image/*`; a
+  successful HTML build does not prove the objects were synced.
 - There is no shared site-admin username, password, or PIN. `/admin/` access is
   granted to named TinaCloud project collaborators. A collaborator can register
   with GitHub or a native TinaCloud account, then must be invited to this
@@ -119,6 +125,9 @@ A complete publishing acceptance test still requires an intentional first save a
 After every production deploy or DNS change, verify:
 
 - HTTPS `www` public routes, `/admin/`, sitemap, icons, and manifest return 200.
+- Every distinct image URL emitted by all public routes, including Open Graph
+  and Twitter images, returns `200 image/*`; test the resulting CDN URLs rather
+  than only the same-origin source files.
 - Apex HTTP and HTTPS preserve path/query and end at canonical HTTPS `www`.
 - Canonical and OpenGraph URLs use `https://www.avivjudea.org`.
 - Homepage HTML contains `admin/bridge.js` and `data-tina-island`.
