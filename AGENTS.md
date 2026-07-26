@@ -84,6 +84,14 @@ Never print, commit, or copy secret values into issues, logs, documentation, wor
 ## TinaCMS invariants
 
 - CMS content lives in `src/content/`; schema lives in `tina/`; uploads live in `public/uploads/`.
+- There is no shared site-admin username, password, or PIN. `/admin/` access is
+  granted to named TinaCloud project collaborators. A collaborator can register
+  with GitHub or a native TinaCloud account, then must be invited to this
+  project; never ask for or store the collaborator's password.
+- Prefer the `Editor` role for content publishers. `Admin` also permits project
+  configuration and collaborator management, so grant it only when required.
+  Auth.js, Clerk, and custom auth require a self-hosted Tina data layer and are
+  not part of the current hosted architecture.
 - Routes, arbitrary code/HTML, PayPal mechanics, and validation rules remain developer-controlled.
 - Clean builds depend on `generate:tina-types`; `tina/__generated__` and `public/admin` remain ignored.
 - Cloudflare mode must compile `import.meta.env.TINA_CMS` to `"true"`. Do not switch page modules back to runtime `process.env` checks; prerendered pages otherwise omit the Tina island and bridge.
