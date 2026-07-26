@@ -4,6 +4,7 @@ import Footer from '../components/Footer.astro';
 import SiteIcon from '../components/SiteIcon.astro';
 import '../styles/global.css';
 import { site } from '../data/site';
+import { navigationScrollScript } from '../lib/navigation-scroll.mjs';
 import { withBase } from '../lib/urls';
 
 interface Props {
@@ -55,6 +56,7 @@ const structuredData = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <script is:inline set:html={navigationScrollScript} />
     <meta name="theme-color" content="#071f37" />
     <meta name="color-scheme" content="light" />
     <meta name="supported-color-schemes" content="light" />
