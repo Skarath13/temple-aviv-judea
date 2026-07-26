@@ -4,12 +4,12 @@ import { readFile, stat } from 'node:fs/promises';
 const MAX_STATIC_ASSET_BYTES = 25 * 1024 * 1024;
 const assets = [
   {
-    path: 'public/videos/hero/mobile-jerusalem-v1.mp4',
+    path: 'public/_hero-media/mobile-jerusalem-v1.mp4',
     bytes: 2_921_987,
     sha256: '6b67df5ff4f24549b286abaffa439d9008a6b6fd1cdebe552d734458bb7e4028',
   },
   {
-    path: 'public/videos/hero/mobile-jerusalem-v1.webm',
+    path: 'public/_hero-media/mobile-jerusalem-v1.webm',
     bytes: 1_850_076,
     sha256: '68f4fca47ca0e38300dcee62d5f372c23ea9c08e1e6bbd44279e3d56d9509e68',
   },
@@ -75,7 +75,9 @@ const sourceContracts = [
       'autoplay',
       'defaultMuted',
       'disablepictureinpicture',
+      'hero-desktop-detail',
       'loop',
+      'mobile-hero-continuation',
       'muted',
       'playsinline',
       'preload="auto"',
@@ -101,12 +103,44 @@ const sourceContracts = [
     ],
   },
   {
+    path: 'src/lib/hero-media-range.mjs',
+    tokens: [
+      'Accept-Ranges',
+      'Content-Range',
+      'If-Range',
+      'X-Hero-Media-Cache',
+      'cacheStorage.open',
+      'waitUntil',
+    ],
+  },
+  {
+    path: 'src/pages/videos/hero/[file].ts',
+    tokens: [
+      'caches',
+      'env.ASSETS',
+      'heroMediaRequestHandler',
+      'prerender = false',
+    ],
+  },
+  {
     path: 'src/styles/global.css',
     tokens: [
       '100svh',
+      'hero-scrim { display: none; }',
+      'mobile-hero-continuation',
+      'transition: none',
+    ],
+    forbiddenTokens: [
       'hero-video-backdrop',
       'mask-image',
-      'transition: none',
+    ],
+  },
+  {
+    path: 'wrangler.jsonc',
+    tokens: [
+      '"run_worker_first"',
+      '"/videos/hero/*.mp4"',
+      '"/videos/hero/*.webm"',
     ],
   },
 ];
@@ -116,6 +150,11 @@ for (const contract of sourceContracts) {
   for (const token of contract.tokens) {
     if (!contents.includes(token)) {
       throw new Error(`${contract.path} is missing required hero contract: ${token}`);
+    }
+  }
+  for (const token of contract.forbiddenTokens ?? []) {
+    if (contents.includes(token)) {
+      throw new Error(`${contract.path} contains forbidden hero treatment: ${token}`);
     }
   }
 }

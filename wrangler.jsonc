@@ -3,6 +3,14 @@
   "name": "temple-aviv-judea",
   "compatibility_date": "2026-07-25",
   "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "binding": "ASSETS",
+    "directory": "./dist/client",
+    "run_worker_first": [
+      "/videos/hero/*.mp4",
+      "/videos/hero/*.webm"
+    ]
+  },
   "kv_namespaces": [
     {
       "binding": "SESSION",

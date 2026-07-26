@@ -51,14 +51,6 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
     <img src={cmsImageSource(heroMedia.desktopImage)} alt={heroMedia.imageAlt} width="1280" height="720" fetchpriority="high" />
   </picture>
   <div class="hero-video-frame" aria-hidden="true">
-    <img
-      class="hero-video-backdrop"
-      src={heroVideoPoster}
-      alt=""
-      width="540"
-      height="960"
-      loading="eager"
-    />
     <video
       class="hero-video"
       autoplay
@@ -113,9 +105,9 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
   <div class="hero-scrim" aria-hidden="true"></div>
   <div class="shell hero-content">
     <div class="hero-copy">
-      <span class="eyebrow eyebrow-light" data-tina-field={tinaField(hero, 'eyebrow')}>{hero.eyebrow}</span>
+      <span class="eyebrow eyebrow-light hero-desktop-detail" data-tina-field={tinaField(hero, 'eyebrow')}>{hero.eyebrow}</span>
       <h1 data-tina-field={tinaField(hero, 'title')}>{hero.title}<br /><em>{hero.emphasis}</em><br />{hero.closing}</h1>
-      <p data-tina-field={tinaField(hero, 'intro')}>{hero.intro}</p>
+      <p class="hero-desktop-detail" data-tina-field={tinaField(hero, 'intro')}>{hero.intro}</p>
       <div class="button-row">
         {visitUrl && <a class="button button-gold" href={visitUrl} data-tina-field={tinaField(heroActions, 'visitLabel')}>{heroActions.visitLabel}</a>}
         <a class="button button-youtube" href={site.youtube} target="_blank" rel="noreferrer" data-mobile-app-link>
@@ -133,6 +125,13 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
     <span><strong>{site.address.street}</strong><small>{site.address.city}</small></span>
     <SiteIcon name="external-link" size={17} />
   </a>
+</section>
+
+<section class="mobile-hero-continuation" aria-label="About Temple Aviv Judea">
+  <div class="shell">
+    <span class="eyebrow eyebrow-light" data-tina-field={tinaField(hero, 'eyebrow')}>{hero.eyebrow}</span>
+    <p data-tina-field={tinaField(hero, 'intro')}>{hero.intro}</p>
+  </div>
 </section>
 
 <script>

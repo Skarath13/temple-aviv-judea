@@ -102,6 +102,7 @@ p { text-wrap: pretty; }
 .hero-copy h1 { margin-bottom: 1.5rem; font-size: clamp(4.5rem, 6vw, 6.25rem); line-height: 1.06; white-space: nowrap; text-shadow: 0 4px 28px rgba(0,0,0,.3); }
 .hero-copy h1 em { color: #ffd56b; font-weight: 500; }
 .hero-copy p { max-width: 610px; font-size: clamp(1.05rem, 2vw, 1.35rem); line-height: 1.55; text-shadow: 0 2px 12px rgba(0,0,0,.35); }
+.mobile-hero-continuation { display: none; }
 .hero-location { position: absolute; z-index: 3; right: max(1.5rem, calc((100vw - 1180px)/2)); bottom: 2rem; display: flex; align-items: center; gap: .8rem; min-width: 260px; padding: .95rem 1.2rem; border: 1px solid rgba(255,255,255,.35); border-radius: 1rem; background: rgba(7,33,58,.55); color: var(--white); text-decoration: none; backdrop-filter: blur(16px); }
 .hero-location > span:nth-child(2) { display: grid; margin-right: auto; line-height: 1.25; }
 .hero-location small { color: rgba(255,255,255,.75); }
@@ -634,34 +635,17 @@ p { text-wrap: pretty; }
     height: 100%;
     overflow: hidden;
     background: var(--blue-deep);
-    isolation: isolate;
     pointer-events: none;
   }
-  .hero-video-backdrop {
+  .hero-video, .hero-video-poster {
     position: absolute;
+    z-index: 1;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center;
-    filter: blur(18px) saturate(.82) brightness(.68);
-    transform: scale(1.08);
   }
-  .hero-video, .hero-video-poster {
-    position: absolute;
-    z-index: 1;
-    top: 0;
-    left: 50%;
-    width: auto;
-    height: 100%;
-    aspect-ratio: 9 / 16;
-    object-fit: cover;
-    object-position: center;
-    transform: translateX(-50%);
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-  }
-  .hero-video { background: transparent; }
   .hero-video-poster {
     z-index: 2;
     opacity: 1;
@@ -669,19 +653,25 @@ p { text-wrap: pretty; }
   }
   .home-hero[data-hero-video-state='playing'] .hero-video-poster {
     opacity: 0;
-    transition: opacity .35s ease;
   }
   .motion-ready .home-hero .hero-picture img { animation: none; transform: none; }
   .hero-picture img { object-position: center; }
-  .hero-scrim { background: linear-gradient(0deg, rgba(5,27,49,.92) 0%, rgba(5,27,49,.45) 52%, rgba(5,27,49,.08) 78%); }
+  .hero-scrim { display: none; }
   .hero-content { align-items: flex-end; padding: clamp(2.75rem, 8svh, 4.75rem) 0 max(1rem, env(safe-area-inset-bottom, 0px)); }
-  .hero-copy > .eyebrow { margin-bottom: .75rem; padding: .45rem .7rem; border: 1px solid rgba(255,255,255,.22); border-radius: 999px; background: rgba(3,24,42,.64); color: #ffe49a; font-size: .7rem; letter-spacing: .1em; text-shadow: 0 2px 10px rgba(0,0,0,.7); backdrop-filter: blur(8px); }
+  .hero-copy > .hero-desktop-detail { display: none; }
   .hero-copy h1 { margin-bottom: 1rem; font-size: clamp(2.25rem, 10.75vw, 3.5rem); white-space: normal; }
-  .hero-copy p { margin-bottom: 0; font-size: 1rem; }
   .button-row { align-items: stretch; flex-direction: column; }
   .button-row .button { width: 100%; }
   .home-hero .button-row { margin-top: 1.25rem; }
   .hero-location { display: none; }
+  .mobile-hero-continuation {
+    display: block;
+    padding: clamp(3.5rem, 13vw, 5rem) 0;
+    background: linear-gradient(180deg, #4a3040 0%, #704052 70%, #9c5a61 84%, #f0c58e 100%);
+    color: var(--white);
+  }
+  .mobile-hero-continuation .eyebrow { margin-bottom: 1.25rem; color: #ffe29a; }
+  .mobile-hero-continuation p { max-width: 38rem; margin-bottom: 0; color: rgba(255,255,255,.96); font-size: clamp(1.08rem, 4.8vw, 1.25rem); font-weight: 500; line-height: 1.7; }
   .schedule-grid { grid-template-columns: 1fr; padding-block: 1rem; }
   .schedule-grid > div, .schedule-grid > div:last-child { border: 0; border-bottom: 1px solid #e5d3a8; padding: 1rem .5rem; }
   .schedule-grid > div:last-child { border-bottom: 0; }
@@ -766,9 +756,7 @@ p { text-wrap: pretty; }
 
 @media (max-width: 760px) and (max-height: 720px) {
   .hero-content { padding: 1.5rem 0 max(.75rem, env(safe-area-inset-bottom, 0px)); }
-  .hero-copy > .eyebrow { margin-bottom: .6rem; padding: .35rem .6rem; font-size: .64rem; }
   .hero-copy h1 { margin-bottom: .7rem; font-size: clamp(2rem, 9.75vw, 2.6rem); line-height: 1; }
-  .hero-copy p { font-size: .9rem; line-height: 1.4; }
   .home-hero .button-row { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: .5rem; margin-top: .9rem; }
   .home-hero .button-row .button { min-width: 0; min-height: 3.25rem; padding: .6rem .65rem; font-size: .78rem; }
   .home-hero .button-youtube { gap: .45rem; }
