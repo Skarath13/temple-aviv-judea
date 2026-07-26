@@ -53,7 +53,7 @@ const ministriesUrl = cmsLink(ministriesPromo.linkUrl);
       <p data-tina-field={tinaField(hero, 'intro')}>{hero.intro}</p>
       <div class="button-row">
         {visitUrl && <a class="button button-gold" href={visitUrl} data-tina-field={tinaField(heroActions, 'visitLabel')}>{heroActions.visitLabel}</a>}
-        <a class="button button-youtube" href={site.youtube} target="_blank" rel="noreferrer">
+        <a class="button button-youtube" href={site.youtube} target="_blank" rel="noreferrer" data-mobile-app-link>
           <SiteIcon name="brand-youtube" size={25} />
           <span class="youtube-button-copy">
             <strong data-tina-field={tinaField(heroActions, 'watchLabel')}>{heroActions.watchLabel}</strong>
@@ -94,7 +94,7 @@ const ministriesUrl = cmsLink(ministriesPromo.linkUrl);
     <div>
       <span class="eyebrow" data-tina-field={tinaField(welcome, 'eyebrow')}>{welcome.eyebrow}</span>
       <h2 data-tina-field={tinaField(welcome, 'headingLines')}>
-        {welcome.headingLines?.map((line, index) => <>{index > 0 && <br />}{line}</>)}
+        {welcome.headingLines?.map((line) => <span>{line}</span>)}
       </h2>
     </div>
     <div class="welcome-copy">

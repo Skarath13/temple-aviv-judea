@@ -107,6 +107,29 @@ const structuredData = {
     <button class="back-to-top" type="button" aria-label="Back to top" title="Back to top"><SiteIcon name="arrow-up" size={22} /></button>
     <script is:inline>
       (() => {
+        if (window.parent !== window) return;
+
+        const appCapablePointer = window.matchMedia('(hover: none) and (pointer: coarse)');
+        document.addEventListener('click', (event) => {
+          if (
+            !appCapablePointer.matches ||
+            event.defaultPrevented ||
+            event.button !== 0 ||
+            event.metaKey ||
+            event.ctrlKey ||
+            event.shiftKey ||
+            event.altKey
+          ) return;
+
+          const link = event.target instanceof Element
+            ? event.target.closest('[data-mobile-app-link]')
+            : null;
+          if (link instanceof HTMLAnchorElement) link.removeAttribute('target');
+        }, { capture: true });
+      })();
+    </script>
+    <script is:inline>
+      (() => {
         const root = document.documentElement;
         const tinaPreview =
           window.parent !== window &&

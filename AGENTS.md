@@ -4,7 +4,7 @@ These instructions apply to this repository. Treat production, CMS, DNS, and cre
 
 ## Production architecture
 
-Current production state as of July 25, 2026:
+Current production state as of July 26, 2026:
 
 - Canonical site: `https://www.avivjudea.org`
 - Production Worker: `temple-aviv-judea`
@@ -12,6 +12,8 @@ Current production state as of July 25, 2026:
 - TinaCloud project: `Temple Aviv Judea`
 - TinaCloud client/project ID: `db67c20c-61e7-446a-a095-f9e126ae28df`
 - GitHub repository and production branch: `Skarath13/temple-aviv-judea`, `main`
+- Primary production deployer: Cloudflare Workers Builds, connected directly to
+  the GitHub repository and production branch above.
 - Persistent Astro session binding: `SESSION`
 - Persistent KV namespace ID: `b8711c2ee9344dc689033a6c4fba823c`
 - `www.avivjudea.org` is a Cloudflare Worker Custom Domain for `temple-aviv-judea`.
@@ -19,7 +21,9 @@ Current production state as of July 25, 2026:
 - A second active Single Redirect upgrades `http://*` to `https://${1}` with status 301 and query preservation.
 - The normal GitHub Pages deployment remains available as a rollback aid. It is not the canonical production host.
 
-Cloudflare Custom Domains and redirect rules are dashboard-managed. They are intentionally not in `wrangler.jsonc` because the current deploy token does not have DNS permission. Confirm that both remain attached after any Worker replacement or infrastructure migration.
+Cloudflare Custom Domains and redirect rules are dashboard-managed and
+intentionally absent from `wrangler.jsonc`. Confirm that both remain attached
+after any Worker replacement or infrastructure migration.
 
 ## Mail and DNS invariants
 
@@ -66,20 +70,46 @@ pnpm exec wrangler deploy --dry-run
 Pushes to `main` trigger:
 
 - `.github/workflows/deploy.yml` for the GitHub Pages rollback build.
-- `.github/workflows/deploy-worker.yml` for the production Worker.
+- Cloudflare Workers Builds for the production Worker. This is a dashboard-managed
+  Git integration, not a GitHub Actions workflow.
 
-The GitHub `main` workflow is the primary production deployment method. Use
-manual `wrangler deploy` only for an explicitly documented emergency or release
-diagnostic, then reconcile the deployed source with `main`. Do not make the
-Cloudflare dashboard editor an alternate source of truth.
+Cloudflare Workers Builds is the primary production deployment method. Its
+production branch is `main`, non-production branch builds are disabled, the
+build command is `pnpm run build:cloudflare`, and the deploy command is
+`pnpm exec wrangler deploy`. Use manual `wrangler deploy` only for an explicitly
+documented emergency or release diagnostic, then reconcile the deployed source
+with `main`. Do not use the Cloudflare code editor as an alternate source of
+truth.
 
-The Worker workflow requires these GitHub Actions settings:
+Workers Builds requires these Cloudflare build variables:
 
-- Secrets: `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_API_TOKEN`, `TINA_TOKEN`
+- Encrypted secret: `TINA_TOKEN`
 - Variables: `PUBLIC_TINA_CLIENT_ID`, `SITE_URL`
+- Node heap setting: `NODE_OPTIONS=--max-old-space-size=4096`
 - `SITE_URL` must be `https://www.avivjudea.org`.
+- Do not add `WORKERS_CI_BRANCH` manually. Cloudflare injects it for each build.
+- Keep the Cloudflare-generated Workers Builds token selected. Do not replace it
+  with a general account token.
+- The retired GitHub Worker workflow and its `CLOUDFLARE_ACCOUNT_ID` and
+  `CLOUDFLARE_API_TOKEN` secrets are not part of the production build contract.
 
 Never print, commit, or copy secret values into issues, logs, documentation, workflow YAML, or runtime client code. `PUBLIC_TINA_CLIENT_ID` and the site URL are public configuration; the Tina content token and Cloudflare token are not.
+
+The heap setting is required because Tina indexing exceeded Node's default
+roughly 2 GiB heap in the first native Cloudflare build. Cloudflare currently
+provides 8 GB of build memory; the 4 GiB Node cap leaves capacity for the package
+manager and build subprocesses. If this setting changes, re-prove a clean native
+Workers Build rather than relying on a local or GitHub Actions build.
+
+Native integration proof on July 26, 2026:
+
+- Git commit: `0e89044f57568ceb4060250cc7ea6eb9c808322b`
+- Initial Cloudflare build: `46a19a9d-1f63-4355-bcb3-e2561e4f68f5`,
+  failed during Tina indexing with Node heap exhaustion before deployment.
+- Retry after adding `NODE_OPTIONS`: build
+  `736b6a1d-77a0-407b-8957-ab9644b676a5`, succeeded.
+- Worker version created by the successful native build:
+  `af4791a3-a897-4287-bec6-108987ab6d24`.
 
 ## TinaCMS invariants
 
@@ -101,7 +131,9 @@ Never print, commit, or copy secret values into issues, logs, documentation, wor
 - Routes, arbitrary code/HTML, PayPal mechanics, and validation rules remain developer-controlled.
 - Clean builds depend on `generate:tina-types`; `tina/__generated__` and `public/admin` remain ignored.
 - Cloudflare mode must compile `import.meta.env.TINA_CMS` to `"true"`. Do not switch page modules back to runtime `process.env` checks; prerendered pages otherwise omit the Tina island and bridge.
-- The Worker build needs `PUBLIC_TINA_CLIENT_ID`, read-only `TINA_TOKEN`, `SITE_URL`, and the intended branch.
+- The Worker build needs `PUBLIC_TINA_CLIENT_ID`, read-only `TINA_TOKEN`,
+  `SITE_URL`, `NODE_OPTIONS=--max-old-space-size=4096`, and Cloudflare's injected
+  `WORKERS_CI_BRANCH`.
 - `/tina-island/page` is POST-only for Tina preview requests. Normal GET should return 405. Invalid or cross-site requests must not become a write path.
 - Tina visual preview replaces the editable island after form acknowledgement.
   The layout deliberately avoids `motion-ready` when the same-origin referrer is
@@ -118,7 +150,7 @@ No-save CMS acceptance requires:
 4. Require the preview iframe to remain fully visible after Tina acknowledges the form; do not accept a blank island.
 5. Confirm successful Tina preview POSTs and no content commit when no Save action was used.
 
-A complete publishing acceptance test still requires an intentional first save and second save: each must create the expected `main` commit, pass the production Worker workflow, create a new Worker version, and appear at the canonical site. Coordinate real content and an approved publisher before running this test.
+A complete publishing acceptance test still requires an intentional first save and second save: each must create the expected `main` commit, pass the native Cloudflare Workers Build, create a new Worker version, and appear at the canonical site. Coordinate real content and an approved publisher before running this test.
 
 ## Release verification
 
@@ -133,14 +165,19 @@ After every production deploy or DNS change, verify:
 - Homepage HTML contains `admin/bridge.js` and `data-tina-island`.
 - Direct island GET returns 405; valid Tina preview POST returns 200.
 - Both mail MX records are unchanged.
-- GitHub `main` matches the intended commit and both deployment workflows complete successfully.
+- GitHub `main` matches the intended commit, the native Cloudflare Workers Build
+  for that SHA succeeds, and the GitHub Pages rollback workflow completes.
 - Cloudflare Worker logs show no new binding, island, or 5xx failures.
 
 Keep the prior Worker version and GitHub Pages deployment available through the observation window. A Worker rollback does not roll back KV or DNS.
 
 ## Security and operational follow-ups
 
-- The Cloudflare API token and R2/S3 credential used during initial activation were exposed in the setup conversation. Rotate/revoke both after the release, replace the GitHub Worker secret with a least-privileged token, and remove unused AWS/R2 variables from the project `.env`.
+- The Cloudflare API token and R2/S3 credential used during initial activation
+  were exposed in the setup conversation. Rotate/revoke both after the release,
+  remove the obsolete GitHub Worker secrets, and remove unused AWS/R2 variables
+  from the project `.env`. Do not revoke the distinct Cloudflare-generated
+  Workers Builds token used by the native Git integration.
 - R2/AWS credentials are not part of this site's production runtime.
 - Keep TinaCloud publisher membership narrow; add a named backup owner only when authorized.
 - `main` currently needs a branch-protection/ruleset design compatible with Tina's GitHub App publishing path.
