@@ -3,6 +3,12 @@
   "name": "temple-aviv-judea",
   "compatibility_date": "2026-07-25",
   "compatibility_flags": ["nodejs_compat"],
+  "kv_namespaces": [
+    {
+      "binding": "SESSION",
+      "id": "b8711c2ee9344dc689033a6c4fba823c"
+    }
+  ],
   "observability": {
     "enabled": true
   }
