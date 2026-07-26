@@ -192,6 +192,7 @@ p { text-wrap: pretty; }
 .ministries-preview-directory > .eyebrow { margin-bottom: 1.25rem; }
 .ministry-pills { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
 .ministry-pills span { display: flex; align-items: center; min-height: 3.6rem; padding: .8rem 1rem; border: 1px solid rgba(255,255,255,.3); border-radius: .9rem; background: rgba(255,255,255,.08); font-weight: 700; line-height: 1.25; }
+.ministry-pills span:last-child:nth-child(odd) { grid-column: 1 / -1; }
 
 /* Inner page hero */
 .page-hero { position: relative; padding: clamp(5rem, 8vw, 7.5rem) 0; overflow: hidden; background: var(--cream); }
@@ -226,6 +227,9 @@ p { text-wrap: pretty; }
 .content-card p { margin-bottom: 0; color: var(--muted); }
 .feature-card { background: var(--cream); }
 .feature-card h2 { font-size: clamp(2.25rem, 4vw, 3.6rem); }
+.service-flow-intro { margin-top: 1.75rem; color: var(--blue) !important; font-weight: 700; }
+.service-flow { display: grid; gap: .7rem; margin: 1rem 0 0; padding-left: 1.25rem; color: var(--muted); }
+.service-flow li::marker { color: var(--coral); }
 .card-kicker { display: block; margin-bottom: 1rem; color: var(--coral); font-size: .75rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
 .accent-card { background: #e9f7f5; border-color: rgba(27,166,160,.25); }
 .inline-links { display: flex; flex-wrap: wrap; gap: .75rem 1.5rem; margin-top: 1rem; }
@@ -273,6 +277,12 @@ p { text-wrap: pretty; }
 .rabbi-grid > img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; object-position: center; border-radius: var(--radius); box-shadow: var(--shadow); }
 .rabbi-grid h2 { color: var(--blue); }
 .rabbi-grid p:not(.lead) { color: var(--muted); }
+.leadership-section { background: var(--paper); }
+.leadership-heading { margin-bottom: 3rem; }
+.leadership-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.leadership-card { min-height: 220px; padding: clamp(2rem, 4vw, 3rem); border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); }
+.leadership-card h3 { margin-bottom: 0; color: var(--blue); font-family: 'Eagle Lake', Georgia, serif; font-size: clamp(1.7rem, 3vw, 2.35rem); font-weight: 400; }
+.leadership-names { display: grid; gap: .55rem; margin: 0; padding: 0; color: var(--blue); font-size: 1.1rem; font-weight: 600; list-style: none; }
 .vision-section { padding: 8rem 0; background: var(--blue); color: var(--white); text-align: center; }
 .vision-inner { max-width: 860px; }
 .vision-inner p { margin: 0 auto 2rem; max-width: 700px; color: rgba(255,255,255,.75); font-size: 1.15rem; }
@@ -349,6 +359,8 @@ p { text-wrap: pretty; }
 .purple-card p { color: rgba(255,255,255,.76); }
 .wide-card { grid-column: 1 / -1; grid-template-columns: auto minmax(0, 1fr); min-height: 280px; align-items: center; }
 .wide-card > .button { grid-column: 2; justify-self: start; }
+.study-card { min-height: 260px; }
+.study-card .arrow-link { margin-top: 1.5rem; }
 .artist-thumbnails { display: grid; grid-template-columns: repeat(2, 340px); gap: .75rem; }
 .artist-thumbnails figure { min-width: 0; margin: 0; }
 .artist-thumbnails img { width: 340px; height: 448px; object-fit: cover; border-radius: 1rem; }
@@ -406,6 +418,8 @@ p { text-wrap: pretty; }
 .footer-links a, .site-footer address a, .social-links a { color: rgba(255,255,255,.8); text-decoration: none; }
 .footer-links a:hover, .site-footer address a:hover, .social-links a:hover { color: #ffd775; }
 .site-footer address { display: grid; gap: 1rem; font-style: normal; }
+.mailing-address { display: grid; gap: .2rem; color: rgba(255,255,255,.72); font-size: .9rem; line-height: 1.45; }
+.mailing-address small { color: #ffd775; font-size: .67rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
 .social-links { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem; font-size: .85rem; font-weight: 700; }
 .social-links a { display: inline-flex; align-items: center; gap: .35rem; }
 .footer-bottom { position: relative; display: flex; justify-content: space-between; gap: 2rem; margin-top: 5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,.14); color: rgba(255,255,255,.5); font-size: .75rem; }
@@ -636,6 +650,8 @@ p { text-wrap: pretty; }
   .timeline-year::after { left: -32px; right: auto; }
   .featured-entry .timeline-content { padding: 2rem; }
   .rabbi-grid { grid-template-columns: 1fr; }
+  .leadership-grid { grid-template-columns: 1fr; }
+  .leadership-card { min-height: 0; }
   .belief-grid { grid-template-columns: 1fr; }
   .belief-grid article { min-height: auto; }
   .belief-grid article > span { margin-bottom: 2rem; }

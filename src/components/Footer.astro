@@ -27,6 +27,7 @@ import SiteIcon from './SiteIcon.astro';
       <h3>Connect</h3>
       <address>
         <a href={site.address.maps} target="_blank" rel="noreferrer">{site.address.street}<br />{site.address.city}</a>
+        <span class="mailing-address"><small>Mailing address</small>{site.address.mailing}</span>
         <a href={site.phoneHref}>{site.phone}</a>
         <a href={`mailto:${site.email}`}>{site.email}</a>
       </address>
