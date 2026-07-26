@@ -7,6 +7,8 @@ import UpcomingEvents from '../UpcomingEvents.astro';
 import { upcomingEvents } from '../../data/events';
 import { site } from '../../data/site';
 import { cmsImageSource, cmsLink } from '../../lib/cms';
+import { mobileHeroMedia } from '../../lib/hero-media';
+import { withBase } from '../../lib/urls';
 
 interface Props {
   page: PageHome;
@@ -38,13 +40,76 @@ const welcomeUrl = cmsLink(welcome.linkUrl);
 const storyUrl = cmsLink(storyFeature.linkUrl);
 const previewUrl = cmsLink(visitPreview.buttonUrl);
 const ministriesUrl = cmsLink(ministriesPromo.linkUrl);
+const heroVideoMp4 = withBase(mobileHeroMedia.mp4);
+const heroVideoPoster = withBase(mobileHeroMedia.poster);
+const heroVideoWebm = withBase(mobileHeroMedia.webm);
 ---
 
-<section class="home-hero">
+<section class="home-hero" data-mobile-hero-video data-hero-video-state="fallback">
   <picture class="hero-picture" data-tina-field={tinaField(heroMedia, 'desktopImage')}>
-    <source media="(max-width: 719px)" srcset={cmsImageSource(heroMedia.mobileImage)} />
+    <source media="(max-width: 760px)" srcset={cmsImageSource(heroMedia.mobileImage)} />
     <img src={cmsImageSource(heroMedia.desktopImage)} alt={heroMedia.imageAlt} width="1280" height="720" fetchpriority="high" />
   </picture>
+  <div class="hero-video-frame" aria-hidden="true">
+    <img
+      class="hero-video-backdrop"
+      src={heroVideoPoster}
+      alt=""
+      width="540"
+      height="960"
+      loading="eager"
+    />
+    <video
+      class="hero-video"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      poster={heroVideoPoster}
+      disablepictureinpicture
+      disableRemotePlayback
+      tabindex="-1"
+    >
+      <source src={heroVideoMp4} type="video/mp4" media="(max-width: 760px)" />
+      <source src={heroVideoWebm} type="video/webm" media="(max-width: 760px)" />
+    </video>
+    <script is:inline>
+      (() => {
+        const root = document.currentScript?.closest('[data-mobile-hero-video]');
+        const video = root?.querySelector('video');
+        if (!(video instanceof HTMLVideoElement)) return;
+
+        video.muted = true;
+        video.defaultMuted = true;
+        video.playsInline = true;
+        video.setAttribute('muted', '');
+        video.setAttribute('playsinline', '');
+        video.setAttribute('webkit-playsinline', '');
+
+        const shouldPlayImmediately =
+          window.matchMedia('(max-width: 760px)').matches &&
+          !window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
+          !document.hidden;
+
+        if (shouldPlayImmediately) {
+          void video.play().catch(() => {});
+        } else {
+          video.autoplay = false;
+          video.pause();
+        }
+      })();
+    </script>
+    <img
+      class="hero-video-poster"
+      src={heroVideoPoster}
+      alt=""
+      width="540"
+      height="960"
+      loading="eager"
+      fetchpriority="high"
+    />
+  </div>
   <div class="hero-scrim" aria-hidden="true"></div>
   <div class="shell hero-content">
     <div class="hero-copy">
@@ -69,6 +134,17 @@ const ministriesUrl = cmsLink(ministriesPromo.linkUrl);
     <SiteIcon name="external-link" size={17} />
   </a>
 </section>
+
+<script>
+  import {
+    destroyMobileHeroVideos,
+    mountMobileHeroVideos,
+  } from '../../lib/mobile-hero-video.mjs';
+
+  mountMobileHeroVideos();
+  document.addEventListener('astro:before-swap', destroyMobileHeroVideos);
+  document.addEventListener('astro:page-load', () => mountMobileHeroVideos());
+</script>
 
 <section class="schedule-strip" aria-label="Saturday schedule">
   <div class="shell schedule-grid" data-stagger>

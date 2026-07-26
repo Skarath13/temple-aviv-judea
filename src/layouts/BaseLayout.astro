@@ -10,6 +10,9 @@ interface Props {
   title?: string;
   description?: string;
   image?: string;
+  preloadImage?: string;
+  preloadImageMedia?: string;
+  preloadImageType?: string;
   robots?: string;
 }
 
@@ -17,11 +20,15 @@ const {
   title = site.name,
   description = site.description,
   image = '/images/og.png',
+  preloadImage,
+  preloadImageMedia,
+  preloadImageType,
   robots = 'index, follow',
 } = Astro.props;
 const pageTitle = title === site.name ? title : `${title} | ${site.name}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const socialImage = new URL(withBase(image), Astro.site);
+const preloadImageUrl = preloadImage ? withBase(preloadImage) : undefined;
 const eagleLakeFont = withBase('/fonts/eagle-lake-regular.ttf');
 const eagleLakeFontFace = `@font-face{font-family:'Eagle Lake';src:url('${eagleLakeFont}') format('truetype');font-display:swap;font-style:normal;font-weight:400;}`;
 const structuredData = {
@@ -79,6 +86,16 @@ const structuredData = {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preload" href={eagleLakeFont} as="font" type="font/ttf" crossorigin />
+    {preloadImageUrl && (
+      <link
+        rel="preload"
+        href={preloadImageUrl}
+        as="image"
+        type={preloadImageType}
+        media={preloadImageMedia}
+        fetchpriority="high"
+      />
+    )}
     <style is:inline set:html={eagleLakeFontFace} />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <meta property="og:type" content="website" />
