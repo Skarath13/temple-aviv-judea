@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { env } from 'cloudflare:workers';
-import { createHeroMediaRequestHandler } from '../../../lib/hero-media-range.mjs';
+import { createHeroMediaRequestHandler } from './hero-media-range.mjs';
 
 export const prerender = false;
 

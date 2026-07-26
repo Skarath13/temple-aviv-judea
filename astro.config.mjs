@@ -61,6 +61,21 @@ if (cmsEnabled) {
         },
       },
     },
+    {
+      name: 'hero-media-route',
+      hooks: {
+        'astro:config:setup': ({ injectRoute }) => {
+          injectRoute({
+            pattern: '/videos/hero/[file]',
+            entrypoint: new URL(
+              './src/lib/hero-media-route.ts',
+              import.meta.url,
+            ),
+            prerender: false,
+          });
+        },
+      },
+    },
   );
 }
 

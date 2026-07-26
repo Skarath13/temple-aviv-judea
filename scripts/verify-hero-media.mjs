@@ -114,7 +114,7 @@ const sourceContracts = [
     ],
   },
   {
-    path: 'src/pages/videos/hero/[file].ts',
+    path: 'src/lib/hero-media-route.ts',
     tokens: [
       'caches',
       'env.ASSETS',

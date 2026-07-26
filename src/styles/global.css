@@ -755,7 +755,7 @@ p { text-wrap: pretty; }
 }
 
 @media (max-width: 760px) and (max-height: 720px) {
-  .hero-content { padding: 1.5rem 0 max(.75rem, env(safe-area-inset-bottom, 0px)); }
+  .hero-content { padding: 1.5rem 0 max(1rem, env(safe-area-inset-bottom, 0px)); }
   .hero-copy h1 { margin-bottom: .7rem; font-size: clamp(2rem, 9.75vw, 2.6rem); line-height: 1; }
   .home-hero .button-row { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: .5rem; margin-top: .9rem; }
   .home-hero .button-row .button { min-width: 0; min-height: 3.25rem; padding: .6rem .65rem; font-size: .78rem; }
