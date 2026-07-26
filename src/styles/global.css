@@ -646,6 +646,9 @@ p { text-wrap: pretty; }
     object-fit: cover;
     object-position: center;
   }
+  @media (max-width: 380px) and (max-height: 700px) {
+    .hero-video, .hero-video-poster { object-fit: contain; }
+  }
   .hero-video-poster {
     z-index: 2;
     opacity: 1;

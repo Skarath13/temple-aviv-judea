@@ -14,6 +14,7 @@ const MP4_ETAG =
 class MemoryCache {
   constructor() {
     this.entries = new Map();
+    this.matchRequests = [];
   }
 
   async delete(request) {
@@ -21,7 +22,25 @@ class MemoryCache {
   }
 
   async match(request) {
-    return this.entries.get(request.url)?.clone();
+    this.matchRequests.push(request);
+    const entry = this.entries.get(request.url);
+    if (!entry) return undefined;
+
+    const range = request.headers.get('Range');
+    if (!range) return entry.clone();
+    const match = /^bytes=(\d+)-(\d+)$/.exec(range);
+    if (!match) return undefined;
+
+    const start = Number(match[1]);
+    const end = Number(match[2]);
+    const bytes = new Uint8Array(await entry.clone().arrayBuffer());
+    const headers = new Headers(entry.headers);
+    headers.set('Content-Length', String(end - start + 1));
+    headers.set('Content-Range', `bytes ${start}-${end}/${bytes.byteLength}`);
+    return new Response(bytes.subarray(start, end + 1), {
+      headers,
+      status: 206,
+    });
   }
 
   async put(request, response) {
@@ -167,6 +186,9 @@ test('serves HEAD with representation headers and no body', async () => {
   assert.equal(response.body, null);
   assert.equal(response.headers.get('Content-Length'), String(MP4_BYTES));
   assert.equal(response.headers.get('Accept-Ranges'), 'bytes');
+  assert.equal(response.headers.get('X-Hero-Media-Cache'), 'BYPASS');
+  assert.equal(harness.assetFetcher.calls.length, 0);
+  assert.equal(harness.cacheStorage.openedNames.length, 0);
 });
 
 test('serves closed, suffix, and open-ended byte ranges', async () => {
@@ -261,6 +283,8 @@ test('serves ranged HEAD metadata without a body', async () => {
     response.headers.get('Content-Range'),
     `bytes 0-1/${MP4_BYTES}`,
   );
+  assert.equal(harness.assetFetcher.calls.length, 0);
+  assert.equal(harness.cacheStorage.openedNames.length, 0);
 });
 
 test('rejects a truncated asset contract instead of caching it', async () => {
@@ -276,6 +300,121 @@ test('rejects a truncated asset contract instead of caching it', async () => {
   assert.equal(response.headers.get('X-Hero-Media-Cache'), 'ERROR');
   assert.match(body, /temporarily unavailable/);
   assert.equal(harness.cacheStorage.cache.entries.size, 0);
+});
+
+test('rejects a truncated body when the origin omits Content-Length', async () => {
+  const harness = createHarness({
+    contentLength: null,
+    sourceBytes: MP4_BYTES - 1,
+  });
+  const response = await harness.handler(request());
+
+  assert.equal(response.status, 502);
+  assert.equal(harness.cacheStorage.cache.entries.size, 0);
+});
+
+test('streams a cold leading range before the complete asset arrives', async () => {
+  let releaseRemainder;
+  const remainderGate = new Promise((resolve) => {
+    releaseRemainder = resolve;
+  });
+  let sentFirstChunk = false;
+  const bytes = new Uint8Array(MP4_BYTES);
+  bytes[0] = 17;
+  bytes[1] = 29;
+  const cacheStorage = new MemoryCacheStorage();
+  const tasks = [];
+  const context = {
+    waitUntil(promise) {
+      tasks.push(promise);
+    },
+  };
+  const assetFetcher = {
+    async fetch() {
+      return new Response(
+        new ReadableStream({
+          async pull(controller) {
+            if (!sentFirstChunk) {
+              sentFirstChunk = true;
+              controller.enqueue(bytes.subarray(0, 64 * 1024));
+              return;
+            }
+            await remainderGate;
+            controller.enqueue(bytes.subarray(64 * 1024));
+            controller.close();
+          },
+        }),
+        {
+          headers: {
+            'Content-Length': String(MP4_BYTES),
+            'Content-Type': 'video/mp4',
+          },
+        },
+      );
+    },
+  };
+  const handler = createHeroMediaRequestHandler({
+    assetFetcher,
+    cacheStorage,
+    context,
+  });
+
+  const response = await handler(
+    request(MP4_PATH, { headers: { Range: 'bytes=0-1' } }),
+  );
+  const body = new Uint8Array(await response.arrayBuffer());
+
+  assert.deepEqual(body, new Uint8Array([17, 29]));
+  assert.equal(response.headers.get('X-Hero-Media-Cache'), 'MISS');
+  assert.equal(cacheStorage.cache.entries.size, 0);
+
+  releaseRemainder();
+  await Promise.all(tasks);
+  assert.equal(cacheStorage.cache.entries.size, 1);
+});
+
+test('uses a native ranged cache hit without fetching the origin', async () => {
+  const harness = createHarness();
+  const first = await harness.handler(request());
+  await first.arrayBuffer();
+  await harness.settle();
+
+  const response = await harness.handler(
+    request(MP4_PATH, { headers: { Range: 'bytes=2919987-' } }),
+  );
+  const body = new Uint8Array(await response.arrayBuffer());
+
+  assert.equal(response.status, 206);
+  assert.equal(response.headers.get('X-Hero-Media-Cache'), 'HIT');
+  assert.equal(harness.assetFetcher.calls.length, 1);
+  assert.deepEqual(
+    body,
+    harness.bytes.subarray(2_919_987),
+  );
+  assert.ok(
+    harness.cacheStorage.cache.matchRequests.some(
+      (candidate) =>
+        candidate.headers.get('Range') ===
+        `bytes=2919987-${MP4_BYTES - 1}`,
+    ),
+  );
+});
+
+test('ignores a rejected background cache write without failing playback', async () => {
+  const harness = createHarness();
+  harness.cacheStorage.cache.put = async (_request, response) => {
+    await response.body?.cancel('simulated-cache-write-failure');
+    throw new Error('simulated cache write failure');
+  };
+
+  const response = await harness.handler(
+    request(MP4_PATH, { headers: { Range: 'bytes=0-1' } }),
+  );
+  const body = new Uint8Array(await response.arrayBuffer());
+  await harness.settle();
+
+  assert.equal(response.status, 206);
+  assert.deepEqual(body, harness.bytes.subarray(0, 2));
 });
 
 test('cancels the source stream after completing a probe range', async () => {

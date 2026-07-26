@@ -92,8 +92,10 @@ class FakeVideo extends EventTarget {
 }
 
 const createHarness = ({
+  initialState,
   IntersectionObserverCtor = null,
   playOutcomes,
+  readyState = 2,
   reducedMotion = false,
   timings = {},
 } = {}) => {
@@ -109,8 +111,11 @@ const createHarness = ({
       : mobileQuery;
   windowRef.requestAnimationFrame = (callback) => setTimeout(callback, 0);
   windowRef.setTimeout = setTimeout;
-  const root = { dataset: {} };
+  const root = {
+    dataset: initialState ? { heroVideoState: initialState } : {},
+  };
   const video = new FakeVideo(playOutcomes);
+  video.readyState = readyState;
   const controller = createMobileHeroVideoController({
     documentRef,
     IntersectionObserverCtor,
@@ -146,6 +151,41 @@ test('autoplays muted and reveals only after a presented frame', async () => {
   harness.video.currentTime = 0.2;
   harness.video.dispatchEvent(new Event('timeupdate'));
   harness.video.frameCallback();
+  await wait(5);
+  assert.equal(harness.root.dataset.heroVideoState, 'playing');
+
+  harness.controller.destroy();
+});
+
+test('adopts an inline-bootstrap frame without covering it during mount', async () => {
+  let observerCallback;
+  class FakeIntersectionObserver {
+    constructor(callback) {
+      observerCallback = callback;
+    }
+
+    disconnect() {}
+
+    observe() {}
+  }
+  const harness = createHarness({
+    initialState: 'playing',
+    IntersectionObserverCtor: FakeIntersectionObserver,
+    timings: { progressCheckDelay: 100 },
+  });
+
+  harness.controller.start();
+  await wait(0);
+  assert.equal(harness.root.dataset.heroVideoState, 'playing');
+
+  observerCallback([
+    {
+      intersectionRatio: 1,
+      isIntersecting: true,
+      target: harness.root,
+    },
+  ]);
+  await wait(0);
   assert.equal(harness.root.dataset.heroVideoState, 'playing');
 
   harness.controller.destroy();
@@ -189,7 +229,29 @@ test('rebuilds the media pipeline when play resolves without progress', async ()
   harness.controller.destroy();
 });
 
-test('covers and recovers after a stall', async () => {
+test('does not restart normal startup buffering before the first frame', async () => {
+  const harness = createHarness({
+    timings: {
+      progressCheckDelay: 100,
+      recoveryDelays: [0],
+      startupStallRecoveryDelay: 15,
+      stallRecoveryDelay: 5,
+    },
+  });
+  harness.controller.start();
+  await wait(0);
+  harness.video.dispatchEvent(new Event('waiting'));
+  assert.equal(harness.root.dataset.heroVideoState, 'fallback');
+  await wait(7);
+  assert.equal(harness.video.loadCalls, 0);
+  harness.video.dispatchEvent(new Event('playing'));
+  await wait(12);
+  assert.equal(harness.video.loadCalls, 0);
+
+  harness.controller.destroy();
+});
+
+test('defers cover and rebuild until a proven playback stall persists', async () => {
   const harness = createHarness({
     timings: {
       progressCheckDelay: 100,
@@ -199,15 +261,54 @@ test('covers and recovers after a stall', async () => {
   });
   harness.controller.start();
   await wait(0);
+  harness.video.currentTime = 0.2;
+  harness.video.dispatchEvent(new Event('timeupdate'));
+  harness.video.frameCallback();
+  await wait(5);
+  assert.equal(harness.root.dataset.heroVideoState, 'playing');
+
   harness.video.dispatchEvent(new Event('waiting'));
-  assert.equal(harness.root.dataset.heroVideoState, 'recovering');
+  assert.equal(harness.root.dataset.heroVideoState, 'playing');
   await wait(10);
   assert.equal(harness.video.loadCalls, 1);
+  assert.notEqual(harness.root.dataset.heroVideoState, 'playing');
 
   harness.controller.destroy();
 });
 
-test('rebuilds on BFCache restoration and remains covered during recovery', async () => {
+test('resumes a healthy BFCache pipeline before attempting a rebuild', async () => {
+  const harness = createHarness({
+    timings: { progressCheckDelay: 100 },
+  });
+  harness.controller.start();
+  await wait(0);
+  harness.video.currentTime = 0.2;
+  harness.video.dispatchEvent(new Event('timeupdate'));
+  harness.video.frameCallback();
+  await wait(5);
+
+  harness.windowRef.dispatchEvent(new Event('pagehide'));
+  assert.equal(harness.root.dataset.heroVideoState, 'fallback');
+
+  const pageShow = new Event('pageshow');
+  Object.defineProperty(pageShow, 'persisted', { value: true });
+  harness.windowRef.dispatchEvent(pageShow);
+  await wait(0);
+  assert.equal(harness.video.loadCalls, 0);
+  assert.equal(harness.video.currentTime, 0);
+  assert.equal(harness.video.playCalls, 2);
+  assert.equal(harness.root.dataset.heroVideoState, 'fallback');
+
+  harness.video.currentTime = 0.1;
+  harness.video.dispatchEvent(new Event('timeupdate'));
+  harness.video.frameCallback();
+  await wait(5);
+  assert.equal(harness.root.dataset.heroVideoState, 'playing');
+
+  harness.controller.destroy();
+});
+
+test('rebuilds an errored BFCache pipeline after covering it', async () => {
   const harness = createHarness({
     timings: {
       progressCheckDelay: 100,
@@ -217,13 +318,15 @@ test('rebuilds on BFCache restoration and remains covered during recovery', asyn
   harness.controller.start();
   await wait(0);
   harness.windowRef.dispatchEvent(new Event('pagehide'));
-  assert.equal(harness.root.dataset.heroVideoState, 'fallback');
+  harness.video.error = { code: 3 };
 
   const pageShow = new Event('pageshow');
   Object.defineProperty(pageShow, 'persisted', { value: true });
   harness.windowRef.dispatchEvent(pageShow);
   await wait(5);
+
   assert.equal(harness.video.loadCalls, 1);
+  assert.notEqual(harness.root.dataset.heroVideoState, 'playing');
 
   harness.controller.destroy();
 });
@@ -363,11 +466,13 @@ test('recovers when a play promise never settles', async () => {
   const neverSettles = new Promise(() => {});
   const harness = createHarness({
     playOutcomes: [neverSettles, null],
+    readyState: 0,
     timings: {
       maxRecoveries: 1,
-      playAttemptTimeout: 5,
+      playRetryDelays: [],
       progressCheckDelay: 100,
       recoveryDelays: [0],
+      startupPlayAttemptTimeout: 5,
     },
   });
   harness.controller.start();
@@ -379,13 +484,9 @@ test('recovers when a play promise never settles', async () => {
   harness.controller.destroy();
 });
 
-test('starts a fresh bounded recovery episode on each BFCache return', async () => {
+test('repeated healthy BFCache returns avoid unnecessary source reloads', async () => {
   const harness = createHarness({
-    timings: {
-      maxRecoveries: 1,
-      progressCheckDelay: 100,
-      recoveryDelays: [0],
-    },
+    timings: { progressCheckDelay: 100 },
   });
   harness.controller.start();
   await wait(0);
@@ -399,10 +500,9 @@ test('starts a fresh bounded recovery episode on each BFCache return', async () 
   };
 
   await restoreFromBFCache();
-  assert.equal(harness.video.loadCalls, 1);
   await restoreFromBFCache();
-  assert.equal(harness.video.loadCalls, 2);
-  assert.notEqual(harness.root.dataset.heroVideoState, 'failed');
+  assert.equal(harness.video.loadCalls, 0);
+  assert.equal(harness.video.playCalls, 3);
 
   harness.controller.destroy();
 });
@@ -414,11 +514,16 @@ test('brief progress cannot bypass the bounded recovery budget', async () => {
       maxRecoveries: 1,
       progressCheckDelay: 100,
       recoveryDelays: [0],
+      startupStallRecoveryDelay: 3,
       stallRecoveryDelay: 3,
     },
   });
   harness.controller.start();
   await wait(0);
+  harness.video.currentTime = 0.1;
+  harness.video.dispatchEvent(new Event('timeupdate'));
+  harness.video.frameCallback();
+  await wait(5);
   harness.video.dispatchEvent(new Event('stalled'));
   await waitFor(
     () =>
@@ -451,6 +556,23 @@ test('uses the double-animation-frame fallback before revealing video', async ()
   harness.video.dispatchEvent(new Event('timeupdate'));
   assert.equal(harness.root.dataset.heroVideoState, 'fallback');
   await wait(5);
+  assert.equal(harness.root.dataset.heroVideoState, 'playing');
+
+  harness.controller.destroy();
+});
+
+test('falls back when requestVideoFrameCallback does not fire but time advances', async () => {
+  const harness = createHarness({
+    timings: {
+      framePresentationTimeout: 5,
+      progressCheckDelay: 100,
+    },
+  });
+  harness.controller.start();
+  await wait(0);
+  harness.video.currentTime = 0.2;
+  await wait(12);
+
   assert.equal(harness.root.dataset.heroVideoState, 'playing');
 
   harness.controller.destroy();

@@ -1,6 +1,7 @@
 const MOBILE_QUERY = '(max-width: 760px)';
 const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
 const DEFAULT_TIMINGS = {
+  framePresentationTimeout: 600,
   healthyRecoveryResetDelay: 8000,
   maxRecoveries: 3,
   minProgressSeconds: 0.05,
@@ -8,6 +9,8 @@ const DEFAULT_TIMINGS = {
   playRetryDelays: [0, 250, 800],
   progressCheckDelay: 1600,
   recoveryDelays: [80, 350, 900],
+  startupPlayAttemptTimeout: 6000,
+  startupStallRecoveryDelay: 4000,
   stallRecoveryDelay: 700,
 };
 
@@ -53,9 +56,12 @@ export const createMobileHeroVideoController = ({
   let attemptToken = 0;
   let consecutiveRecoveries = 0;
   let destroyed = false;
+  let hasPresentedFrame = false;
   let healthyTimer = null;
   let inViewport = true;
   let lastMediaTime = 0;
+  let presentationPendingToken = null;
+  let presentationTimer = null;
   let playInFlight = false;
   let playRetryCount = 0;
   let playTimer = null;
@@ -64,6 +70,7 @@ export const createMobileHeroVideoController = ({
   let recoverySequence = 0;
   let retryTimer = null;
   let stallTimer = null;
+  let wasSuspended = false;
 
   const setState = (state) => {
     root.dataset.heroVideoState = state;
@@ -76,11 +83,14 @@ export const createMobileHeroVideoController = ({
   const clearPlaybackTimers = () => {
     clearTimer(healthyTimer);
     clearTimer(playTimer);
+    clearTimer(presentationTimer);
     clearTimer(progressTimer);
     clearTimer(retryTimer);
     clearTimer(stallTimer);
     healthyTimer = null;
     playTimer = null;
+    presentationPendingToken = null;
+    presentationTimer = null;
     progressTimer = null;
     retryTimer = null;
     stallTimer = null;
@@ -143,6 +153,9 @@ export const createMobileHeroVideoController = ({
   const revealPresentedFrame = () => {
     if (!shouldPlay() || video.paused || video.readyState < 2) return;
     const frameToken = attemptToken;
+    if (presentationPendingToken === frameToken) return;
+    presentationPendingToken = frameToken;
+    const requestedAt = currentTime();
 
     const reveal = () => {
       if (
@@ -152,18 +165,38 @@ export const createMobileHeroVideoController = ({
         !video.paused &&
         video.readyState >= 2
       ) {
+        hasPresentedFrame = true;
+        presentationPendingToken = null;
+        clearTimer(presentationTimer);
+        presentationTimer = null;
         setState('playing');
       }
     };
 
+    const revealAfterPaint = () => {
+      windowRef.requestAnimationFrame(() => {
+        windowRef.requestAnimationFrame(reveal);
+      });
+    };
+
+    presentationTimer = windowRef.setTimeout(() => {
+      presentationTimer = null;
+      if (
+        frameToken === attemptToken &&
+        progressBetween(requestedAt, currentTime()) >= config.minProgressSeconds
+      ) {
+        revealAfterPaint();
+      } else if (presentationPendingToken === frameToken) {
+        presentationPendingToken = null;
+      }
+    }, config.framePresentationTimeout);
+
     if (typeof video.requestVideoFrameCallback === 'function') {
-      video.requestVideoFrameCallback(reveal);
+      video.requestVideoFrameCallback(revealAfterPaint);
       return;
     }
 
-    windowRef.requestAnimationFrame(() => {
-      windowRef.requestAnimationFrame(reveal);
-    });
+    revealAfterPaint();
   };
 
   const withRecoveryQuery = (url, attempt) => {
@@ -190,6 +223,8 @@ export const createMobileHeroVideoController = ({
 
     consecutiveRecoveries += 1;
     recoverySequence += 1;
+    hasPresentedFrame = false;
+    presentationPendingToken = null;
     video.pause();
     for (const { source, url } of sourceRecords) {
       source.setAttribute('src', withRecoveryQuery(url, recoverySequence));
@@ -254,13 +289,21 @@ export const createMobileHeroVideoController = ({
     playInFlight = true;
     const token = ++attemptToken;
     const startedAt = currentTime();
+    const attemptTimeout = hasPresentedFrame
+      ? config.playAttemptTimeout
+      : config.startupPlayAttemptTimeout;
     playTimer = windowRef.setTimeout(() => {
       if (destroyed || token !== attemptToken || !shouldPlay()) return;
       playTimer = null;
       playInFlight = false;
-      coverVideo('recovering');
-      recoverPipeline();
-    }, config.playAttemptTimeout);
+      coverVideo();
+      if (!hasPresentedFrame && !video.error && video.readyState < 2) {
+        attemptToken += 1;
+        schedulePlayRetry();
+      } else {
+        recoverPipeline();
+      }
+    }, attemptTimeout);
 
     try {
       await video.play();
@@ -289,6 +332,29 @@ export const createMobileHeroVideoController = ({
     video.pause();
   };
 
+  const resetToPosterFrame = () => {
+    if (video.readyState < 1 || !Number.isFinite(video.duration)) return;
+    try {
+      video.currentTime = 0;
+      lastMediaTime = 0;
+    } catch {
+      // Safari can temporarily reject seeks while restoring a media element.
+    }
+  };
+
+  const resumeAfterSuspension = () => {
+    coverVideo();
+    if (!shouldPlay()) return;
+    beginRecoveryEpisode();
+    if (video.error) {
+      recoverPipeline();
+      return;
+    }
+    if (wasSuspended) resetToPosterFrame();
+    wasSuspended = false;
+    void attemptPlayback();
+  };
+
   const onProgress = () => {
     const nextTime = currentTime();
     if (
@@ -309,13 +375,16 @@ export const createMobileHeroVideoController = ({
     if (!shouldPlay()) return;
     clearTimer(healthyTimer);
     healthyTimer = null;
-    coverVideo('recovering');
     if (recoveryInFlight) return;
     clearTimer(stallTimer);
+    const recoveryDelay = hasPresentedFrame
+      ? config.stallRecoveryDelay
+      : config.startupStallRecoveryDelay;
     stallTimer = windowRef.setTimeout(() => {
       stallTimer = null;
+      coverVideo('recovering');
       recoverPipeline();
-    }, config.stallRecoveryDelay);
+    }, recoveryDelay);
   };
 
   const onError = () => {
@@ -340,33 +409,30 @@ export const createMobileHeroVideoController = ({
 
   const onVisibilityChange = () => {
     if (documentRef.hidden) {
+      wasSuspended = true;
       pauseAndCover();
       return;
     }
 
-    coverVideo();
-    beginRecoveryEpisode();
-    if (video.error) {
-      recoverPipeline();
-    } else void attemptPlayback();
+    resumeAfterSuspension();
   };
 
   const onPageHide = () => {
+    wasSuspended = true;
     pauseAndCover();
   };
 
   const onPageShow = (event) => {
-    coverVideo();
-    if (!shouldPlay()) return;
-    if (event.persisted || video.error) {
-      beginRecoveryEpisode();
-      recoverPipeline();
-    } else void attemptPlayback();
+    if (event.persisted || wasSuspended || video.error) {
+      resumeAfterSuspension();
+    } else if (shouldPlay() && video.paused) {
+      void attemptPlayback();
+    }
   };
 
   const reconcilePlayback = () => {
     if (shouldPlay()) {
-      coverVideo();
+      if (root.dataset.heroVideoState !== 'playing') coverVideo();
       void attemptPlayback();
       return;
     }
@@ -379,7 +445,8 @@ export const createMobileHeroVideoController = ({
   };
 
   const start = () => {
-    coverVideo();
+    hasPresentedFrame = root.dataset.heroVideoState === 'playing';
+    if (!hasPresentedFrame) coverVideo();
     prepareForAutoplay();
     lastMediaTime = currentTime();
 

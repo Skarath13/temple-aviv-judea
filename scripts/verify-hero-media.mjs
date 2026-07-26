@@ -14,9 +14,9 @@ const assets = [
     sha256: '68f4fca47ca0e38300dcee62d5f372c23ea9c08e1e6bbd44279e3d56d9509e68',
   },
   {
-    path: 'public/videos/hero/mobile-jerusalem-v1-poster.webp',
-    bytes: 62_732,
-    sha256: '315f412a39ffc30f6214686c20276e4d5af3a8daeb4c660356996190bcebdc5d',
+    path: 'public/videos/hero/mobile-jerusalem-v2-poster.webp',
+    bytes: 296_010,
+    sha256: '8d10dc29b2482e2e1272e4189a955632a7732c67f6d6e6f78c30459be996e4f3',
   },
 ];
 
@@ -82,9 +82,12 @@ const sourceContracts = [
       'playsinline',
       'preload="auto"',
       "prefers-reduced-motion: reduce",
+      'requestVideoFrameCallback',
+      'srcset={heroVideoPoster}',
       'type="video/mp4"',
       'type="video/webm"',
     ],
+    forbiddenTokens: ['poster={heroVideoPoster}'],
   },
   {
     path: 'src/layouts/BaseLayout.astro',
@@ -126,8 +129,10 @@ const sourceContracts = [
     path: 'src/styles/global.css',
     tokens: [
       '100svh',
+      '(max-width: 380px) and (max-height: 700px)',
       'hero-scrim { display: none; }',
       'mobile-hero-continuation',
+      'object-fit: contain',
       'transition: none',
     ],
     forbiddenTokens: [

@@ -47,7 +47,7 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
 
 <section class="home-hero" data-mobile-hero-video data-hero-video-state="fallback">
   <picture class="hero-picture" data-tina-field={tinaField(heroMedia, 'desktopImage')}>
-    <source media="(max-width: 760px)" srcset={cmsImageSource(heroMedia.mobileImage)} />
+    <source media="(max-width: 760px)" srcset={heroVideoPoster} />
     <img src={cmsImageSource(heroMedia.desktopImage)} alt={heroMedia.imageAlt} width="1280" height="720" fetchpriority="high" />
   </picture>
   <div class="hero-video-frame" aria-hidden="true">
@@ -58,7 +58,6 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
       loop
       playsinline
       preload="auto"
-      poster={heroVideoPoster}
       disablepictureinpicture
       disableRemotePlayback
       tabindex="-1"
@@ -85,6 +84,33 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
           !document.hidden;
 
         if (shouldPlayImmediately) {
+          let revealed = false;
+          const revealAfterPaint = () => {
+            if (revealed) return;
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => {
+                if (
+                  !revealed &&
+                  !video.paused &&
+                  video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA
+                ) {
+                  revealed = true;
+                  root.dataset.heroVideoState = 'playing';
+                }
+              });
+            });
+          };
+          const revealAfterProgress = () => {
+            if (video.currentTime > 0) revealAfterPaint();
+            if (revealed) {
+              video.removeEventListener('timeupdate', revealAfterProgress);
+            }
+          };
+
+          video.addEventListener('timeupdate', revealAfterProgress);
+          if (typeof video.requestVideoFrameCallback === 'function') {
+            video.requestVideoFrameCallback(revealAfterPaint);
+          }
           void video.play().catch(() => {});
         } else {
           video.autoplay = false;

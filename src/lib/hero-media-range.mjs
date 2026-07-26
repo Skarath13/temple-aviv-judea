@@ -100,6 +100,15 @@ const hasExpectedCachedRepresentation = (response, contract) =>
   response.headers.get('Content-Type') === contract.contentType &&
   Number(response.headers.get('Content-Length')) === contract.bytes;
 
+const hasExpectedCachedRange = (response, contract, range) =>
+  response.status === 206 &&
+  response.body !== null &&
+  response.headers.get('Content-Type') === contract.contentType &&
+  Number(response.headers.get('Content-Length')) ===
+    range.end - range.start + 1 &&
+  response.headers.get('Content-Range') ===
+    `bytes ${range.start}-${range.end}/${contract.bytes}`;
+
 const hasExpectedOriginHeaders = (response, contract) => {
   if (
     response.status !== 200 ||
@@ -163,22 +172,44 @@ const fetchFullRepresentation = async ({
     };
   }
 
-  const assetBytes = await assetResponse.arrayBuffer();
-  if (assetBytes.byteLength !== contract.bytes) {
-    return {
-      cacheStatus: 'ERROR',
-      response: createErrorResponse(
-        502,
-        'Hero media is temporarily unavailable.',
-        contract,
-        'ERROR',
-      ),
-    };
+  let response;
+  if (assetResponse.headers.get('Content-Length') === null) {
+    const assetBytes = await assetResponse.arrayBuffer();
+    if (assetBytes.byteLength !== contract.bytes) {
+      return {
+        cacheStatus: 'ERROR',
+        response: createErrorResponse(
+          502,
+          'Hero media is temporarily unavailable.',
+          contract,
+          'ERROR',
+        ),
+      };
+    }
+    response = normalizeFullResponse(new Response(assetBytes), contract);
+  } else {
+    response = normalizeFullResponse(assetResponse, contract);
   }
 
-  const response = normalizeFullResponse(new Response(assetBytes), contract);
-  context.waitUntil(cache.put(cacheKey, response.clone()));
+  context.waitUntil(
+    cache.put(cacheKey, response.clone()).catch(() => undefined),
+  );
   return { cacheStatus: 'MISS', response };
+};
+
+const createRangedCacheKey = (cacheKey, range) =>
+  new Request(cacheKey.url, {
+    headers: { Range: `bytes=${range.start}-${range.end}` },
+    method: 'GET',
+  });
+
+const matchCachedRange = async ({ cache, cacheKey, contract, range }) => {
+  const cached = await cache.match(createRangedCacheKey(cacheKey, range));
+  if (!cached) return null;
+  if (hasExpectedCachedRange(cached, contract, range)) return cached;
+
+  await cached.body?.cancel('invalid-cached-hero-media-range');
+  return null;
 };
 
 export const createRangeStream = (body, range, context) => {
@@ -258,11 +289,43 @@ export const createHeroMediaRequestHandler =
       return createUnsatisfiableResponse(contract);
     }
 
+    if (method === 'HEAD') {
+      const headers = createHeaders(contract, 'BYPASS');
+      if (range) {
+        headers.set('Content-Length', String(range.end - range.start + 1));
+        headers.set(
+          'Content-Range',
+          `bytes ${range.start}-${range.end}/${contract.bytes}`,
+        );
+        return new Response(null, { headers, status: 206 });
+      }
+      return new Response(null, { headers, status: 200 });
+    }
+
     const cache = await cacheStorage.open(HERO_MEDIA_CACHE_NAME);
+    const cacheKey = canonicalCacheKey(request);
+    if (range) {
+      const cachedRange = await matchCachedRange({
+        cache,
+        cacheKey,
+        contract,
+        range,
+      });
+      if (cachedRange) {
+        const headers = createHeaders(contract, 'HIT');
+        headers.set('Content-Length', String(range.end - range.start + 1));
+        headers.set(
+          'Content-Range',
+          `bytes ${range.start}-${range.end}/${contract.bytes}`,
+        );
+        return new Response(cachedRange.body, { headers, status: 206 });
+      }
+    }
+
     const full = await fetchFullRepresentation({
       assetFetcher,
       cache,
-      cacheKey: canonicalCacheKey(request),
+      cacheKey,
       context,
       contract,
       request,
@@ -277,10 +340,6 @@ export const createHeroMediaRequestHandler =
         'Content-Range',
         `bytes ${range.start}-${range.end}/${contract.bytes}`,
       );
-      if (method === 'HEAD') {
-        await full.response.body?.cancel('head-range-request');
-        return new Response(null, { headers, status: 206 });
-      }
       return new Response(
         createFixedLengthRangeStream(full.response.body, range, context),
         { headers, status: 206 },
@@ -288,9 +347,5 @@ export const createHeroMediaRequestHandler =
     }
 
     const headers = createHeaders(contract, full.cacheStatus);
-    if (method === 'HEAD') {
-      await full.response.body?.cancel('head-request');
-      return new Response(null, { headers, status: 200 });
-    }
     return new Response(full.response.body, { headers, status: 200 });
   };
