@@ -19,7 +19,7 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 .tina-page-island { display: contents; }
-html { min-height: 100%; background: #071f37; scroll-behavior: smooth; color-scheme: light; -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: rgba(245,193,78,.25); }
+html { min-height: 100%; background: #071f37; scroll-behavior: auto; color-scheme: light; -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: rgba(245,193,78,.25); }
 body { min-height: 100vh; min-height: 100dvh; margin: 0; overflow-x: clip; background: #071f37; color: var(--ink); font-family: 'DM Sans', system-ui, sans-serif; line-height: 1.65; -webkit-font-smoothing: antialiased; }
 main { background: var(--paper); }
 body::selection { background: var(--gold); color: var(--blue-deep); }

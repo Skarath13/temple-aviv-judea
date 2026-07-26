@@ -19,7 +19,8 @@
     "preview": "astro preview",
     "types:cloudflare": "wrangler types",
     "test:hero-video": "node --test tests/mobile-hero-video.test.mjs tests/hero-media-range.test.mjs",
-    "validate:content": "node scripts/validate-content.mjs && pnpm run verify:hero-video",
+    "test:navigation-scroll": "node --test tests/navigation-scroll.test.mjs",
+    "validate:content": "node scripts/validate-content.mjs && pnpm run verify:hero-video && pnpm run test:navigation-scroll",
     "verify:hero-video": "node scripts/verify-hero-media.mjs && pnpm run test:hero-video"
   },
   "dependencies": {
