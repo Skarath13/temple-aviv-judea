@@ -96,6 +96,10 @@ const structuredData = {
     <script is:inline>
       (() => {
         const root = document.documentElement;
+        const tinaPreview =
+          window.self !== window.top &&
+          document.querySelector('[data-tina-island]');
+        if (tinaPreview) root.classList.remove('motion-ready');
         if (!root.classList.contains('motion-ready')) return;
 
         const targets = [...document.querySelectorAll('[data-reveal], [data-stagger]')];

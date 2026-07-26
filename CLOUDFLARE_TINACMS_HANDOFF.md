@@ -2,6 +2,15 @@
 
 Prepared July 25, 2026.
 
+> Production activation update, July 25, 2026: the TinaCloud project, persistent
+> `SESSION` KV namespace, dynamic Worker, authenticated visual editor, canonical
+> `www` Worker Custom Domain, apex placeholder, and canonical redirect rules are
+> now live. The repository also has a production Worker workflow for `main`.
+> The deferred/no-resource statements below describe the pre-activation baseline
+> and are retained as implementation history. Current operating state, DNS
+> rollback values, verification gates, and remaining risks are authoritative in
+> `AGENTS.md`.
+
 ## Goal
 
 Move Temple Aviv Judea from its current GitHub Pages deployment to Cloudflare Workers, connect TinaCloud, and give approved nontechnical publishers normal CMS control without replacing the existing visual design.
