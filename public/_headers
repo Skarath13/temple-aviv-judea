@@ -1,3 +1,9 @@
 /videos/hero/*
   Cache-Control: public, max-age=31536000, immutable
   X-Content-Type-Options: nosniff
+
+/llms.txt
+  Cache-Control: public, max-age=3600, must-revalidate
+  Content-Language: en
+  Content-Type: text/plain; charset=utf-8
+  X-Content-Type-Options: nosniff

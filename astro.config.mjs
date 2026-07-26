@@ -42,7 +42,8 @@ const integrations = [
   sitemap({
     filter: (page) =>
       !page.endsWith('/admin/') &&
-      !page.endsWith('/admin-preview/'),
+      !page.endsWith('/admin-preview/') &&
+      !page.endsWith('/llms.txt'),
   }),
 ];
 
