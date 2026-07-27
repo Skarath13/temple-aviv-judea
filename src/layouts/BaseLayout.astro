@@ -2,6 +2,7 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import SiteIcon from '../components/SiteIcon.astro';
+import YouTubeCtaNotice from '../components/YouTubeCtaNotice.astro';
 import '../styles/global.css';
 import { site } from '../data/site';
 import { navigationScrollScript } from '../lib/navigation-scroll.mjs';
@@ -123,6 +124,7 @@ const structuredData = {
       <slot />
     </main>
     <Footer />
+    <YouTubeCtaNotice />
     <button class="back-to-top" type="button" aria-label="Back to top" title="Back to top"><SiteIcon name="arrow-up" size={22} /></button>
     <script is:inline>
       (() => {

@@ -136,7 +136,7 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
       <p class="hero-desktop-detail" data-tina-field={tinaField(hero, 'intro')}>{hero.intro}</p>
       <div class="button-row">
         {visitUrl && <a class="button button-gold" href={visitUrl} data-tina-field={tinaField(heroActions, 'visitLabel')}>{heroActions.visitLabel}</a>}
-        <a class="button button-youtube" href={site.youtube} target="_blank" rel="noreferrer" data-mobile-app-link>
+        <a class="button button-youtube" href={site.youtube} target="_blank" rel="noreferrer" data-mobile-app-link data-youtube-cta>
           <SiteIcon name="brand-youtube" size={25} />
           <span class="youtube-button-copy">
             <strong data-tina-field={tinaField(heroActions, 'watchLabel')}>{heroActions.watchLabel}</strong>
@@ -283,7 +283,7 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
           <figcaption>{moment.caption}</figcaption>
         </figure>
       ))}
-      <a class="recordings-card" href={site.youtube} target="_blank" rel="noreferrer" data-tina-field={tinaField(community, 'recordingsLabel')}>
+      <a class="recordings-card" href={site.youtube} target="_blank" rel="noreferrer" data-youtube-cta data-tina-field={tinaField(community, 'recordingsLabel')}>
         <img src={cmsImageSource(community.recordingsImage)} alt={community.recordingsImageAlt} width="1200" height="1200" loading="lazy" />
         <span><span class="recordings-label"><SiteIcon name="brand-youtube" size={22} /> {community.recordingsLabel}</span><SiteIcon name="external-link" size={19} /></span>
       </a>
