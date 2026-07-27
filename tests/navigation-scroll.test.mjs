@@ -165,11 +165,18 @@ test('fresh no-fragment loads defeat late restored offsets and return history to
   assert.equal(harness.scrollCalls.length, 5);
 });
 
-test('reloads use the same bounded top-reset policy', () => {
+test('reloads preserve browser-owned pull-to-refresh positioning', () => {
   const harness = createHarness({ navigationType: 'reload' });
+  const legacyHarness = createHarness({
+    legacyNavigationType: 1,
+    navigationType: null,
+  });
 
-  assert.equal(harness.history.scrollRestoration, 'manual');
-  assert.deepEqual(harness.scrollCalls, [[0, 0]]);
+  for (const reloadHarness of [harness, legacyHarness]) {
+    assert.equal(reloadHarness.history.scrollRestoration, 'auto');
+    assert.equal(reloadHarness.scrollCalls.length, 0);
+    assert.equal(reloadHarness.animationFrames.length, 0);
+  }
 });
 
 test('fragment and back-forward navigations retain browser-owned positioning', () => {
