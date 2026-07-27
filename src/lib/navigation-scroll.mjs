@@ -6,10 +6,13 @@ export const navigationScrollScript = `(() => {
       ? window.performance.getEntriesByType('navigation')[0]
       : undefined;
   const legacyNavigationType = window.performance?.navigation?.type;
+  const isReload =
+    navigationEntry?.type === 'reload' ||
+    (!navigationEntry && legacyNavigationType === 1);
   const isHistoryTraversal =
     navigationEntry?.type === 'back_forward' ||
     (!navigationEntry && legacyNavigationType === 2);
-  if (isHistoryTraversal) return;
+  if (isReload || isHistoryTraversal) return;
 
   const canControlRestoration = 'scrollRestoration' in window.history;
   const previousRestoration = canControlRestoration

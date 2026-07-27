@@ -62,6 +62,17 @@ p { text-wrap: pretty; }
 .arrow-link-light { color: var(--white); }
 [data-icon] { display: block; flex: 0 0 auto; stroke-width: 1.8; }
 
+/* Temporary YouTube CTA notice */
+.youtube-cta-notice { width: min(31rem, calc(100% - 2rem - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px))); max-width: none; margin: auto; padding: clamp(1.75rem, 5vw, 2.75rem); border: 1px solid rgba(18,61,105,.15); border-radius: var(--radius); background: var(--paper); color: var(--ink); box-shadow: 0 30px 90px rgba(4,25,43,.35); text-align: center; }
+.youtube-cta-notice::backdrop { background: rgba(4,25,43,.72); backdrop-filter: blur(5px); }
+.youtube-cta-notice-icon { display: grid; width: 4rem; height: 4rem; margin: 0 auto 1.25rem; place-items: center; border-radius: 50%; background: #c90000; color: var(--white); box-shadow: 0 10px 26px rgba(152,0,0,.24); }
+.youtube-cta-notice .eyebrow { margin-bottom: .75rem; }
+.youtube-cta-notice h2 { margin-bottom: 1rem; color: var(--blue); font-size: clamp(2rem, 8vw, 2.75rem); }
+.youtube-cta-notice p { color: var(--muted); }
+.youtube-cta-notice .youtube-cta-notice-return { margin-bottom: 1.75rem; color: var(--blue); font-size: .86rem; font-weight: 700; }
+.youtube-cta-notice form { margin: 0; }
+.youtube-cta-notice .button { min-width: 8rem; cursor: pointer; }
+
 /* Header */
 .site-header { position: sticky; z-index: 20; top: 0; padding-top: env(safe-area-inset-top, 0px); background: linear-gradient(105deg, #071f37 0%, #0a3559 58%, #0d4b76 100%); border-bottom: 1px solid rgba(255,255,255,.16); box-shadow: 0 8px 24px rgba(4,25,43,.15); }
 .live-dot { width: .45rem; height: .45rem; border: 2px solid rgba(255,255,255,.65); border-radius: 50%; background: var(--white); box-shadow: 0 0 0 2px rgba(255,255,255,.15); }
@@ -70,7 +81,7 @@ p { text-wrap: pretty; }
 .brand-logo { width: 3.85rem; height: 4rem; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(0,0,0,.2)); }
 .brand-copy { display: grid; min-width: 0; line-height: 1.04; }
 .brand-copy strong { font-family: 'Eagle Lake', serif; font-size: 1.75rem; font-weight: 400; white-space: nowrap; }
-.brand-copy small { margin-top: .25rem; color: rgba(255,255,255,.7); font-size: .65rem; letter-spacing: .085em; text-transform: uppercase; }
+.brand-copy small { margin-top: .5rem; color: rgba(255,255,255,.7); font-size: .65rem; letter-spacing: .085em; text-transform: uppercase; }
 .desktop-nav { display: flex; align-items: center; gap: 1.2rem; }
 .desktop-nav a, .text-link { position: relative; color: rgba(255,255,255,.9); font-size: .88rem; font-weight: 700; text-decoration: none; }
 .desktop-nav a::after { content: ''; position: absolute; left: 0; right: 100%; bottom: -.45rem; height: 2px; background: var(--gold); transition: right .2s ease; }
@@ -662,7 +673,7 @@ p { text-wrap: pretty; }
   .hero-scrim { display: none; }
   .hero-content { align-items: flex-end; padding: clamp(2.75rem, 8svh, 4.75rem) 0 max(1rem, env(safe-area-inset-bottom, 0px)); }
   .hero-copy > .hero-desktop-detail { display: none; }
-  .hero-copy h1 { margin-bottom: 1rem; font-size: clamp(2.25rem, 10.75vw, 3.5rem); white-space: normal; }
+  .hero-copy h1 { margin-bottom: 1rem; font-size: clamp(2.25rem, 10.75vw, 3.5rem); line-height: 1.12; white-space: normal; }
   .button-row { align-items: stretch; flex-direction: column; }
   .button-row .button { width: 100%; }
   .home-hero .button-row { margin-top: 1.25rem; }
@@ -755,18 +766,6 @@ p { text-wrap: pretty; }
   .motion-ready [data-reveal], .motion-ready [data-stagger] > * { transform: translate3d(0, 20px, 0); transition-duration: .65s, .72s, .82s; }
   .motion-ready [data-reveal='left'], .motion-ready [data-reveal='right'] { transform: translate3d(0, 20px, 0); }
   .motion-ready [data-reveal='scale'] { transform: scale(.97); }
-}
-
-@media (max-width: 760px) and (max-height: 720px) {
-  .hero-content { padding: 1.5rem 0 max(1rem, env(safe-area-inset-bottom, 0px)); }
-  .hero-copy h1 { margin-bottom: .7rem; font-size: clamp(2rem, 9.75vw, 2.6rem); line-height: 1; }
-  .home-hero .button-row { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: .5rem; margin-top: .9rem; }
-  .home-hero .button-row .button { min-width: 0; min-height: 3.25rem; padding: .6rem .65rem; font-size: .78rem; }
-  .home-hero .button-youtube { gap: .45rem; }
-  .home-hero .button-youtube [data-icon] { width: 20px; height: 20px; }
-  .home-hero .youtube-button-copy { min-width: 0; gap: .12rem; }
-  .home-hero .youtube-button-copy strong { font-size: .75rem; }
-  .home-hero .youtube-button-copy small { font-size: .62rem; }
 }
 
 @media (max-width: 374px) {
