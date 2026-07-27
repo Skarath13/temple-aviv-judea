@@ -37,7 +37,7 @@ const isCurrent = (href: string) => href === '/' ? localPath === '/' : localPath
           <a href={withBase(item.href)} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>
         ))}
         <a href={withBase('/give/')}>Give</a>
-        <a class="mobile-youtube-live" href={site.youtube} target="_blank" rel="noreferrer" data-mobile-app-link><span class="live-dot" aria-hidden="true"></span><SiteIcon name="brand-youtube" size={21} /><span><strong>Watch live on YouTube</strong><small>Saturdays · 11:00 AM PT</small></span></a>
+        <a class="mobile-youtube-live" href={site.youtube} target="_blank" rel="noreferrer" data-mobile-app-link data-youtube-cta><span class="live-dot" aria-hidden="true"></span><SiteIcon name="brand-youtube" size={21} /><span><strong>Watch live on YouTube</strong><small>Saturdays · 11:00 AM PT</small></span></a>
       </nav>
     </details>
   </div>

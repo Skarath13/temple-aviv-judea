@@ -62,6 +62,17 @@ p { text-wrap: pretty; }
 .arrow-link-light { color: var(--white); }
 [data-icon] { display: block; flex: 0 0 auto; stroke-width: 1.8; }
 
+/* Temporary YouTube CTA notice */
+.youtube-cta-notice { width: min(31rem, calc(100% - 2rem - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px))); max-width: none; margin: auto; padding: clamp(1.75rem, 5vw, 2.75rem); border: 1px solid rgba(18,61,105,.15); border-radius: var(--radius); background: var(--paper); color: var(--ink); box-shadow: 0 30px 90px rgba(4,25,43,.35); text-align: center; }
+.youtube-cta-notice::backdrop { background: rgba(4,25,43,.72); backdrop-filter: blur(5px); }
+.youtube-cta-notice-icon { display: grid; width: 4rem; height: 4rem; margin: 0 auto 1.25rem; place-items: center; border-radius: 50%; background: #c90000; color: var(--white); box-shadow: 0 10px 26px rgba(152,0,0,.24); }
+.youtube-cta-notice .eyebrow { margin-bottom: .75rem; }
+.youtube-cta-notice h2 { margin-bottom: 1rem; color: var(--blue); font-size: clamp(2rem, 8vw, 2.75rem); }
+.youtube-cta-notice p { color: var(--muted); }
+.youtube-cta-notice .youtube-cta-notice-return { margin-bottom: 1.75rem; color: var(--blue); font-size: .86rem; font-weight: 700; }
+.youtube-cta-notice form { margin: 0; }
+.youtube-cta-notice .button { min-width: 8rem; cursor: pointer; }
+
 /* Header */
 .site-header { position: sticky; z-index: 20; top: 0; padding-top: env(safe-area-inset-top, 0px); background: linear-gradient(105deg, #071f37 0%, #0a3559 58%, #0d4b76 100%); border-bottom: 1px solid rgba(255,255,255,.16); box-shadow: 0 8px 24px rgba(4,25,43,.15); }
 .live-dot { width: .45rem; height: .45rem; border: 2px solid rgba(255,255,255,.65); border-radius: 50%; background: var(--white); box-shadow: 0 0 0 2px rgba(255,255,255,.15); }
