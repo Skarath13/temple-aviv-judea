@@ -1,0 +1,50 @@
+---
+import SiteIcon from './SiteIcon.astro';
+---
+
+<dialog
+  class="youtube-cta-notice"
+  data-youtube-cta-notice
+  aria-labelledby="youtube-cta-notice-title"
+  aria-describedby="youtube-cta-notice-description youtube-cta-notice-return"
+>
+  <div class="youtube-cta-notice-icon" aria-hidden="true">
+    <SiteIcon name="brand-youtube" size={30} />
+  </div>
+  <p class="eyebrow">Livestream update</p>
+  <h2 id="youtube-cta-notice-title">Our livestream is being edited.</h2>
+  <p id="youtube-cta-notice-description">
+    We’re preparing the livestream for its full release. Please come back in 24 hours.
+  </p>
+  <p id="youtube-cta-notice-return" class="youtube-cta-notice-return">
+    YouTube links will automatically return after 10:00 PM Pacific on July 28.
+  </p>
+  <form method="dialog">
+    <button class="button button-gold" type="submit">Close</button>
+  </form>
+</dialog>
+
+<script>
+  import { isYouTubeCtaNoticeActive } from '../lib/youtube-cta-notice.mjs';
+
+  const dialog = document.querySelector('[data-youtube-cta-notice]');
+
+  if (dialog instanceof HTMLDialogElement) {
+    document.addEventListener('click', (event) => {
+      if (
+        event.defaultPrevented ||
+        !(event.target instanceof Element) ||
+        !event.target.closest('[data-youtube-cta]')
+      ) return;
+
+      if (!isYouTubeCtaNoticeActive()) return;
+
+      event.preventDefault();
+      if (!dialog.open) dialog.showModal();
+    });
+
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog) dialog.close();
+    });
+  }
+</script>

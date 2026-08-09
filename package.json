@@ -21,8 +21,10 @@
     "test:hero-video": "node --test tests/mobile-hero-video.test.mjs tests/hero-media-range.test.mjs",
     "test:llms-txt": "node --test tests/llms-txt.test.mjs",
     "test:navigation-scroll": "node --test tests/navigation-scroll.test.mjs",
+    "test:responsive-buttons": "node --test tests/responsive-buttons.test.mjs",
     "test:structured-data": "node --test tests/site-structured-data.test.mjs",
-    "validate:content": "node scripts/validate-content.mjs && pnpm run verify:hero-video && pnpm run test:navigation-scroll && pnpm run test:llms-txt && pnpm run test:structured-data",
+    "test:youtube-cta": "node --test tests/youtube-cta-notice.test.mjs",
+    "validate:content": "node scripts/validate-content.mjs && pnpm run verify:hero-video && pnpm run test:navigation-scroll && pnpm run test:llms-txt && pnpm run test:responsive-buttons && pnpm run test:structured-data && pnpm run test:youtube-cta",
     "verify:hero-video": "node scripts/verify-hero-media.mjs && pnpm run test:hero-video"
   },
   "dependencies": {

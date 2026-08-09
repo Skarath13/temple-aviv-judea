@@ -2,9 +2,11 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import SiteIcon from '../components/SiteIcon.astro';
+import YouTubeCtaNotice from '../components/YouTubeCtaNotice.astro';
 import '../styles/global.css';
 import { site } from '../data/site';
 import { createSiteStructuredData, serializeJsonLd } from '../lib/site-structured-data.mjs';
+import { navigationScrollScript } from '../lib/navigation-scroll.mjs';
 import { withBase } from '../lib/urls';
 
 interface Props {
@@ -45,6 +47,7 @@ const serializedStructuredData = serializeJsonLd(structuredData);
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <script is:inline set:html={navigationScrollScript} />
     <meta name="theme-color" content="#071f37" />
     <meta name="color-scheme" content="light" />
     <meta name="supported-color-schemes" content="light" />
@@ -111,6 +114,7 @@ const serializedStructuredData = serializeJsonLd(structuredData);
       <slot />
     </main>
     <Footer />
+    <YouTubeCtaNotice />
     <button class="back-to-top" type="button" aria-label="Back to top" title="Back to top"><SiteIcon name="arrow-up" size={22} /></button>
     <script is:inline>
       (() => {
