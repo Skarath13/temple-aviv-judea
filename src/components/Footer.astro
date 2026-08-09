@@ -1,9 +1,11 @@
 ---
 import { navItems, site } from '../data/site';
+import { formatPublicHours } from '../lib/site-structured-data.mjs';
 import { withBase } from '../lib/urls';
 import SiteIcon from './SiteIcon.astro';
 
 const adminPath = import.meta.env.BASE_URL === '/' ? '/admin/' : '/admin-preview/';
+const publicHours = formatPublicHours(site.publicHours);
 ---
 
 <footer class="site-footer">
@@ -29,6 +31,7 @@ const adminPath = import.meta.env.BASE_URL === '/' ? '/admin/' : '/admin-preview
       <h3>Connect</h3>
       <address>
         <a href={site.address.maps} target="_blank" rel="noreferrer">{site.address.street}<br />{site.address.city}</a>
+        <span class="public-hours"><small>Public hours</small>{publicHours}</span>
         <span class="mailing-address"><small>Mailing address</small>{site.address.mailing}</span>
         <a href={site.phoneHref}>{site.phone}</a>
         <a href={`mailto:${site.email}`}>{site.email}</a>

@@ -454,6 +454,8 @@ p { text-wrap: pretty; }
 .footer-links a, .site-footer address a, .social-links a { color: rgba(255,255,255,.8); text-decoration: none; }
 .footer-links a:hover, .site-footer address a:hover, .social-links a:hover { color: #ffd775; }
 .site-footer address { display: grid; gap: 1rem; font-style: normal; }
+.public-hours { display: grid; gap: .15rem; color: rgba(255,255,255,.58); font-size: .78rem; line-height: 1.4; }
+.public-hours small { color: rgba(255,215,117,.78); font-size: .62rem; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; }
 .mailing-address { display: grid; gap: .2rem; color: rgba(255,255,255,.72); font-size: .9rem; line-height: 1.45; }
 .mailing-address small { color: #ffd775; font-size: .67rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
 .social-links { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem; font-size: .85rem; font-weight: 700; }
