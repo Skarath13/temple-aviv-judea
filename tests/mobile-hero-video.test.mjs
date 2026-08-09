@@ -1,6 +1,9 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { createMobileHeroVideoController } from '../src/lib/mobile-hero-video.mjs';
+import {
+  createMobileHeroVideoController,
+  getMobileHeroPlaybackRate,
+} from '../src/lib/mobile-hero-video.mjs';
 
 const wait = (milliseconds) =>
   new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -42,6 +45,7 @@ class FakeVideo extends EventTarget {
     this.attributes = new Map();
     this.currentTime = 0;
     this.defaultMuted = false;
+    this.defaultPlaybackRate = 1;
     this.duration = 10.03;
     this.error = null;
     this.frameCallback = null;
@@ -51,6 +55,7 @@ class FakeVideo extends EventTarget {
     this.paused = true;
     this.playCalls = 0;
     this.playOutcomes = playOutcomes;
+    this.playbackRate = 1;
     this.playsInline = false;
     this.readyState = 2;
     this.sources = [
@@ -135,6 +140,21 @@ const createHarness = ({
   };
 };
 
+test('uses a seamless cinematic speed ramp that stays well below normal speed', () => {
+  const duration = 10;
+  const samples = Array.from({ length: 101 }, (_, index) =>
+    getMobileHeroPlaybackRate((duration * index) / 100, duration),
+  );
+
+  assert.equal(getMobileHeroPlaybackRate(0, duration), 0.4);
+  assert.equal(getMobileHeroPlaybackRate(duration / 4, duration), 0.5);
+  assert.equal(getMobileHeroPlaybackRate(duration / 2, duration), 0.6);
+  assert.equal(getMobileHeroPlaybackRate((duration * 3) / 4, duration), 0.5);
+  assert.equal(getMobileHeroPlaybackRate(duration, duration), 0.4);
+  assert.ok(samples.every((rate) => rate >= 0.4 && rate <= 0.6));
+  assert.ok(samples.every((rate) => rate < 1));
+});
+
 test('autoplays muted and reveals only after a presented frame', async () => {
   const harness = createHarness({
     timings: { progressCheckDelay: 50 },
@@ -145,7 +165,9 @@ test('autoplays muted and reveals only after a presented frame', async () => {
   assert.equal(harness.video.playCalls, 1);
   assert.equal(harness.video.muted, true);
   assert.equal(harness.video.defaultMuted, true);
+  assert.equal(harness.video.defaultPlaybackRate, 0.4);
   assert.equal(harness.video.playsInline, true);
+  assert.equal(harness.video.playbackRate, 0.4);
   assert.equal(harness.root.dataset.heroVideoState, 'fallback');
 
   harness.video.currentTime = 0.2;
@@ -153,6 +175,44 @@ test('autoplays muted and reveals only after a presented frame', async () => {
   harness.video.frameCallback();
   await wait(5);
   assert.equal(harness.root.dataset.heroVideoState, 'playing');
+
+  harness.controller.destroy();
+});
+
+test('advances through the cinematic ramp as media time changes', async () => {
+  const harness = createHarness({
+    timings: { progressCheckDelay: 100 },
+  });
+  harness.controller.start();
+  await wait(0);
+
+  harness.video.currentTime = harness.video.duration / 2;
+  harness.video.dispatchEvent(new Event('timeupdate'));
+
+  assert.equal(harness.video.defaultPlaybackRate, 0.6);
+  assert.equal(harness.video.playbackRate, 0.6);
+
+  harness.controller.destroy();
+});
+
+test('reapplies the cinematic ramp after a media-pipeline rebuild', async () => {
+  const harness = createHarness({
+    timings: {
+      progressCheckDelay: 100,
+      recoveryDelays: [0],
+    },
+  });
+  harness.controller.start();
+  await wait(0);
+
+  harness.video.defaultPlaybackRate = 1;
+  harness.video.playbackRate = 1;
+  harness.video.dispatchEvent(new Event('error'));
+  await wait(5);
+
+  assert.equal(harness.video.loadCalls, 1);
+  assert.equal(harness.video.defaultPlaybackRate, 0.4);
+  assert.equal(harness.video.playbackRate, 0.4);
 
   harness.controller.destroy();
 });
