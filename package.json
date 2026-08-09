@@ -20,8 +20,9 @@
     "types:cloudflare": "wrangler types",
     "test:hero-video": "node --test tests/mobile-hero-video.test.mjs tests/hero-media-range.test.mjs",
     "test:navigation-scroll": "node --test tests/navigation-scroll.test.mjs",
+    "test:responsive-buttons": "node --test tests/responsive-buttons.test.mjs",
     "test:youtube-cta": "node --test tests/youtube-cta-notice.test.mjs",
-    "validate:content": "node scripts/validate-content.mjs && pnpm run verify:hero-video && pnpm run test:navigation-scroll && pnpm run test:youtube-cta",
+    "validate:content": "node scripts/validate-content.mjs && pnpm run verify:hero-video && pnpm run test:navigation-scroll && pnpm run test:responsive-buttons && pnpm run test:youtube-cta",
     "verify:hero-video": "node scripts/verify-hero-media.mjs && pnpm run test:hero-video"
   },
   "dependencies": {
