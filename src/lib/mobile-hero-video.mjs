@@ -1,7 +1,5 @@
 const MOBILE_QUERY = '(max-width: 760px)';
 const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
-const MIN_PLAYBACK_RATE = 0.4;
-const MAX_PLAYBACK_RATE = 0.6;
 const DEFAULT_TIMINGS = {
   framePresentationTimeout: 600,
   healthyRecoveryResetDelay: 8000,
@@ -17,24 +15,6 @@ const DEFAULT_TIMINGS = {
 };
 
 const mountedControllers = new Map();
-
-export const getMobileHeroPlaybackRate = (mediaTime, duration) => {
-  if (
-    !Number.isFinite(mediaTime) ||
-    !Number.isFinite(duration) ||
-    duration <= 0
-  ) {
-    return MIN_PLAYBACK_RATE;
-  }
-
-  const loopTime = ((mediaTime % duration) + duration) % duration;
-  const loopProgress = loopTime / duration;
-  const rampProgress = (1 - Math.cos(2 * Math.PI * loopProgress)) / 2;
-  return (
-    MIN_PLAYBACK_RATE +
-    (MAX_PLAYBACK_RATE - MIN_PLAYBACK_RATE) * rampProgress
-  );
-};
 
 const addMediaQueryListener = (query, listener) => {
   if (typeof query.addEventListener === 'function') {
@@ -122,12 +102,6 @@ export const createMobileHeroVideoController = ({
     !documentRef.hidden &&
     inViewport;
 
-  const applyPlaybackRate = () => {
-    const rate = getMobileHeroPlaybackRate(video.currentTime, video.duration);
-    video.defaultPlaybackRate = rate;
-    video.playbackRate = rate;
-  };
-
   const prepareForAutoplay = () => {
     video.muted = true;
     video.defaultMuted = true;
@@ -135,7 +109,6 @@ export const createMobileHeroVideoController = ({
     video.setAttribute('muted', '');
     video.setAttribute('playsinline', '');
     video.setAttribute('webkit-playsinline', '');
-    applyPlaybackRate();
   };
 
   const coverVideo = (state = 'fallback') => {
@@ -384,7 +357,6 @@ export const createMobileHeroVideoController = ({
 
   const onProgress = () => {
     const nextTime = currentTime();
-    applyPlaybackRate();
     if (
       progressBetween(lastMediaTime, nextTime) < config.minProgressSeconds
     ) {
@@ -422,13 +394,11 @@ export const createMobileHeroVideoController = ({
   };
 
   const onCanPlay = () => {
-    applyPlaybackRate();
     if (shouldPlay() && video.paused) void attemptPlayback();
   };
 
   const onPlaying = () => {
     if (!shouldPlay() || video.paused) return;
-    applyPlaybackRate();
     clearTimer(stallTimer);
     stallTimer = null;
     revealPresentedFrame();
