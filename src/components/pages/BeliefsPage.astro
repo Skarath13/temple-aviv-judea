@@ -20,7 +20,7 @@ const pillarsIntro = page.pillarsIntro!;
 const prayer = page.prayer!;
 const proclamation = page.proclamation!;
 const people = page.people!;
-const pillarAnchors = ['prayer', 'proclamation', 'people'];
+const pillarAnchors = new Set(['prayer', 'proclamation', 'people']);
 ---
 
 <PageHero eyebrow={hero.eyebrow} title={hero.title} intro={hero.intro} accent={hero.accent as 'blue' | 'coral' | 'gold' | 'teal'} data={hero} />
@@ -87,8 +87,8 @@ const pillarAnchors = ['prayer', 'proclamation', 'people'];
       <p data-tina-field={tinaField(pillarsIntro, 'intro')}>{pillarsIntro.intro}</p>
     </div>
     <div class="pillars-grid" data-stagger>
-      {page.pillars?.map((pillar, index) => pillar && (
-        <a class="pillar-card" href={`#${pillarAnchors[index]}`} data-tina-field={tinaField(pillar)}>
+      {page.pillars?.map((pillar) => pillar && pillarAnchors.has(pillar.kind) && (
+        <a class="pillar-card" href={`#${pillar.kind}`} data-tina-field={tinaField(pillar)}>
           <img class="pillar-card-art" src={cmsImageSource(pillar.image)} alt="" width="720" height="640" loading="lazy" />
           <strong>{pillar.title}</strong>
           <p>{pillar.body}</p>

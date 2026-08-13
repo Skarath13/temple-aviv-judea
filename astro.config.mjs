@@ -5,6 +5,36 @@ import icon from 'astro-icon';
 import tina from '@tinacms/astro/integration';
 import { tinaAdminDevRedirect } from '@tinacms/astro/vite';
 
+const canonicalSiteUrl = 'https://www.avivjudea.org';
+const requiredWorkersBuildVariables = [
+  'PUBLIC_TINA_CLIENT_ID',
+  'TINA_TOKEN',
+  'WORKERS_CI_BRANCH',
+];
+
+export const validateWorkersBuildEnvironment = (environment) => {
+  if (!environment.WORKERS_CI) return;
+
+  const problems = [];
+  const missingVariables = requiredWorkersBuildVariables.filter(
+    (name) =>
+      typeof environment[name] !== 'string' || environment[name].trim() === '',
+  );
+
+  if (environment.SITE_URL !== canonicalSiteUrl) {
+    problems.push('SITE_URL must match the canonical production URL');
+  }
+  if (missingVariables.length > 0) {
+    problems.push(`missing ${missingVariables.join(', ')}`);
+  }
+
+  if (problems.length > 0) {
+    throw new Error(`Invalid Workers CI environment: ${problems.join('; ')}.`);
+  }
+};
+
+validateWorkersBuildEnvironment(process.env);
+
 const cmsEnabled =
   process.env.TINA_CMS === 'true' ||
   process.env.DEPLOY_ADAPTER === 'cloudflare' ||

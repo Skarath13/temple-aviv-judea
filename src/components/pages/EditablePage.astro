@@ -8,6 +8,8 @@ import type {
   PageQuery,
   PageStory,
   PageVisit,
+  EventScheduleQuery,
+  SiteSettingsQuery,
 } from '../../../tina/__generated__/types';
 import type { PageKey } from '../../data/pages';
 import ArtistsPage from './ArtistsPage.astro';
@@ -21,15 +23,17 @@ import VisitPage from './VisitPage.astro';
 interface Props {
   page: PageQuery['page'];
   pageKey: PageKey;
+  site: SiteSettingsQuery['siteSettings'];
+  eventSchedule: EventScheduleQuery['eventSchedule'];
 }
 
-const { page, pageKey } = Astro.props;
+const { page, pageKey, site, eventSchedule } = Astro.props;
 ---
 
-{pageKey === 'home' && <HomePage page={page as PageHome} />}
-{pageKey === 'visit' && <VisitPage page={page as PageVisit} />}
+{pageKey === 'home' && <HomePage page={page as PageHome} site={site} eventSchedule={eventSchedule} />}
+{pageKey === 'visit' && <VisitPage page={page as PageVisit} site={site} />}
 {pageKey === 'story' && <StoryPage page={page as PageStory} />}
 {pageKey === 'beliefs' && <BeliefsPage page={page as PageBeliefs} />}
-{pageKey === 'ministries' && <MinistriesPage page={page as PageMinistries} />}
-{pageKey === 'give' && <GivePage page={page as PageGive} />}
+{pageKey === 'ministries' && <MinistriesPage page={page as PageMinistries} site={site} />}
+{pageKey === 'give' && <GivePage page={page as PageGive} site={site} />}
 {pageKey === 'artists' && <ArtistsPage page={page as PageArtists} />}

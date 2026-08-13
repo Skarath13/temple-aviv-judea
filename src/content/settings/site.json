@@ -17,6 +17,22 @@
   "phoneHref": "tel:+17147484504",
   "email": "info@avivjudea.org",
   "youtube": "https://www.youtube.com/@templeavivjudea1558/live",
+  "livestreamNote": "Saturdays · 11:00 AM PT",
+  "headerCopy": {
+    "tagline": "A Messianic Jewish Congregation",
+    "giveLabel": "Give",
+    "visitLabel": "Plan a visit",
+    "livestreamLabel": "Watch live on YouTube"
+  },
+  "footerCopy": {
+    "eyebrow": "Shalom & welcome",
+    "heading": "There is a place for you in the story.",
+    "body": "Join us as we worship, learn, celebrate, and grow together in Messiah.",
+    "visitLabel": "Come this Shabbat",
+    "exploreHeading": "Explore",
+    "connectHeading": "Connect",
+    "motto": "Jewish roots · Living faith · Open doors"
+  },
   "facebook": "https://www.facebook.com/templeavivjudea/",
   "baruchDesignsEtsy": "https://www.etsy.com/shop/BaruchDesignsStudio?etsrc=sdt#items",
   "giving": "https://www.paypal.com/donate/?business=avivjudea613%40gmail.com&no_recurring=0&item_name=Temple%20Aviv%20Judea&currency_code=USD",

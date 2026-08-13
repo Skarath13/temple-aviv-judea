@@ -1,35 +1,36 @@
 ---
 import { tinaField } from '@tinacms/astro/tina-field';
-import type { PageMinistries } from '../../../tina/__generated__/types';
+import type { PageMinistries, SiteSettingsQuery } from '../../../tina/__generated__/types';
 import CmsSections from '../CmsSections.astro';
 import PageHero from '../PageHero.astro';
 import SiteIcon from '../SiteIcon.astro';
-import { site } from '../../data/site';
-import { cmsImageSource, cmsLink } from '../../lib/cms';
+import { cmsEtsyLink, cmsImageSource, cmsLink } from '../../lib/cms';
 
 interface Props {
   page: PageMinistries;
+  site: SiteSettingsQuery['siteSettings'];
 }
 
-const { page } = Astro.props;
+const { page, site } = Astro.props;
 const hero = page.hero!;
 const bibleStudy = page.bibleStudy!;
 const artistFeature = page.artistFeature!;
 const callToAction = page.callToAction!;
-const cardStyles = ['coral-card', 'blue-card', 'gold-card', 'teal-card'];
+const cardStyles = new Set(['coral', 'blue', 'gold', 'teal']);
 const ctaUrl = cmsLink(callToAction.buttonUrl);
-const bibleStudyHref = `mailto:${site.email}?subject=${encodeURIComponent(bibleStudy.emailSubject)}`;
+const bibleStudyHref = cmsLink(`mailto:${site.email}?subject=${encodeURIComponent(bibleStudy.emailSubject)}`);
+const etsyUrl = cmsEtsyLink(site.baruchDesignsEtsy);
 ---
 
 <PageHero eyebrow={hero.eyebrow} title={hero.title} intro={hero.intro} accent={hero.accent as 'blue' | 'coral' | 'gold' | 'teal'} data={hero} />
 
 <section class="section ministries-grid-section">
   <div class="shell ministry-card-grid" data-stagger>
-    {page.ministryCards?.map((card, index) => {
-      if (!card) return null;
+    {page.ministryCards?.map((card) => {
+      if (!card || !cardStyles.has(card.style)) return null;
       const link = cmsLink(card.linkUrl || undefined);
       return (
-        <article class={`ministry-card has-photo ${cardStyles[index] || 'blue-card'}`} data-tina-field={tinaField(card)}>
+        <article class={`ministry-card has-photo ${card.style}-card`} data-tina-field={tinaField(card)}>
           <img src={cmsImageSource(card.image)} alt={card.imageAlt} width="1200" height="750" loading="lazy" />
           <div class="ministry-card-body">
             <span class="eyebrow">{card.eyebrow}</span>
@@ -47,7 +48,7 @@ const bibleStudyHref = `mailto:${site.email}?subject=${encodeURIComponent(bibleS
         <span class="eyebrow">{bibleStudy.eyebrow}</span>
         <h2>{bibleStudy.heading}</h2>
         <p>{bibleStudy.body}</p>
-        <a class="arrow-link" href={bibleStudyHref}>{bibleStudy.linkLabel} <SiteIcon name="arrow-right" size={18} /></a>
+        {bibleStudyHref && <a class="arrow-link" href={bibleStudyHref}>{bibleStudy.linkLabel} <SiteIcon name="arrow-right" size={18} /></a>}
       </div>
     </article>
 
@@ -65,7 +66,7 @@ const bibleStudyHref = `mailto:${site.email}?subject=${encodeURIComponent(bibleS
         <h2>{artistFeature.heading}</h2>
         <p>{artistFeature.body}</p>
       </div>
-      <a class="button button-ghost-light" href={site.baruchDesignsEtsy} target="_blank" rel="noreferrer" aria-label={`${artistFeature.buttonLabel}. Opens in a new tab.`}>{artistFeature.buttonLabel} <SiteIcon name="external-link" size={18} /></a>
+      {etsyUrl && <a class="button button-ghost-light" href={etsyUrl} target="_blank" rel="noreferrer" aria-label={`${artistFeature.buttonLabel}. Opens in a new tab.`} data-tina-field={tinaField(site, 'baruchDesignsEtsy')}>{artistFeature.buttonLabel} <SiteIcon name="external-link" size={18} /></a>}
     </article>
   </div>
 </section>

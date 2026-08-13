@@ -1,10 +1,17 @@
 ---
-import { navItems, site } from '../data/site';
+import { siteNavigation, type SiteSettingsData } from '../data/site';
+import { tinaField } from '@tinacms/astro/tina-field';
+import { cmsLink, cmsYouTubeLink } from '../lib/cms';
 import { withBase, withoutBase } from '../lib/urls';
 import SiteIcon from './SiteIcon.astro';
 
-interface Props { currentPath: string }
-const { currentPath } = Astro.props;
+interface Props {
+  currentPath: string;
+  site: SiteSettingsData;
+}
+const { currentPath, site } = Astro.props;
+const navItems = siteNavigation(site);
+const youtubeUrl = cmsYouTubeLink(site.youtube);
 const localPath = withoutBase(currentPath);
 const isCurrent = (href: string) => href === '/' ? localPath === '/' : localPath.startsWith(href);
 ---
@@ -14,30 +21,32 @@ const isCurrent = (href: string) => href === '/' ? localPath === '/' : localPath
     <a class="brand" href={withBase('/')} aria-label={`${site.name} home`}>
       <img class="brand-logo" src={withBase('/assets/images/taj-logo.png')} alt="" width="512" height="512" />
       <span class="brand-copy">
-        <strong>{site.name}</strong>
-        <small>A Messianic Jewish Congregation</small>
+        <strong data-tina-field={tinaField(site, 'name')}>{site.name}</strong>
+        <small data-tina-field={tinaField(site.headerCopy, 'tagline')}>{site.headerCopy.tagline}</small>
       </span>
     </a>
 
     <nav class="desktop-nav" aria-label="Primary navigation">
-      {navItems.map((item) => (
-        <a href={withBase(item.href)} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>
-      ))}
+      {navItems.map((item) => {
+        const href = cmsLink(item.href);
+        return href && <a href={href} aria-current={isCurrent(item.href) ? 'page' : undefined} data-tina-field={tinaField(item)}>{item.label}</a>;
+      })}
     </nav>
 
     <div class="header-actions">
-      <a class="text-link desktop-only" href={withBase('/give/')}>Give</a>
-      <a class="button button-small button-gold" href={withBase('/visit/')}>Plan a visit</a>
+      <a class="text-link desktop-only" href={withBase('/give/')} data-tina-field={tinaField(site.headerCopy, 'giveLabel')}>{site.headerCopy.giveLabel}</a>
+      <a class="button button-small button-gold" href={withBase('/visit/')} data-tina-field={tinaField(site.headerCopy, 'visitLabel')}>{site.headerCopy.visitLabel}</a>
     </div>
 
     <details class="mobile-menu">
       <summary aria-label="Navigation menu"><span></span><span></span><span></span></summary>
       <nav aria-label="Mobile navigation">
-        {navItems.map((item) => (
-          <a href={withBase(item.href)} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>
-        ))}
-        <a href={withBase('/give/')}>Give</a>
-        <a class="mobile-youtube-live" href={site.youtube} target="_blank" rel="noreferrer" data-mobile-app-link data-youtube-cta><span class="live-dot" aria-hidden="true"></span><SiteIcon name="brand-youtube" size={21} /><span><strong>Watch live on YouTube</strong><small>Saturdays · 11:00 AM PT</small></span></a>
+        {navItems.map((item) => {
+          const href = cmsLink(item.href);
+          return href && <a href={href} aria-current={isCurrent(item.href) ? 'page' : undefined} data-tina-field={tinaField(item)}>{item.label}</a>;
+        })}
+        <a href={withBase('/give/')} data-tina-field={tinaField(site.headerCopy, 'giveLabel')}>{site.headerCopy.giveLabel}</a>
+        {youtubeUrl && <a class="mobile-youtube-live" href={youtubeUrl} target="_blank" rel="noreferrer" data-mobile-app-link data-youtube-cta data-tina-field={tinaField(site, 'youtube')}><span class="live-dot" aria-hidden="true"></span><SiteIcon name="brand-youtube" size={21} /><span><strong data-tina-field={tinaField(site.headerCopy, 'livestreamLabel')}>{site.headerCopy.livestreamLabel}</strong><small data-tina-field={tinaField(site, 'livestreamNote')}>{site.livestreamNote}</small></span></a>}
       </nav>
     </details>
   </div>

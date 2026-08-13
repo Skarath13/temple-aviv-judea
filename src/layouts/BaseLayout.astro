@@ -1,13 +1,19 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import TinaIsland from '@tinacms/astro/TinaIsland.astro';
 import SiteIcon from '../components/SiteIcon.astro';
 import YouTubeCtaNotice from '../components/YouTubeCtaNotice.astro';
 import '../styles/global.css';
-import { site } from '../data/site';
+import { site as defaultSite, type SiteSettingsData } from '../data/site';
 import { createSiteStructuredData, serializeJsonLd } from '../lib/site-structured-data.mjs';
 import { navigationScrollScript } from '../lib/navigation-scroll.mjs';
 import { withBase } from '../lib/urls';
+import { cmsEnabled } from '../lib/tina/data';
+import {
+  footerIslandWrapper,
+  headerIslandWrapper,
+} from '../lib/tina/islands';
 
 interface Props {
   title?: string;
@@ -17,8 +23,11 @@ interface Props {
   preloadImageMedia?: string;
   preloadImageType?: string;
   robots?: string;
+  siteSettings?: SiteSettingsData;
+  editableGlobals?: boolean;
 }
 
+const site = Astro.props.siteSettings || defaultSite;
 const {
   title = site.name,
   description = site.description,
@@ -27,6 +36,7 @@ const {
   preloadImageMedia,
   preloadImageType,
   robots = 'index, follow',
+  editableGlobals = true,
 } = Astro.props;
 const pageTitle = title === site.name ? title : `${title} | ${site.name}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -64,6 +74,10 @@ const serializedStructuredData = serializeJsonLd(structuredData);
           referrer.origin === window.location.origin &&
           referrer.pathname.startsWith('/admin/');
       } catch {}
+
+      if (fromTinaAdmin) {
+        document.documentElement.classList.add('tina-preview');
+      }
 
       if (
         !fromTinaAdmin &&
@@ -109,12 +123,70 @@ const serializedStructuredData = serializeJsonLd(structuredData);
   <body>
     <div class="scroll-progress" aria-hidden="true"></div>
     <a class="skip-link" href="#main-content">Skip to content</a>
-    <Header currentPath={Astro.url.pathname} />
+    {cmsEnabled && editableGlobals ? (
+      <TinaIsland name="header" wrapper={headerIslandWrapper} params={{ path: Astro.url.pathname }}>
+        <Header currentPath={Astro.url.pathname} site={site} />
+      </TinaIsland>
+    ) : (
+      <Header currentPath={Astro.url.pathname} site={site} />
+    )}
     <main id="main-content">
       <slot />
     </main>
-    <Footer />
+    {cmsEnabled && editableGlobals ? (
+      <TinaIsland name="footer" wrapper={footerIslandWrapper}>
+        <Footer site={site} />
+      </TinaIsland>
+    ) : (
+      <Footer site={site} />
+    )}
     <YouTubeCtaNotice />
+    <script>
+      let eventExpiryTimer: ReturnType<typeof setTimeout> | undefined;
+      let eventExpiryObserver: MutationObserver | undefined;
+
+      const refreshExpiredEvents = () => {
+        if (eventExpiryTimer) clearTimeout(eventExpiryTimer);
+        const now = Date.now();
+        let nextExpiry = Number.POSITIVE_INFINITY;
+
+        document.querySelectorAll<HTMLElement>('[data-event-ends-at]').forEach((card) => {
+          const endsAt = Date.parse(card.dataset.eventEndsAt || '');
+          const expired = !Number.isFinite(endsAt) || endsAt <= now;
+          card.hidden = expired;
+          if (!expired) nextExpiry = Math.min(nextExpiry, endsAt);
+        });
+
+        document.querySelectorAll<HTMLElement>('[data-upcoming-events-section]').forEach((section) => {
+          section.hidden = !section.querySelector('[data-event-ends-at]:not([hidden])');
+        });
+
+        if (Number.isFinite(nextExpiry)) {
+          eventExpiryTimer = setTimeout(
+            refreshExpiredEvents,
+            Math.min(nextExpiry - now + 50, 2_147_000_000),
+          );
+        }
+      };
+
+      const observeUpcomingEvents = () => {
+        eventExpiryObserver?.disconnect();
+        const main = document.querySelector('main');
+        if (main) {
+          eventExpiryObserver = new MutationObserver(refreshExpiredEvents);
+          eventExpiryObserver.observe(main, {
+            subtree: true,
+            childList: true,
+            attributes: true,
+            attributeFilter: ['data-event-ends-at'],
+          });
+        }
+        refreshExpiredEvents();
+      };
+
+      observeUpcomingEvents();
+      document.addEventListener('astro:page-load', observeUpcomingEvents);
+    </script>
     <button class="back-to-top" type="button" aria-label="Back to top" title="Back to top"><SiteIcon name="arrow-up" size={22} /></button>
     <script is:inline>
       (() => {

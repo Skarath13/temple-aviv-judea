@@ -1,7 +1,14 @@
 import type { IslandRegistry } from '@tinacms/astro/experimental';
 import EditablePage from '../../components/pages/EditablePage.astro';
-import { getTinaPage } from './data';
+import Footer from '../../components/Footer.astro';
+import Header from '../../components/Header.astro';
+import {
+  getTinaPageBundle,
+  getTinaSiteSettings,
+  type TinaPageBundle,
+} from './data';
 import type { PageKey } from '../../data/pages';
+import type { SiteSettingsQuery } from '../../../tina/__generated__/types';
 
 const pageKeys = new Set<PageKey>([
   'home',
@@ -26,14 +33,43 @@ export const pageIslandWrapper = {
   className: 'tina-page-island',
 } as const;
 
+export const headerIslandWrapper = {
+  tag: 'div',
+  className: 'tina-site-header-island',
+} as const;
+
+export const footerIslandWrapper = {
+  tag: 'div',
+  className: 'tina-site-footer-island',
+} as const;
+
 export const islands: IslandRegistry = {
   page: {
-    fetch: async (_request, params) => getTinaPage(readPageKey(params)),
+    fetch: async (_request, params) => getTinaPageBundle(readPageKey(params)),
     component: EditablePage,
     wrapper: pageIslandWrapper,
-    propsFromData: (page, params) => ({
-      page,
+    propsFromData: (data, params) => ({
+      page: (data as TinaPageBundle).page,
       pageKey: readPageKey(params),
+      site: (data as TinaPageBundle).siteSettings,
+      eventSchedule: (data as TinaPageBundle).eventSchedule,
+    }),
+  },
+  header: {
+    fetch: () => getTinaSiteSettings(),
+    component: Header,
+    wrapper: headerIslandWrapper,
+    propsFromData: (data, params) => ({
+      site: data as SiteSettingsQuery['siteSettings'],
+      currentPath: params.get('path') || '/',
+    }),
+  },
+  footer: {
+    fetch: () => getTinaSiteSettings(),
+    component: Footer,
+    wrapper: footerIslandWrapper,
+    propsFromData: (data) => ({
+      site: data as SiteSettingsQuery['siteSettings'],
     }),
   },
 };

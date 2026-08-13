@@ -1,17 +1,29 @@
 ---
 import { tinaField } from '@tinacms/astro/tina-field';
-import type { PageVisit } from '../../../tina/__generated__/types';
+import type { PageVisit, SiteSettingsQuery } from '../../../tina/__generated__/types';
 import CmsSections from '../CmsSections.astro';
 import PageHero from '../PageHero.astro';
 import SiteIcon from '../SiteIcon.astro';
-import { site } from '../../data/site';
-import { cmsImageSource } from '../../lib/cms';
+import { siteSchedule } from '../../data/site';
+import {
+  cmsGoogleMapsLink,
+  cmsImageSource,
+  cmsLink,
+  cmsYouTubeLink,
+} from '../../lib/cms';
 
 interface Props {
   page: PageVisit;
+  site: SiteSettingsQuery['siteSettings'];
 }
 
-const { page } = Astro.props;
+const { page, site } = Astro.props;
+const address = site.address!;
+const schedule = siteSchedule(site);
+const mapsUrl = cmsGoogleMapsLink(address.maps);
+const youtubeUrl = cmsYouTubeLink(site.youtube);
+const phoneUrl = cmsLink(site.phoneHref);
+const emailUrl = cmsLink(`mailto:${site.email}`);
 const hero = page.hero!;
 const banner = page.banner!;
 const schedulePanel = page.schedulePanel!;
@@ -35,16 +47,16 @@ const location = page.location!;
       <span class="eyebrow" data-tina-field={tinaField(schedulePanel, 'eyebrow')}>{schedulePanel.eyebrow}</span>
       <h2 data-tina-field={tinaField(schedulePanel, 'heading')}>{schedulePanel.heading}</h2>
       <div class="vertical-schedule">
-        {site.schedule.map((item, index) => (
-          <div class="vertical-schedule-item">
+        {schedule.map((item, index) => (
+          <div class="vertical-schedule-item" data-tina-field={tinaField(item)}>
             <span class="timeline-dot">{index + 1}</span>
             <div><strong>{item.time}</strong><h3>{item.label}</h3><p>{item.note}</p></div>
           </div>
         ))}
       </div>
       <div class="button-row">
-        <a class="button button-gold" href={site.address.maps} target="_blank" rel="noreferrer" data-tina-field={tinaField(schedulePanel, 'directionsLabel')}><SiteIcon name="map-pin" size={18} /> {schedulePanel.directionsLabel}</a>
-        <a class="button button-ghost-light" href={site.youtube} target="_blank" rel="noreferrer" data-mobile-app-link data-youtube-cta data-tina-field={tinaField(schedulePanel, 'livestreamLabel')}><SiteIcon name="brand-youtube" size={18} /> {schedulePanel.livestreamLabel}</a>
+        {mapsUrl && <a class="button button-gold" href={mapsUrl} target="_blank" rel="noreferrer" data-tina-field={tinaField(schedulePanel, 'directionsLabel')}><SiteIcon name="map-pin" size={18} /> {schedulePanel.directionsLabel}</a>}
+        {youtubeUrl && <a class="button button-ghost-light" href={youtubeUrl} target="_blank" rel="noreferrer" data-mobile-app-link data-youtube-cta data-tina-field={tinaField(schedulePanel, 'livestreamLabel')}><SiteIcon name="brand-youtube" size={18} /> {schedulePanel.livestreamLabel}</a>}
       </div>
     </div>
 
@@ -71,7 +83,7 @@ const location = page.location!;
       <article class="content-card accent-card" data-tina-field={tinaField(personalWelcome)}>
         <h3>{personalWelcome.heading}</h3>
         <p>{personalWelcome.body}</p>
-        <div class="inline-links"><a href={site.phoneHref}>{site.phone}</a><a href={`mailto:${site.email}`}>{site.email}</a></div>
+        <div class="inline-links">{phoneUrl && <a href={phoneUrl} data-tina-field={tinaField(site, 'phone')}>{site.phone}</a>}{emailUrl && <a href={emailUrl} data-tina-field={tinaField(site, 'email')}>{site.email}</a>}</div>
       </article>
     </div>
   </div>
@@ -81,10 +93,10 @@ const location = page.location!;
   <div class="shell location-grid" data-stagger>
     <div>
       <span class="eyebrow eyebrow-light" data-tina-field={tinaField(location, 'eyebrow')}>{location.eyebrow}</span>
-      <h2 class="location-address"><span>{site.address.street}</span><span>{site.address.city}</span></h2>
+      <h2 class="location-address"><span data-tina-field={tinaField(address, 'street')}>{address.street}</span><span data-tina-field={tinaField(address, 'city')}>{address.city}</span></h2>
       <p data-tina-field={tinaField(location, 'body')}>{location.body}</p>
     </div>
-    <a class="button button-gold" href={site.address.maps} target="_blank" rel="noreferrer" data-tina-field={tinaField(location, 'buttonLabel')}><SiteIcon name="map-pin" size={18} /> {location.buttonLabel}</a>
+    {mapsUrl && <a class="button button-gold" href={mapsUrl} target="_blank" rel="noreferrer" data-tina-field={tinaField(location, 'buttonLabel')}><SiteIcon name="map-pin" size={18} /> {location.buttonLabel}</a>}
   </div>
 </section>
 

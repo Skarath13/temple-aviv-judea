@@ -68,11 +68,10 @@ pnpm exec wrangler deploy --dry-run
 - Inspect the dry-run upload size. The July 26 artifact was 2,517.72 KiB gzip
   against the current 3 MiB Workers Free limit, so bundle headroom is limited.
 
-Pushes to `main` trigger:
-
-- `.github/workflows/deploy.yml` for the GitHub Pages rollback build.
-- Cloudflare Workers Builds for the production Worker. This is a dashboard-managed
-  Git integration, not a GitHub Actions workflow.
+Pushes to `main` trigger Cloudflare Workers Builds for the production Worker.
+This is a dashboard-managed Git integration, not a GitHub Actions workflow.
+`.github/workflows/deploy.yml` is manual (`workflow_dispatch`) and refreshes the
+GitHub Pages rollback artifact only when an operator intentionally runs it.
 
 Cloudflare Workers Builds is the primary production deployment method. Its
 production branch is `main`, non-production branch builds are disabled, the
@@ -195,8 +194,9 @@ After every production deploy or DNS change, verify:
 - Homepage HTML contains `admin/bridge.js` and `data-tina-island`.
 - Direct island GET returns 405; valid Tina preview POST returns 200.
 - Both mail MX records are unchanged.
-- GitHub `main` matches the intended commit, the native Cloudflare Workers Build
-  for that SHA succeeds, and the GitHub Pages rollback workflow completes.
+- GitHub `main` matches the intended commit and the native Cloudflare Workers
+  Build for that SHA succeeds. If refreshing the rollback artifact is part of
+  the release, manually run the GitHub Pages workflow and require it to complete.
 - Cloudflare Worker logs show no new binding, island, or 5xx failures.
 
 Keep the prior Worker version and GitHub Pages deployment available through the observation window. A Worker rollback does not roll back KV or DNS.

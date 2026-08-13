@@ -97,16 +97,19 @@
   },
   "pillars": [
     {
+      "kind": "prayer",
       "image": "/images/card-blue-top.webp",
       "title": "Prayer",
       "body": "We praise, repent, await with expectation, and yield to the Father, Messiah, and the Ruach HaKodesh."
     },
     {
+      "kind": "proclamation",
       "image": "/images/card-coral-top.webp",
       "title": "Proclamation",
       "body": "We worship in Jewish context and lovingly share the fullness and Jewishness of Messiah, to the Jew first and also to the Nations."
     },
     {
+      "kind": "people",
       "image": "/images/card-purple-top.webp",
       "title": "People",
       "body": "We nurture mishpachah through discipleship, shared life, spiritual gifts, acts of service, and care for our wider community."

@@ -74,6 +74,9 @@ p { text-wrap: pretty; }
 .youtube-cta-notice .button { min-width: 8rem; cursor: pointer; }
 
 /* Header */
+.tina-site-header-island, .tina-site-footer-island { display: contents; }
+.tina-empty-events { display: none; }
+html.tina-preview .tina-empty-events { display: block; }
 .site-header { position: sticky; z-index: 20; top: 0; padding-top: env(safe-area-inset-top, 0px); background: linear-gradient(105deg, #071f37 0%, #0a3559 58%, #0d4b76 100%); border-bottom: 1px solid rgba(255,255,255,.16); box-shadow: 0 8px 24px rgba(4,25,43,.15); }
 .live-dot { width: .45rem; height: .45rem; border: 2px solid rgba(255,255,255,.65); border-radius: 50%; background: var(--white); box-shadow: 0 0 0 2px rgba(255,255,255,.15); }
 .header-main { display: flex; align-items: center; min-height: 5.5rem; gap: 1.5rem; }

@@ -19,6 +19,9 @@ pnpm run dev:cms
 
 Open the URL printed by Tina, then visit `/admin/`. Local CMS mode reads and writes the JSON content files in this repository.
 
+For the production editor workflow and first-use checks, see
+[`TINACMS_EDITOR_GUIDE.md`](TINACMS_EDITOR_GUIDE.md).
+
 ## Verification
 
 ```sh
@@ -43,10 +46,11 @@ Cloudflare Workers Builds is linked directly to
 native Git integration is the primary production deployment path; there is no
 GitHub Actions Worker deployment workflow.
 
-GitHub Actions still publishes the static build to
-`https://skarath13.github.io/temple-aviv-judea/` as a rollback aid. It is not
-the canonical production host. The default build remains compatible with that
-base path; Cloudflare/Tina mode uses the Cloudflare adapter and a root base path.
+GitHub Actions can manually publish the static build to
+`https://skarath13.github.io/temple-aviv-judea/` as a rollback aid. It does not
+run when Tina saves content and is not the canonical production host. The
+default build remains compatible with that base path; Cloudflare/Tina mode uses
+the Cloudflare adapter and a root base path.
 `www` is a Worker Custom Domain and the apex redirects canonically to it while
 preserving path and query. Exact DNS, MX, and Wix rollback records are in
 `AGENTS.md`.

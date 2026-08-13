@@ -23,8 +23,9 @@
     "test:navigation-scroll": "node --test tests/navigation-scroll.test.mjs",
     "test:responsive-buttons": "node --test tests/responsive-buttons.test.mjs",
     "test:structured-data": "node --test tests/site-structured-data.test.mjs",
+    "test:tina-integration": "node --test tests/content-rules.test.mjs tests/tina-integration.test.mjs tests/upcoming-events.test.mjs tests/workers-build-environment.test.mjs",
     "test:youtube-cta": "node --test tests/youtube-cta-notice.test.mjs",
-    "validate:content": "node scripts/validate-content.mjs && pnpm run verify:hero-video && pnpm run test:navigation-scroll && pnpm run test:llms-txt && pnpm run test:responsive-buttons && pnpm run test:structured-data && pnpm run test:youtube-cta",
+    "validate:content": "node scripts/validate-content.mjs && pnpm run test:tina-integration && pnpm run verify:hero-video && pnpm run test:navigation-scroll && pnpm run test:llms-txt && pnpm run test:responsive-buttons && pnpm run test:structured-data && pnpm run test:youtube-cta",
     "verify:hero-video": "node scripts/verify-hero-media.mjs && pnpm run test:hero-video"
   },
   "dependencies": {

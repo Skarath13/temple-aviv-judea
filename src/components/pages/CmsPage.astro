@@ -1,7 +1,7 @@
 ---
 import TinaIsland from '@tinacms/astro/TinaIsland.astro';
 import type { PageKey } from '../../data/pages';
-import { cmsEnabled, getPage } from '../../lib/tina/data';
+import { cmsEnabled, getPageBundle } from '../../lib/tina/data';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { mobileHeroMedia } from '../../lib/hero-media';
 import { pageIslandWrapper } from '../../lib/tina/islands';
@@ -12,7 +12,7 @@ interface Props {
 }
 
 const { pageKey } = Astro.props;
-const page = await getPage(pageKey);
+const { page, siteSettings, eventSchedule } = await getPageBundle(pageKey);
 const seo = page.seo;
 
 if (!seo) {
@@ -27,12 +27,13 @@ if (!seo) {
   preloadImage={pageKey === 'home' ? mobileHeroMedia.poster : undefined}
   preloadImageMedia={pageKey === 'home' ? '(max-width: 760px)' : undefined}
   preloadImageType={pageKey === 'home' ? 'image/webp' : undefined}
+  siteSettings={siteSettings}
 >
   {cmsEnabled ? (
     <TinaIsland name="page" wrapper={pageIslandWrapper} params={{ page: pageKey }} primary>
-      <EditablePage page={page} pageKey={pageKey} />
+      <EditablePage page={page} pageKey={pageKey} site={siteSettings} eventSchedule={eventSchedule} />
     </TinaIsland>
   ) : (
-    <EditablePage page={page} pageKey={pageKey} />
+    <EditablePage page={page} pageKey={pageKey} site={siteSettings} eventSchedule={eventSchedule} />
   )}
 </BaseLayout>

@@ -15,6 +15,7 @@
   },
   "ministryCards": [
     {
+      "style": "coral",
       "image": "/images/ministry-children-group.webp",
       "imageAlt": "Mosaic-style illustration of five children reading together",
       "eyebrow": "The next generation",
@@ -22,6 +23,7 @@
       "body": "Shabbat School gives children a dedicated time to learn important truths from G-d’s Word in a caring setting suited to their age."
     },
     {
+      "style": "blue",
       "image": "/images/ministry-young-adults-group.webp",
       "imageAlt": "Mosaic-style illustration of young adults gathered together",
       "eyebrow": "Growing in purpose",
@@ -29,6 +31,7 @@
       "body": "A place to build lasting friendships, deepen faith, and discover how to serve G-d with clarity and courage."
     },
     {
+      "style": "gold",
       "image": "/images/ministry-women-and-men-group.webp",
       "imageAlt": "Mosaic-style illustration of women and men gathered in fellowship",
       "eyebrow": "Shared life",
@@ -36,6 +39,7 @@
       "body": "Fellowship, prayer, food, encouragement, and honest conversation create space to grow together through every season."
     },
     {
+      "style": "teal",
       "image": "/images/live/dance-ministry.webp",
       "imageAlt": "Mosaic artwork of a Messianic Jewish congregation participating in Davidic dance",
       "eyebrow": "Worship in motion",

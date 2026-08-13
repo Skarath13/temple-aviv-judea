@@ -1,20 +1,38 @@
 ---
 import { tinaField } from '@tinacms/astro/tina-field';
-import type { PageHome } from '../../../tina/__generated__/types';
+import type {
+  EventScheduleQuery,
+  PageHome,
+  SiteSettingsQuery,
+} from '../../../tina/__generated__/types';
 import CmsSections from '../CmsSections.astro';
 import SiteIcon from '../SiteIcon.astro';
 import UpcomingEvents from '../UpcomingEvents.astro';
-import { upcomingEvents } from '../../data/events';
-import { site } from '../../data/site';
-import { cmsImageSource, cmsLink } from '../../lib/cms';
+import { selectUpcomingEvents } from '../../data/events';
+import { siteSchedule } from '../../data/site';
+import {
+  cmsGoogleMapsEmbed,
+  cmsGoogleMapsLink,
+  cmsImageSource,
+  cmsLink,
+  cmsYouTubeLink,
+} from '../../lib/cms';
 import { mobileHeroMedia } from '../../lib/hero-media';
 import { withBase } from '../../lib/urls';
 
 interface Props {
   page: PageHome;
+  site: SiteSettingsQuery['siteSettings'];
+  eventSchedule: EventScheduleQuery['eventSchedule'];
 }
 
-const { page } = Astro.props;
+const { page, site, eventSchedule } = Astro.props;
+const address = site.address!;
+const schedule = siteSchedule(site);
+const upcomingEvents = selectUpcomingEvents(eventSchedule);
+const youtubeUrl = cmsYouTubeLink(site.youtube);
+const mapsUrl = cmsGoogleMapsLink(address.maps);
+const mapEmbedUrl = cmsGoogleMapsEmbed(address.embed);
 const hero = page.hero!;
 const heroMedia = page.heroMedia!;
 const heroActions = page.heroActions!;
@@ -25,16 +43,16 @@ const visitPreview = page.visitPreview!;
 const community = page.community!;
 const location = page.location!;
 const ministriesPromo = page.ministriesPromo!;
-const valueStyles = [
-  { className: 'value-prayer', icon: 'pray', href: '/beliefs/#prayer' },
-  { className: 'value-proclamation', icon: 'script', href: '/beliefs/#proclamation' },
-  { className: 'value-people', icon: 'users-group', href: '/beliefs/#people' },
-] as const;
-const expectStyles = [
-  { color: 'coral', icon: 'music' },
-  { color: 'blue', icon: 'book' },
-  { color: 'gold', icon: 'heart-handshake' },
-] as const;
+const valueStyles = {
+  prayer: { className: 'value-prayer', icon: 'pray', href: '/beliefs/#prayer' },
+  proclamation: { className: 'value-proclamation', icon: 'script', href: '/beliefs/#proclamation' },
+  people: { className: 'value-people', icon: 'users-group', href: '/beliefs/#people' },
+} as const;
+const expectStyles = {
+  worship: { color: 'coral', icon: 'music' },
+  teaching: { color: 'blue', icon: 'book' },
+  family: { color: 'gold', icon: 'heart-handshake' },
+} as const;
 const visitUrl = cmsLink(heroActions.visitUrl);
 const welcomeUrl = cmsLink(welcome.linkUrl);
 const storyUrl = cmsLink(storyFeature.linkUrl);
@@ -136,21 +154,21 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
       <p class="hero-desktop-detail" data-tina-field={tinaField(hero, 'intro')}>{hero.intro}</p>
       <div class="button-row">
         {visitUrl && <a class="button button-gold" href={visitUrl} data-tina-field={tinaField(heroActions, 'visitLabel')}>{heroActions.visitLabel}</a>}
-        <a class="button button-youtube" href={site.youtube} target="_blank" rel="noreferrer" data-mobile-app-link data-youtube-cta>
+        {youtubeUrl && <a class="button button-youtube" href={youtubeUrl} target="_blank" rel="noreferrer" data-mobile-app-link data-youtube-cta data-tina-field={tinaField(site, 'youtube')}>
           <SiteIcon name="brand-youtube" size={25} />
           <span class="youtube-button-copy">
             <strong data-tina-field={tinaField(heroActions, 'watchLabel')}>{heroActions.watchLabel}</strong>
-            <small data-tina-field={tinaField(heroActions, 'watchNote')}>{heroActions.watchNote}</small>
+            <small data-tina-field={tinaField(site, 'livestreamNote')}>{site.livestreamNote}</small>
           </span>
-        </a>
+        </a>}
       </div>
     </div>
   </div>
-  <a class="hero-location" href={site.address.maps} target="_blank" rel="noreferrer">
+  {mapsUrl && <a class="hero-location" href={mapsUrl} target="_blank" rel="noreferrer" data-tina-field={tinaField(address, 'maps')}>
     <span class="location-pin"><SiteIcon name="map-pin" size={22} /></span>
-    <span><strong>{site.address.street}</strong><small>{site.address.city}</small></span>
+    <span><strong data-tina-field={tinaField(address, 'street')}>{address.street}</strong><small data-tina-field={tinaField(address, 'city')}>{address.city}</small></span>
     <SiteIcon name="external-link" size={17} />
-  </a>
+  </a>}
 </section>
 
 <section class="mobile-hero-continuation" aria-label="About Temple Aviv Judea">
@@ -180,8 +198,8 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
         <strong data-tina-field={tinaField(scheduleHeading, 'heading')}>{scheduleHeading.heading}</strong>
       </span>
     </div>
-    {site.schedule.map((item) => (
-      <div class="schedule-item">
+    {schedule.map((item) => (
+      <div class="schedule-item" data-tina-field={tinaField(item)}>
         <strong>{item.time}</strong>
         <span>{item.label}</span>
         <small>{item.note}</small>
@@ -206,7 +224,9 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
   </div>
   <div class="shell value-ribbon" data-stagger>
     {welcome.values?.map((value, index) => {
-      const style = valueStyles[index];
+      const style = value && value.kind
+        ? valueStyles[value.kind as keyof typeof valueStyles]
+        : undefined;
       if (!value || !style) return null;
       return (
         <a class={`value-card ${style.className}`} href={cmsLink(style.href)}>
@@ -250,8 +270,10 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
       <p data-tina-field={tinaField(visitPreview, 'intro')}>{visitPreview.intro}</p>
     </div>
     <div class="expect-grid" data-stagger>
-      {visitPreview.items?.map((item, index) => {
-        const style = expectStyles[index];
+      {visitPreview.items?.map((item) => {
+        const style = item && item.kind
+          ? expectStyles[item.kind as keyof typeof expectStyles]
+          : undefined;
         if (!item || !style) return null;
         return (
           <article data-tina-field={tinaField(item)}>
@@ -267,7 +289,7 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
   </div>
 </section>
 
-<UpcomingEvents events={upcomingEvents} />
+<UpcomingEvents events={upcomingEvents} schedule={eventSchedule} />
 
 <section class="section live-moments-section">
   <div class="shell">
@@ -283,10 +305,10 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
           <figcaption>{moment.caption}</figcaption>
         </figure>
       ))}
-      <a class="recordings-card" href={site.youtube} target="_blank" rel="noreferrer" data-youtube-cta data-tina-field={tinaField(community, 'recordingsLabel')}>
+      {youtubeUrl && <a class="recordings-card" href={youtubeUrl} target="_blank" rel="noreferrer" data-youtube-cta data-tina-field={tinaField(community, 'recordingsLabel')}>
         <img src={cmsImageSource(community.recordingsImage)} alt={community.recordingsImageAlt} width="1200" height="1200" loading="lazy" />
         <span><span class="recordings-label"><SiteIcon name="brand-youtube" size={22} /> {community.recordingsLabel}</span><SiteIcon name="external-link" size={19} /></span>
-      </a>
+      </a>}
     </div>
   </div>
 </section>
@@ -309,11 +331,11 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
         <figcaption><SiteIcon name="jewish-star" size={21} /><span><strong>{location.captionTitle}</strong><small>{location.captionSubtitle}</small></span></figcaption>
       </figure>
       <div class="location-card map-card">
-        <iframe src={site.address.embed} title={location.mapTitle} loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        {mapEmbedUrl && <iframe src={mapEmbedUrl} title={location.mapTitle} loading="lazy" referrerpolicy="no-referrer-when-downgrade" sandbox="allow-scripts allow-same-origin allow-popups" allowfullscreen data-tina-field={tinaField(address, 'embed')}></iframe>}
         <div class="map-card-footer">
           <SiteIcon name="map-pin" size={22} />
-          <span><strong>{site.address.street}</strong><small>{site.address.city}</small></span>
-          <a class="button button-small" href={site.address.maps} target="_blank" rel="noreferrer" data-tina-field={tinaField(location, 'directionsLabel')}>{location.directionsLabel}</a>
+          <span><strong data-tina-field={tinaField(address, 'street')}>{address.street}</strong><small data-tina-field={tinaField(address, 'city')}>{address.city}</small></span>
+          {mapsUrl && <a class="button button-small" href={mapsUrl} target="_blank" rel="noreferrer" data-tina-field={tinaField(location, 'directionsLabel')}>{location.directionsLabel}</a>}
         </div>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import type { Collection, Template, TinaField } from 'tinacms';
+import { validateSafeLink } from '../../src/lib/content-rules.mjs';
 
 interface BasicFieldOptions {
   required?: boolean;
@@ -7,6 +8,11 @@ interface BasicFieldOptions {
 
 interface StringFieldOptions extends BasicFieldOptions {
   isTitle?: boolean;
+  options?: Array<{ label: string; value: string }>;
+  ui?: {
+    component?: string | null;
+    validate?: (value?: string) => string | undefined;
+  };
 }
 
 const text = (
@@ -53,20 +59,35 @@ const imageFields = (): TinaField[] => [
   }),
 ];
 
+const link = (
+  name: string,
+  label: string,
+  options: StringFieldOptions = {},
+): TinaField => string(name, label, {
+  ...options,
+  ui: {
+    ...options.ui,
+    validate: validateSafeLink,
+  },
+});
+
 const list = (
   name: string,
   label: string,
   fields: TinaField[],
   max: number,
   itemLabel: string,
+  min = 1,
 ): TinaField => ({
   name,
   label,
   type: 'object',
   list: true,
   required: true,
+  openFormOnCreate: true,
   fields,
   ui: {
+    min,
     max,
     itemProps: (item) => ({
       label: item?.[itemLabel] || `New ${label.toLowerCase()}`,
@@ -78,13 +99,14 @@ const stringList = (
   name: string,
   label: string,
   max: number,
+  min = 1,
 ): TinaField => ({
   name,
   label,
   type: 'string',
   list: true,
   required: true,
-  ui: { max },
+  ui: { min, max },
 });
 
 const seoField: TinaField = {
@@ -101,7 +123,7 @@ const seoField: TinaField = {
   ],
 };
 
-const heroField: TinaField = {
+const heroField = (isHome: boolean): TinaField => ({
   name: 'hero',
   label: 'Page introduction',
   type: 'object',
@@ -109,14 +131,10 @@ const heroField: TinaField = {
   fields: [
     string('eyebrow', 'Small heading'),
     string('title', 'Main heading'),
-    string('emphasis', 'Home heading emphasis', {
-      required: false,
-      description: 'Used only by the homepage.',
-    }),
-    string('closing', 'Home heading closing line', {
-      required: false,
-      description: 'Used only by the homepage.',
-    }),
+    ...(isHome ? [
+      string('emphasis', 'Heading emphasis'),
+      string('closing', 'Heading closing line'),
+    ] : []),
     text('intro', 'Introduction'),
     {
       name: 'accent',
@@ -129,9 +147,10 @@ const heroField: TinaField = {
         { value: 'gold', label: 'Gold' },
         { value: 'teal', label: 'Teal' },
       ],
+      ui: isHome ? { component: null } : undefined,
     },
   ],
-};
+} as TinaField);
 
 const contentSection: Template = {
   name: 'content',
@@ -179,7 +198,7 @@ const cardsSection: Template = {
         image('image', 'Optional image', { required: false }),
         string('imageAlt', 'Image description', { required: false }),
         string('linkLabel', 'Optional link label', { required: false }),
-        string('linkUrl', 'Optional link URL', { required: false }),
+        link('linkUrl', 'Optional link URL', { required: false }),
       ],
       6,
       'title',
@@ -214,7 +233,7 @@ const callToActionSection: Template = {
     string('heading', 'Heading'),
     text('text', 'Text'),
     string('buttonLabel', 'Button label'),
-    string('buttonUrl', 'Button URL'),
+    link('buttonUrl', 'Button URL'),
   ],
 };
 
@@ -223,6 +242,7 @@ const additionalSections: TinaField = {
   label: 'Optional additional sections',
   type: 'object',
   list: true,
+  openFormOnCreate: true,
   description: 'Add an approved section after the designed page content.',
   ui: {
     max: 8,
@@ -237,16 +257,17 @@ const additionalSections: TinaField = {
   ],
 };
 
-const baseFields = (): TinaField[] => [
+const baseFields = (isHome: boolean): TinaField[] => [
   string('title', 'Page name', {
     isTitle: true,
     description: 'The internal editor label for this page.',
   }),
   string('route', 'Site route', {
-    description: 'Developer-controlled. Do not change this value.',
+    description: 'Developer-controlled.',
+    ui: { component: null },
   }),
   seoField,
-  heroField,
+  heroField(isHome),
 ];
 
 const pageTemplate = (
@@ -256,7 +277,7 @@ const pageTemplate = (
 ): Template => ({
   name,
   label,
-  fields: [...baseFields(), ...fields, additionalSections],
+  fields: [...baseFields(name === 'home'), ...fields, additionalSections],
 });
 
 const homeTemplate = pageTemplate('home', 'Home', [
@@ -267,7 +288,6 @@ const homeTemplate = pageTemplate('home', 'Home', [
     required: true,
     fields: [
       image('desktopImage', 'Desktop image'),
-      image('mobileImage', 'Mobile image'),
       string('imageAlt', 'Image description'),
     ],
   },
@@ -278,9 +298,8 @@ const homeTemplate = pageTemplate('home', 'Home', [
     required: true,
     fields: [
       string('visitLabel', 'Visit button label'),
-      string('visitUrl', 'Visit button URL'),
+      link('visitUrl', 'Visit button URL'),
       string('watchLabel', 'Livestream button label'),
-      string('watchNote', 'Livestream schedule note'),
     ],
   },
   {
@@ -304,17 +323,27 @@ const homeTemplate = pageTemplate('home', 'Home', [
       text('lead', 'Lead paragraph'),
       text('body', 'Second paragraph'),
       string('linkLabel', 'Link label'),
-      string('linkUrl', 'Link URL'),
+      link('linkUrl', 'Link URL'),
       list(
         'values',
         'Value cards',
         [
+          string('kind', 'Card purpose', {
+            description: 'Developer-controlled identity used to keep reordered cards safe.',
+            options: [
+              { value: 'prayer', label: 'Prayer' },
+              { value: 'proclamation', label: 'Proclamation' },
+              { value: 'people', label: 'People' },
+            ],
+            ui: { component: null },
+          }),
           string('title', 'Title'),
           text('text', 'Text'),
           image('image', 'Background artwork'),
         ],
         3,
         'title',
+        3,
       ),
     ],
   },
@@ -329,7 +358,7 @@ const homeTemplate = pageTemplate('home', 'Home', [
       stringList('headingLines', 'Heading lines', 3),
       text('body', 'Story summary'),
       string('linkLabel', 'Button label'),
-      string('linkUrl', 'Button URL'),
+      link('linkUrl', 'Button URL'),
       list(
         'stats',
         'Milestones',
@@ -355,15 +384,25 @@ const homeTemplate = pageTemplate('home', 'Home', [
         'items',
         'What to expect',
         [
+          string('kind', 'Card style', {
+            description: 'Developer-controlled identity used to keep reordered cards safe.',
+            options: [
+              { value: 'worship', label: 'Worship' },
+              { value: 'teaching', label: 'Teaching' },
+              { value: 'family', label: 'Family' },
+            ],
+            ui: { component: null },
+          }),
           ...imageFields(),
           string('title', 'Title'),
           text('text', 'Text'),
         ],
         3,
         'title',
+        3,
       ),
       string('buttonLabel', 'Button label'),
-      string('buttonUrl', 'Button URL'),
+      link('buttonUrl', 'Button URL'),
     ],
   },
   {
@@ -384,6 +423,7 @@ const homeTemplate = pageTemplate('home', 'Home', [
         ],
         2,
         'caption',
+        2,
       ),
       image('recordingsImage', 'Recordings card image'),
       string('recordingsImageAlt', 'Recordings image description'),
@@ -418,7 +458,7 @@ const homeTemplate = pageTemplate('home', 'Home', [
       string('heading', 'Heading'),
       text('body', 'Description'),
       string('linkLabel', 'Link label'),
-      string('linkUrl', 'Link URL'),
+      link('linkUrl', 'Link URL'),
       string('directoryEyebrow', 'Directory small heading'),
       stringList('ministries', 'Ministry names', 12),
     ],
@@ -542,7 +582,7 @@ const storyTemplate = pageTemplate('story', 'Our Story', [
       text('lead', 'Lead paragraph'),
       text('body', 'Second paragraph'),
       string('linkLabel', 'Contact link label'),
-      string('linkUrl', 'Contact link URL'),
+      link('linkUrl', 'Contact link URL'),
     ],
   },
   {
@@ -576,7 +616,7 @@ const storyTemplate = pageTemplate('story', 'Our Story', [
       string('heading', 'Heading'),
       text('body', 'Body'),
       string('buttonLabel', 'Button label'),
-      string('buttonUrl', 'Button URL'),
+      link('buttonUrl', 'Button URL'),
     ],
   },
 ]);
@@ -659,12 +699,22 @@ const beliefsTemplate = pageTemplate('beliefs', 'Beliefs', [
     'pillars',
     'Core value cards',
     [
+      string('kind', 'Core value', {
+        description: 'Developer-controlled identity used to keep reordered cards safe.',
+        options: [
+          { value: 'prayer', label: 'Prayer' },
+          { value: 'proclamation', label: 'Proclamation' },
+          { value: 'people', label: 'People' },
+        ],
+        ui: { component: null },
+      }),
       image('image', 'Card artwork'),
       string('title', 'Title'),
       text('body', 'Summary'),
     ],
     3,
     'title',
+    3,
   ),
   {
     name: 'prayer',
@@ -737,15 +787,26 @@ const ministriesTemplate = pageTemplate('ministries', 'Ministries', [
     'ministryCards',
     'Ministry cards',
     [
+      string('style', 'Card color', {
+        description: 'Developer-controlled identity used to keep reordered cards safe.',
+        options: [
+          { value: 'coral', label: 'Coral' },
+          { value: 'blue', label: 'Blue' },
+          { value: 'gold', label: 'Gold' },
+          { value: 'teal', label: 'Teal' },
+        ],
+        ui: { component: null },
+      }),
       ...imageFields(),
       string('eyebrow', 'Small heading'),
       string('title', 'Title'),
       text('body', 'Description'),
       string('linkLabel', 'Optional link label', { required: false }),
-      string('linkUrl', 'Optional link URL', { required: false }),
+      link('linkUrl', 'Optional link URL', { required: false }),
     ],
     4,
     'title',
+    4,
   ),
   {
     name: 'bibleStudy',
@@ -779,6 +840,7 @@ const ministriesTemplate = pageTemplate('ministries', 'Ministries', [
         ],
         2,
         'title',
+        2,
       ),
       string('buttonLabel', 'Gallery button label'),
     ],
@@ -793,7 +855,7 @@ const ministriesTemplate = pageTemplate('ministries', 'Ministries', [
       string('heading', 'Heading'),
       text('body', 'Description'),
       string('buttonLabel', 'Button label'),
-      string('buttonUrl', 'Button URL'),
+      link('buttonUrl', 'Button URL'),
     ],
   },
 ]);
@@ -816,7 +878,7 @@ const giveTemplate = pageTemplate('give', 'Give', [
       string('heading', 'Heading'),
       text('lead', 'Lead paragraph'),
       text('body', 'Second paragraph'),
-      stringList('donationOptions', 'Donation button names', 2),
+      stringList('donationOptions', 'Donation button names', 2, 2),
       stringList('trustPoints', 'Checkout reassurance', 4),
       text('securityNote', 'Payment security note'),
     ],
@@ -855,7 +917,7 @@ const artistsTemplate = pageTemplate('artists', 'Artists’ Gallery', [
       string('heading', 'Heading'),
       text('body', 'Description'),
       string('buttonLabel', 'Button label'),
-      string('buttonUrl', 'Button URL'),
+      link('buttonUrl', 'Button URL'),
     ],
   },
 ]);

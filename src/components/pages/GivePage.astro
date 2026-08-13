@@ -1,22 +1,22 @@
 ---
 import { tinaField } from '@tinacms/astro/tina-field';
-import type { PageGive } from '../../../tina/__generated__/types';
+import type { PageGive, SiteSettingsQuery } from '../../../tina/__generated__/types';
 import CmsSections from '../CmsSections.astro';
 import PageHero from '../PageHero.astro';
 import SiteIcon from '../SiteIcon.astro';
-import { site } from '../../data/site';
-import { cmsImageSource } from '../../lib/cms';
+import { cmsImageSource, cmsPayPalLink } from '../../lib/cms';
 
 interface Props {
   page: PageGive;
+  site: SiteSettingsQuery['siteSettings'];
 }
 
-const { page } = Astro.props;
+const { page, site } = Astro.props;
 const hero = page.hero!;
 const banner = page.banner!;
 const givingIntro = page.givingIntro!;
 const supportPanel = page.supportPanel!;
-const trustIcons = ['shield-check', 'lock'] as const;
+const givingUrl = cmsPayPalLink(site.giving);
 ---
 
 <PageHero eyebrow={hero.eyebrow} title={hero.title} intro={hero.intro} accent={hero.accent as 'blue' | 'coral' | 'gold' | 'teal'} data={hero} />
@@ -36,15 +36,15 @@ const trustIcons = ['shield-check', 'lock'] as const;
       <p data-tina-field={tinaField(givingIntro, 'body')}>{givingIntro.body}</p>
       <div class="paypal-give-panel">
         <div class="paypal-button-grid" data-tina-field={tinaField(givingIntro, 'donationOptions')}>
-          {givingIntro.donationOptions?.map((option) => (
-            <a class="paypal-give-button" href={site.giving} target="_blank" rel="noreferrer" aria-label={`Donate to ${option} with PayPal. Opens in a new tab.`}>
+          {givingIntro.donationOptions?.map((option) => givingUrl && (
+            <a class="paypal-give-button" href={givingUrl} target="_blank" rel="noreferrer" aria-label={`Donate to ${option} with PayPal. Opens in a new tab.`} data-tina-field={tinaField(site, 'giving')}>
               <span><SiteIcon name="brand-paypal" size={27} /><span class="paypal-button-copy"><small>Donate with PayPal</small><strong>{option}</strong></span></span>
               <SiteIcon name="external-link" size={18} />
             </a>
           ))}
         </div>
         <ul class="paypal-trust-list" aria-label="PayPal donation security" data-tina-field={tinaField(givingIntro, 'trustPoints')}>
-          {givingIntro.trustPoints?.map((point, index) => <li><SiteIcon name={trustIcons[index] || 'shield-check'} size={20} />{point}</li>)}
+          {givingIntro.trustPoints?.map((point) => <li><SiteIcon name="shield-check" size={20} />{point}</li>)}
         </ul>
         <p class="security-note" data-tina-field={tinaField(givingIntro, 'securityNote')}>{givingIntro.securityNote}</p>
       </div>

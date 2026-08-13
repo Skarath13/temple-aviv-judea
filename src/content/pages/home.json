@@ -17,14 +17,12 @@
   },
   "heroMedia": {
     "desktopImage": "/images/hero-desktop.jpg",
-    "mobileImage": "/images/hero-mobile.jpg",
     "imageAlt": "A radiant artistic view of Jerusalem and the Temple at sunset"
   },
   "heroActions": {
     "visitLabel": "Plan your first visit",
     "visitUrl": "/visit/",
-    "watchLabel": "Watch live on YouTube",
-    "watchNote": "Saturdays · 11:00 AM PT"
+    "watchLabel": "Watch live on YouTube"
   },
   "scheduleHeading": {
     "eyebrow": "Every Saturday",
@@ -42,16 +40,19 @@
     "linkUrl": "/beliefs/",
     "values": [
       {
+        "kind": "prayer",
         "title": "Prayer",
         "text": "Drawing near through praise, repentance, expectation, and surrender.",
         "image": "/images/card-prayer.webp"
       },
       {
+        "kind": "proclamation",
         "title": "Proclamation",
         "text": "Sharing the Good News of Messiah first with Jewish people and also with the Nations.",
         "image": "/images/card-proclamation.webp"
       },
       {
+        "kind": "people",
         "title": "People",
         "text": "Growing as mishpachah through worship, learning, service, and shared life.",
         "image": "/images/card-people.webp"
@@ -90,18 +91,21 @@
     "intro": "Expect ancient liturgy and living music, Davidic dance and biblical teaching, children being blessed, and a meal where conversations become friendships.",
     "items": [
       {
+        "kind": "worship",
         "image": "/images/expect-worship.webp",
         "imageAlt": "Mosaic artwork of musicians, singers, and dancers worshipping together",
         "title": "Joyful worship",
         "text": "Traditional Jewish liturgy, instruments, singing, and dance in a warm, participatory setting."
       },
       {
+        "kind": "teaching",
         "image": "/images/expect-teaching.webp",
         "imageAlt": "Mosaic artwork of a Torah scroll, olive branches, and a lit oil lamp",
         "title": "Rooted teaching",
         "text": "A weekly message from Scripture through a Jewish lens, followed by time to learn and ask questions."
       },
       {
+        "kind": "family",
         "image": "/images/expect-family.webp",
         "imageAlt": "Mosaic artwork of several generations learning and sharing a meal together",
         "title": "Room for family",

@@ -1,9 +1,28 @@
 ---
-import { navItems, site } from '../data/site';
+import { siteNavigation, type SiteSettingsData } from '../data/site';
+import { tinaField } from '@tinacms/astro/tina-field';
+import {
+  cmsFacebookLink,
+  cmsGoogleMapsLink,
+  cmsLink,
+  cmsYouTubeLink,
+} from '../lib/cms';
 import { formatPublicHours } from '../lib/site-structured-data.mjs';
 import { withBase } from '../lib/urls';
 import SiteIcon from './SiteIcon.astro';
 
+interface Props {
+  site: SiteSettingsData;
+}
+
+const { site } = Astro.props;
+const navItems = siteNavigation(site);
+const address = site.address!;
+const mapsUrl = cmsGoogleMapsLink(address.maps);
+const phoneUrl = cmsLink(site.phoneHref);
+const emailUrl = cmsLink(`mailto:${site.email}`);
+const youtubeUrl = cmsYouTubeLink(site.youtube);
+const facebookUrl = cmsFacebookLink(site.facebook);
 const adminPath = import.meta.env.BASE_URL === '/' ? '/admin/' : '/admin-preview/';
 const publicHours = formatPublicHours(site.publicHours);
 ---
@@ -12,38 +31,41 @@ const publicHours = formatPublicHours(site.publicHours);
   <div class="footer-art" aria-hidden="true"></div>
   <div class="shell footer-grid" data-stagger>
     <div class="footer-intro">
-      <span class="eyebrow eyebrow-light">Shalom & welcome</span>
-      <h2>There is a place for you in the story.</h2>
-      <p>Join us as we worship, learn, celebrate, and grow together in Messiah.</p>
-      <a class="button button-gold" href={withBase('/visit/')}>Come this Shabbat</a>
+      <span class="eyebrow eyebrow-light" data-tina-field={tinaField(site.footerCopy, 'eyebrow')}>{site.footerCopy.eyebrow}</span>
+      <h2 data-tina-field={tinaField(site.footerCopy, 'heading')}>{site.footerCopy.heading}</h2>
+      <p data-tina-field={tinaField(site.footerCopy, 'body')}>{site.footerCopy.body}</p>
+      <a class="button button-gold" href={withBase('/visit/')} data-tina-field={tinaField(site.footerCopy, 'visitLabel')}>{site.footerCopy.visitLabel}</a>
     </div>
 
     <div>
-      <h3>Explore</h3>
+      <h3 data-tina-field={tinaField(site.footerCopy, 'exploreHeading')}>{site.footerCopy.exploreHeading}</h3>
       <ul class="footer-links">
-        {navItems.slice(1).map((item) => <li><a href={withBase(item.href)}>{item.label}</a></li>)}
+        {navItems.slice(1).map((item) => {
+          const href = cmsLink(item.href);
+          return href && <li><a href={href} data-tina-field={tinaField(item)}>{item.label}</a></li>;
+        })}
         <li><a href={withBase('/artists/')}>Artists’ Gallery</a></li>
         <li><a href={withBase('/give/')}>Give</a></li>
       </ul>
     </div>
 
     <div>
-      <h3>Connect</h3>
+      <h3 data-tina-field={tinaField(site.footerCopy, 'connectHeading')}>{site.footerCopy.connectHeading}</h3>
       <address>
-        <a href={site.address.maps} target="_blank" rel="noreferrer">{site.address.street}<br />{site.address.city}</a>
-        <span class="public-hours"><small>Public hours</small>{publicHours}</span>
-        <span class="mailing-address"><small>Mailing address</small>{site.address.mailing}</span>
-        <a href={site.phoneHref}>{site.phone}</a>
-        <a href={`mailto:${site.email}`}>{site.email}</a>
+        {mapsUrl && <a href={mapsUrl} target="_blank" rel="noreferrer" data-tina-field={tinaField(address, 'maps')}><span data-tina-field={tinaField(address, 'street')}>{address.street}</span><br /><span data-tina-field={tinaField(address, 'city')}>{address.city}</span></a>}
+        <span class="public-hours" data-tina-field={tinaField(site, 'publicHours')}><small>Public hours</small>{publicHours}</span>
+        <span class="mailing-address" data-tina-field={tinaField(address, 'mailing')}><small>Mailing address</small>{address.mailing}</span>
+        {phoneUrl && <a href={phoneUrl} data-tina-field={tinaField(site, 'phone')}>{site.phone}</a>}
+        {emailUrl && <a href={emailUrl} data-tina-field={tinaField(site, 'email')}>{site.email}</a>}
       </address>
       <div class="social-links">
-        <a href={site.youtube} target="_blank" rel="noreferrer"><SiteIcon name="brand-youtube" size={18} /> YouTube</a>
-        <a href={site.facebook} target="_blank" rel="noreferrer"><SiteIcon name="brand-facebook" size={18} /> Facebook</a>
+        {youtubeUrl && <a href={youtubeUrl} target="_blank" rel="noreferrer" data-tina-field={tinaField(site, 'youtube')}><SiteIcon name="brand-youtube" size={18} /> YouTube</a>}
+        {facebookUrl && <a href={facebookUrl} target="_blank" rel="noreferrer" data-tina-field={tinaField(site, 'facebook')}><SiteIcon name="brand-facebook" size={18} /> Facebook</a>}
       </div>
     </div>
   </div>
   <div class="shell footer-bottom">
     <span>© {new Date().getFullYear()} {site.name}</span>
-    <span class="footer-bottom-links"><span>Jewish roots · Living faith · Open doors</span><a class="footer-admin-link" href={withBase(adminPath)}><SiteIcon name="lock" size={14} />Admin</a></span>
+    <span class="footer-bottom-links"><span data-tina-field={tinaField(site.footerCopy, 'motto')}>{site.footerCopy.motto}</span><a class="footer-admin-link" href={withBase(adminPath)}><SiteIcon name="lock" size={14} />Admin</a></span>
   </div>
 </footer>
