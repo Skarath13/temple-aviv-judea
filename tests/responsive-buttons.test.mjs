@@ -6,6 +6,38 @@ const globalCss = await readFile(
   new URL('../src/styles/global.css', import.meta.url),
   'utf8',
 );
+const header = await readFile(
+  new URL('../src/components/Header.astro', import.meta.url),
+  'utf8',
+);
+
+test('desktop header exposes a compact YouTube action only with the full navigation', () => {
+  assert.match(
+    header,
+    /class="button button-small button-youtube header-youtube-button"/,
+  );
+  assert.match(header, /<SiteIcon name="brand-youtube" size=\{20\} \/>/);
+  assert.match(header, /aria-label=\{site\.headerCopy\.livestreamLabel\}/);
+  assert.match(header, /data-youtube-cta/);
+
+  assert.match(
+    globalCss,
+    /\.header-youtube-button\s*\{[^}]*flex:\s*0 0 auto\s*;[^}]*min-height:\s*2\.75rem\s*;[^}]*white-space:\s*nowrap\s*;[^}]*\}/,
+  );
+
+  const compactHeaderRules = globalCss.match(
+    /@media \(max-width:\s*1180px\)\s*\{(?<declarations>[\s\S]*?)\n\}/,
+  );
+  assert.ok(compactHeaderRules, 'expected the full-navigation collapse breakpoint');
+  assert.match(
+    compactHeaderRules.groups.declarations,
+    /\.desktop-nav, \.header-youtube-button\s*\{[^}]*display:\s*none\s*;[^}]*\}/,
+  );
+  assert.match(
+    compactHeaderRules.groups.declarations,
+    /\.mobile-menu\s*\{[^}]*display:\s*block\s*;[^}]*\}/,
+  );
+});
 
 test('shared buttons retain readable text and a usable compact target', () => {
   const buttonRule = globalCss.match(

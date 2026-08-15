@@ -90,6 +90,7 @@ html.tina-preview .tina-empty-events { display: block; }
 .desktop-nav a::after { content: ''; position: absolute; left: 0; right: 100%; bottom: -.45rem; height: 2px; background: var(--gold); transition: right .2s ease; }
 .desktop-nav a:hover::after, .desktop-nav a[aria-current='page']::after { right: 0; }
 .header-actions { display: flex; align-items: center; gap: 1rem; }
+.header-youtube-button { flex: 0 0 auto; min-height: 2.75rem; gap: .45rem; padding: .65rem 1rem; white-space: nowrap; }
 .mobile-menu { display: none; position: relative; }
 .mobile-menu summary { display: grid; gap: 5px; width: 2.8rem; height: 2.8rem; place-content: center; list-style: none; cursor: pointer; }
 .mobile-menu summary::-webkit-details-marker { display: none; }
@@ -598,6 +599,9 @@ html.tina-preview .tina-empty-events { display: block; }
 }
 
 @media (max-width: 1180px) {
+  .desktop-nav, .header-youtube-button { display: none; }
+  .mobile-menu { display: block; }
+  .header-actions { margin-left: auto; }
   .wide-card { grid-template-columns: 1fr; }
   .wide-card > .button { grid-column: auto; justify-self: stretch; }
   .artist-thumbnails { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
@@ -605,9 +609,6 @@ html.tina-preview .tina-empty-events { display: block; }
 }
 
 @media (max-width: 1020px) {
-  .desktop-nav { display: none; }
-  .mobile-menu { display: block; }
-  .header-actions { margin-left: auto; }
   .art-story-section { grid-template-columns: 1fr; }
   .art-panel { height: min(70vw, 650px); }
   .art-story-copy { padding: 5rem max(1.5rem, calc((100vw - 760px)/2)); }

@@ -35,6 +35,7 @@ const isCurrent = (href: string) => href === '/' ? localPath === '/' : localPath
 
     <div class="header-actions">
       <a class="text-link desktop-only" href={withBase('/give/')} data-tina-field={tinaField(site.headerCopy, 'giveLabel')}>{site.headerCopy.giveLabel}</a>
+      {youtubeUrl && <a class="button button-small button-youtube header-youtube-button" href={youtubeUrl} target="_blank" rel="noreferrer" aria-label={site.headerCopy.livestreamLabel} data-youtube-cta data-tina-field={tinaField(site, 'youtube')}><SiteIcon name="brand-youtube" size={20} /><span>YouTube</span></a>}
       <a class="button button-small button-gold" href={withBase('/visit/')} data-tina-field={tinaField(site.headerCopy, 'visitLabel')}>{site.headerCopy.visitLabel}</a>
     </div>
 
