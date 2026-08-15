@@ -102,7 +102,7 @@ Tina content is Git-backed. Cloudflare D1 and R2 are not required for ordinary p
 
 The home hero uses separate desktop and mobile artwork through a responsive `<picture>` element:
 
-- `public/images/hero-desktop.jpg`
+- `public/images/hero-desktop-v2.jpg`
 - `public/images/hero-mobile.jpg`
 
 See `ASSET_SOURCES.md` for the live-site asset inventory and local migration map.
