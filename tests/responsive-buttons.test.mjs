@@ -19,6 +19,11 @@ test('desktop header exposes a compact YouTube action only with the full navigat
   assert.match(header, /<SiteIcon name="brand-youtube" size=\{20\} \/>/);
   assert.match(header, /aria-label=\{site\.headerCopy\.livestreamLabel\}/);
   assert.match(header, /data-youtube-cta/);
+  assert.ok(
+    header.indexOf('href={withBase(\'/visit/\')}') <
+      header.indexOf('header-youtube-button'),
+    'expected the YouTube action to appear to the right of Plan a visit',
+  );
 
   assert.match(
     globalCss,
