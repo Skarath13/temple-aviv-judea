@@ -47,7 +47,7 @@
     {
       "time": "11:00 AM",
       "label": "Shabbat Service",
-      "note": "In person & livestream"
+      "note": "In person & livestream. Parashat Ki Tetse"
     },
     {
       "time": "1:00 PM",
@@ -62,24 +62,24 @@
   ],
   "navigation": [
     {
-      "href": "/",
-      "label": "Home"
+      "label": "Home",
+      "href": "/"
     },
     {
-      "href": "/visit/",
-      "label": "Visit"
+      "label": "Visit",
+      "href": "/visit/"
     },
     {
-      "href": "/story/",
-      "label": "Our Story"
+      "label": "Our Story",
+      "href": "/story/"
     },
     {
-      "href": "/beliefs/",
-      "label": "Beliefs"
+      "label": "Beliefs",
+      "href": "/beliefs/"
     },
     {
-      "href": "/ministries/",
-      "label": "Ministries"
+      "label": "Ministries",
+      "href": "/ministries/"
     }
   ]
 }
