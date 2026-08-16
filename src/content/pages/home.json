@@ -1,5 +1,4 @@
 {
-  "_template": "home",
   "title": "Home",
   "route": "/",
   "seo": {
@@ -167,5 +166,10 @@
       "Creative arts"
     ]
   },
-  "sections": []
+  "sections": [
+    {
+      "_template": "content"
+    }
+  ],
+  "_template": "home"
 }
