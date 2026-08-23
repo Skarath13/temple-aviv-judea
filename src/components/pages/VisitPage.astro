@@ -1,20 +1,23 @@
 ---
-import { tinaField } from '@tinacms/astro/tina-field';
-import type { PageVisit, SiteSettingsQuery } from '../../../tina/__generated__/types';
-import CmsSections from '../CmsSections.astro';
-import PageHero from '../PageHero.astro';
-import SiteIcon from '../SiteIcon.astro';
-import { siteSchedule } from '../../data/site';
+import { tinaField } from "@tinacms/astro/tina-field";
+import type {
+	PageVisit,
+	SiteSettingsQuery,
+} from "../../../tina/__generated__/types";
+import { siteSchedule } from "../../data/site";
 import {
-  cmsGoogleMapsLink,
-  cmsImageSource,
-  cmsLink,
-  cmsYouTubeLink,
-} from '../../lib/cms';
+	cmsGoogleMapsLink,
+	cmsImageSource,
+	cmsLink,
+	cmsYouTubeLink,
+} from "../../lib/cms";
+import CmsSections from "../CmsSections.astro";
+import PageHero from "../PageHero.astro";
+import SiteIcon from "../SiteIcon.astro";
 
 interface Props {
-  page: PageVisit;
-  site: SiteSettingsQuery['siteSettings'];
+	page: PageVisit;
+	site: SiteSettingsQuery["siteSettings"];
 }
 
 const { page, site } = Astro.props;

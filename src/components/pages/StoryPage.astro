@@ -1,13 +1,13 @@
 ---
-import { tinaField } from '@tinacms/astro/tina-field';
-import type { PageStory } from '../../../tina/__generated__/types';
-import CmsSections from '../CmsSections.astro';
-import PageHero from '../PageHero.astro';
-import SiteIcon from '../SiteIcon.astro';
-import { cmsImageSource, cmsLink } from '../../lib/cms';
+import { tinaField } from "@tinacms/astro/tina-field";
+import type { PageStory } from "../../../tina/__generated__/types";
+import { cmsImageSource, cmsLink } from "../../lib/cms";
+import CmsSections from "../CmsSections.astro";
+import PageHero from "../PageHero.astro";
+import SiteIcon from "../SiteIcon.astro";
 
 interface Props {
-  page: PageStory;
+	page: PageStory;
 }
 
 const { page } = Astro.props;

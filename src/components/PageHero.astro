@@ -1,14 +1,14 @@
 ---
-import { tinaField } from '@tinacms/astro/tina-field';
+import { tinaField } from "@tinacms/astro/tina-field";
 
 interface Props {
-  eyebrow: string;
-  title: string;
-  intro: string;
-  accent?: 'blue' | 'coral' | 'gold' | 'teal';
-  data?: Record<string, unknown> | null;
+	eyebrow: string;
+	title: string;
+	intro: string;
+	accent?: "blue" | "coral" | "gold" | "teal";
+	data?: Record<string, unknown> | null;
 }
-const { eyebrow, title, intro, accent = 'blue', data } = Astro.props;
+const { eyebrow, title, intro, accent = "blue", data } = Astro.props;
 ---
 
 <section class={`page-hero page-hero-${accent}`}>

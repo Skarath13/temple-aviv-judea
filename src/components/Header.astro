@@ -1,19 +1,20 @@
 ---
-import { siteNavigation, type SiteSettingsData } from '../data/site';
-import { tinaField } from '@tinacms/astro/tina-field';
-import { cmsLink, cmsYouTubeLink } from '../lib/cms';
-import { withBase, withoutBase } from '../lib/urls';
-import SiteIcon from './SiteIcon.astro';
+import { tinaField } from "@tinacms/astro/tina-field";
+import { type SiteSettingsData, siteNavigation } from "../data/site";
+import { cmsLink, cmsYouTubeLink } from "../lib/cms";
+import { withBase, withoutBase } from "../lib/urls";
+import SiteIcon from "./SiteIcon.astro";
 
 interface Props {
-  currentPath: string;
-  site: SiteSettingsData;
+	currentPath: string;
+	site: SiteSettingsData;
 }
 const { currentPath, site } = Astro.props;
 const navItems = siteNavigation(site);
 const youtubeUrl = cmsYouTubeLink(site.youtube);
 const localPath = withoutBase(currentPath);
-const isCurrent = (href: string) => href === '/' ? localPath === '/' : localPath.startsWith(href);
+const isCurrent = (href: string) =>
+	href === "/" ? localPath === "/" : localPath.startsWith(href);
 ---
 
 <header class="site-header">

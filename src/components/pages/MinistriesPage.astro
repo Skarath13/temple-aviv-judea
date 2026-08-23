@@ -1,14 +1,17 @@
 ---
-import { tinaField } from '@tinacms/astro/tina-field';
-import type { PageMinistries, SiteSettingsQuery } from '../../../tina/__generated__/types';
-import CmsSections from '../CmsSections.astro';
-import PageHero from '../PageHero.astro';
-import SiteIcon from '../SiteIcon.astro';
-import { cmsEtsyLink, cmsImageSource, cmsLink } from '../../lib/cms';
+import { tinaField } from "@tinacms/astro/tina-field";
+import type {
+	PageMinistries,
+	SiteSettingsQuery,
+} from "../../../tina/__generated__/types";
+import { cmsEtsyLink, cmsImageSource, cmsLink } from "../../lib/cms";
+import CmsSections from "../CmsSections.astro";
+import PageHero from "../PageHero.astro";
+import SiteIcon from "../SiteIcon.astro";
 
 interface Props {
-  page: PageMinistries;
-  site: SiteSettingsQuery['siteSettings'];
+	page: PageMinistries;
+	site: SiteSettingsQuery["siteSettings"];
 }
 
 const { page, site } = Astro.props;
@@ -16,9 +19,11 @@ const hero = page.hero!;
 const bibleStudy = page.bibleStudy!;
 const artistFeature = page.artistFeature!;
 const callToAction = page.callToAction!;
-const cardStyles = new Set(['coral', 'blue', 'gold', 'teal']);
+const cardStyles = new Set(["coral", "blue", "gold", "teal"]);
 const ctaUrl = cmsLink(callToAction.buttonUrl);
-const bibleStudyHref = cmsLink(`mailto:${site.email}?subject=${encodeURIComponent(bibleStudy.emailSubject)}`);
+const bibleStudyHref = cmsLink(
+	`mailto:${site.email}?subject=${encodeURIComponent(bibleStudy.emailSubject)}`,
+);
 const etsyUrl = cmsEtsyLink(site.baruchDesignsEtsy);
 ---
 

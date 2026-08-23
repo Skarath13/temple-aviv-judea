@@ -1,12 +1,12 @@
 ---
-import { tinaField } from '@tinacms/astro/tina-field';
-import type { PageBeliefs } from '../../../tina/__generated__/types';
-import CmsSections from '../CmsSections.astro';
-import PageHero from '../PageHero.astro';
-import { cmsImageSource } from '../../lib/cms';
+import { tinaField } from "@tinacms/astro/tina-field";
+import type { PageBeliefs } from "../../../tina/__generated__/types";
+import { cmsImageSource } from "../../lib/cms";
+import CmsSections from "../CmsSections.astro";
+import PageHero from "../PageHero.astro";
 
 interface Props {
-  page: PageBeliefs;
+	page: PageBeliefs;
 }
 
 const { page } = Astro.props;
@@ -20,7 +20,7 @@ const pillarsIntro = page.pillarsIntro!;
 const prayer = page.prayer!;
 const proclamation = page.proclamation!;
 const people = page.people!;
-const pillarAnchors = new Set(['prayer', 'proclamation', 'people']);
+const pillarAnchors = new Set(["prayer", "proclamation", "people"]);
 ---
 
 <PageHero eyebrow={hero.eyebrow} title={hero.title} intro={hero.intro} accent={hero.accent as 'blue' | 'coral' | 'gold' | 'teal'} data={hero} />

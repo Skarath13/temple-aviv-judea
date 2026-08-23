@@ -1,29 +1,29 @@
 ---
-import { tinaField } from '@tinacms/astro/tina-field';
+import { tinaField } from "@tinacms/astro/tina-field";
 import type {
-  EventScheduleQuery,
-  PageHome,
-  SiteSettingsQuery,
-} from '../../../tina/__generated__/types';
-import CmsSections from '../CmsSections.astro';
-import SiteIcon from '../SiteIcon.astro';
-import UpcomingEvents from '../UpcomingEvents.astro';
-import { selectUpcomingEvents } from '../../data/events';
-import { siteSchedule } from '../../data/site';
+	EventScheduleQuery,
+	PageHome,
+	SiteSettingsQuery,
+} from "../../../tina/__generated__/types";
+import { selectUpcomingEvents } from "../../data/events";
+import { siteSchedule } from "../../data/site";
 import {
-  cmsGoogleMapsEmbed,
-  cmsGoogleMapsLink,
-  cmsImageSource,
-  cmsLink,
-  cmsYouTubeLink,
-} from '../../lib/cms';
-import { mobileHeroMedia } from '../../lib/hero-media';
-import { withBase } from '../../lib/urls';
+	cmsGoogleMapsEmbed,
+	cmsGoogleMapsLink,
+	cmsImageSource,
+	cmsLink,
+	cmsYouTubeLink,
+} from "../../lib/cms";
+import { mobileHeroMedia } from "../../lib/hero-media";
+import { withBase } from "../../lib/urls";
+import CmsSections from "../CmsSections.astro";
+import SiteIcon from "../SiteIcon.astro";
+import UpcomingEvents from "../UpcomingEvents.astro";
 
 interface Props {
-  page: PageHome;
-  site: SiteSettingsQuery['siteSettings'];
-  eventSchedule: EventScheduleQuery['eventSchedule'];
+	page: PageHome;
+	site: SiteSettingsQuery["siteSettings"];
+	eventSchedule: EventScheduleQuery["eventSchedule"];
 }
 
 const { page, site, eventSchedule } = Astro.props;
@@ -44,14 +44,22 @@ const community = page.community!;
 const location = page.location!;
 const ministriesPromo = page.ministriesPromo!;
 const valueStyles = {
-  prayer: { className: 'value-prayer', icon: 'pray', href: '/beliefs/#prayer' },
-  proclamation: { className: 'value-proclamation', icon: 'script', href: '/beliefs/#proclamation' },
-  people: { className: 'value-people', icon: 'users-group', href: '/beliefs/#people' },
+	prayer: { className: "value-prayer", icon: "pray", href: "/beliefs/#prayer" },
+	proclamation: {
+		className: "value-proclamation",
+		icon: "script",
+		href: "/beliefs/#proclamation",
+	},
+	people: {
+		className: "value-people",
+		icon: "users-group",
+		href: "/beliefs/#people",
+	},
 } as const;
 const expectStyles = {
-  worship: { color: 'coral', icon: 'music' },
-  teaching: { color: 'blue', icon: 'book' },
-  family: { color: 'gold', icon: 'heart-handshake' },
+	worship: { color: "coral", icon: "music" },
+	teaching: { color: "blue", icon: "book" },
+	family: { color: "gold", icon: "heart-handshake" },
 } as const;
 const visitUrl = cmsLink(heroActions.visitUrl);
 const welcomeUrl = cmsLink(welcome.linkUrl);

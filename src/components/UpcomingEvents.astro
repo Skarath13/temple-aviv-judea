@@ -1,26 +1,26 @@
 ---
-import type { EventScheduleData, UpcomingEvent } from '../data/events';
-import { tinaField } from '@tinacms/astro/tina-field';
-import { cmsLink } from '../lib/cms';
-import { cmsImageSource } from '../lib/cms';
-import SiteIcon from './SiteIcon.astro';
+import { tinaField } from "@tinacms/astro/tina-field";
+import type { EventScheduleData, UpcomingEvent } from "../data/events";
+import { cmsImageSource, cmsLink } from "../lib/cms";
+import SiteIcon from "./SiteIcon.astro";
 
 interface Props {
-  events: readonly UpcomingEvent[];
-  schedule: EventScheduleData;
+	events: readonly UpcomingEvent[];
+	schedule: EventScheduleData;
 }
 
 const { events, schedule } = Astro.props;
 const visibleEvents = events.slice(0, 3);
 const copy = schedule.sectionCopy!;
-const formatStart = (startsAt: string) => new Intl.DateTimeFormat('en-US', {
-  month: 'long',
-  day: 'numeric',
-  year: 'numeric',
-  hour: 'numeric',
-  minute: '2-digit',
-  timeZone: 'America/Los_Angeles',
-}).format(new Date(startsAt));
+const formatStart = (startsAt: string) =>
+	new Intl.DateTimeFormat("en-US", {
+		month: "long",
+		day: "numeric",
+		year: "numeric",
+		hour: "numeric",
+		minute: "2-digit",
+		timeZone: "America/Los_Angeles",
+	}).format(new Date(startsAt));
 ---
 
 {visibleEvents.length > 0 && (

@@ -1,29 +1,30 @@
 ---
-import { siteNavigation, type SiteSettingsData } from '../data/site';
-import { tinaField } from '@tinacms/astro/tina-field';
+import { tinaField } from "@tinacms/astro/tina-field";
+import { type SiteSettingsData, siteNavigation } from "../data/site";
 import {
-  cmsFacebookLink,
-  cmsGoogleMapsLink,
-  cmsLink,
-  cmsYouTubeLink,
-} from '../lib/cms';
-import { formatPublicHours } from '../lib/site-structured-data.mjs';
-import { withBase } from '../lib/urls';
-import SiteIcon from './SiteIcon.astro';
+	cmsFacebookLink,
+	cmsGoogleMapsLink,
+	cmsLink,
+	cmsYouTubeLink,
+} from "../lib/cms";
+import { formatPublicHours } from "../lib/site-structured-data.mjs";
+import { withBase } from "../lib/urls";
+import SiteIcon from "./SiteIcon.astro";
 
 interface Props {
-  site: SiteSettingsData;
+	site: SiteSettingsData;
 }
 
 const { site } = Astro.props;
 const navItems = siteNavigation(site);
-const address = site.address!;
+const address = site.address;
 const mapsUrl = cmsGoogleMapsLink(address.maps);
 const phoneUrl = cmsLink(site.phoneHref);
 const emailUrl = cmsLink(`mailto:${site.email}`);
 const youtubeUrl = cmsYouTubeLink(site.youtube);
 const facebookUrl = cmsFacebookLink(site.facebook);
-const adminPath = import.meta.env.BASE_URL === '/' ? '/admin/' : '/admin-preview/';
+const adminPath =
+	import.meta.env.BASE_URL === "/" ? "/admin/" : "/admin-preview/";
 const publicHours = formatPublicHours(site.publicHours);
 ---
 

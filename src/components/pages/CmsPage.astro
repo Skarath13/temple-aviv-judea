@@ -1,14 +1,14 @@
 ---
-import TinaIsland from '@tinacms/astro/TinaIsland.astro';
-import type { PageKey } from '../../data/pages';
-import { cmsEnabled, getPageBundle } from '../../lib/tina/data';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { mobileHeroMedia } from '../../lib/hero-media';
-import { pageIslandWrapper } from '../../lib/tina/islands';
-import EditablePage from './EditablePage.astro';
+import TinaIsland from "@tinacms/astro/TinaIsland.astro";
+import type { PageKey } from "../../data/pages";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { mobileHeroMedia } from "../../lib/hero-media";
+import { getPageBundle } from "../../lib/tina/data";
+import { pageIslandWrapper } from "../../lib/tina/islands";
+import EditablePage from "./EditablePage.astro";
 
 interface Props {
-  pageKey: PageKey;
+	pageKey: PageKey;
 }
 
 const { pageKey } = Astro.props;
@@ -16,7 +16,7 @@ const { page, siteSettings, eventSchedule } = await getPageBundle(pageKey);
 const seo = page.seo;
 
 if (!seo) {
-  throw new Error(`The ${pageKey} page is missing required SEO settings.`);
+	throw new Error(`The ${pageKey} page is missing required SEO settings.`);
 }
 ---
 
@@ -29,11 +29,9 @@ if (!seo) {
   preloadImageType={pageKey === 'home' ? 'image/webp' : undefined}
   siteSettings={siteSettings}
 >
-  {cmsEnabled ? (
+
     <TinaIsland name="page" wrapper={pageIslandWrapper} params={{ page: pageKey }} primary>
       <EditablePage page={page} pageKey={pageKey} site={siteSettings} eventSchedule={eventSchedule} />
     </TinaIsland>
-  ) : (
-    <EditablePage page={page} pageKey={pageKey} site={siteSettings} eventSchedule={eventSchedule} />
-  )}
+
 </BaseLayout>

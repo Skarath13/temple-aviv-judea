@@ -1,51 +1,51 @@
 ---
-import TinaMarkdown from '@tinacms/astro/TinaMarkdown.astro';
-import { tinaField } from '@tinacms/astro/tina-field';
-import type { TinaRichTextContent } from '@tinacms/astro/types';
-import { cmsImageSource, cmsLink } from '../lib/cms';
+import TinaMarkdown from "@tinacms/astro/TinaMarkdown.astro";
+import { tinaField } from "@tinacms/astro/tina-field";
+import type { TinaRichTextContent } from "@tinacms/astro/types";
+import { cmsImageSource, cmsLink } from "../lib/cms";
 
 interface Props {
-  sections?: unknown[] | null;
+	sections?: unknown[] | null;
 }
 
 interface CmsSection {
-  [key: string]: unknown;
-  _template?: 'content' | 'split' | 'cards' | 'gallery' | 'callToAction';
-  __typename?: string;
-  eyebrow?: string | null;
-  heading?: string | null;
-  body?: TinaRichTextContent | null;
-  text?: string | null;
-  image?: string | null;
-  imageAlt?: string | null;
-  imageSide?: string | null;
-  intro?: string | null;
-  buttonLabel?: string | null;
-  buttonUrl?: string | null;
-  items?: Array<{
-    title?: string | null;
-    text?: string | null;
-    image?: string | null;
-    imageAlt?: string | null;
-    linkLabel?: string | null;
-    linkUrl?: string | null;
-  } | null> | null;
-  images?: Array<{
-    image?: string | null;
-    imageAlt?: string | null;
-    caption?: string | null;
-  } | null> | null;
+	[key: string]: unknown;
+	_template?: "content" | "split" | "cards" | "gallery" | "callToAction";
+	__typename?: string;
+	eyebrow?: string | null;
+	heading?: string | null;
+	body?: TinaRichTextContent | null;
+	text?: string | null;
+	image?: string | null;
+	imageAlt?: string | null;
+	imageSide?: string | null;
+	intro?: string | null;
+	buttonLabel?: string | null;
+	buttonUrl?: string | null;
+	items?: Array<{
+		title?: string | null;
+		text?: string | null;
+		image?: string | null;
+		imageAlt?: string | null;
+		linkLabel?: string | null;
+		linkUrl?: string | null;
+	} | null> | null;
+	images?: Array<{
+		image?: string | null;
+		imageAlt?: string | null;
+		caption?: string | null;
+	} | null> | null;
 }
 
 const sections = (Astro.props.sections || []).filter(Boolean) as CmsSection[];
 const sectionKind = (section: CmsSection) => {
-  if (section._template) return section._template;
-  if (section.__typename?.endsWith('CallToAction')) return 'callToAction';
-  if (section.__typename?.endsWith('Content')) return 'content';
-  if (section.__typename?.endsWith('Split')) return 'split';
-  if (section.__typename?.endsWith('Cards')) return 'cards';
-  if (section.__typename?.endsWith('Gallery')) return 'gallery';
-  return undefined;
+	if (section._template) return section._template;
+	if (section.__typename?.endsWith("CallToAction")) return "callToAction";
+	if (section.__typename?.endsWith("Content")) return "content";
+	if (section.__typename?.endsWith("Split")) return "split";
+	if (section.__typename?.endsWith("Cards")) return "cards";
+	if (section.__typename?.endsWith("Gallery")) return "gallery";
+	return undefined;
 };
 ---
 

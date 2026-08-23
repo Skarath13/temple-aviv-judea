@@ -1,14 +1,17 @@
 ---
-import { tinaField } from '@tinacms/astro/tina-field';
-import type { PageGive, SiteSettingsQuery } from '../../../tina/__generated__/types';
-import CmsSections from '../CmsSections.astro';
-import PageHero from '../PageHero.astro';
-import SiteIcon from '../SiteIcon.astro';
-import { cmsImageSource, cmsPayPalLink } from '../../lib/cms';
+import { tinaField } from "@tinacms/astro/tina-field";
+import type {
+	PageGive,
+	SiteSettingsQuery,
+} from "../../../tina/__generated__/types";
+import { cmsImageSource, cmsPayPalLink } from "../../lib/cms";
+import CmsSections from "../CmsSections.astro";
+import PageHero from "../PageHero.astro";
+import SiteIcon from "../SiteIcon.astro";
 
 interface Props {
-  page: PageGive;
-  site: SiteSettingsQuery['siteSettings'];
+	page: PageGive;
+	site: SiteSettingsQuery["siteSettings"];
 }
 
 const { page, site } = Astro.props;
