@@ -1,6 +1,4 @@
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const phoneRegex = /^tel:\+[1-9]\d{7,14}$/;
-const timeRegex = /^(?:[01]\d|2[0-3]):[0-5]\d$/;
+const DUMMY_BASE = "https://local.test";
 
 export const allowedSiteHosts = Object.freeze({
 	etsy: ["www.etsy.com", "etsy.com"],
@@ -14,14 +12,13 @@ export const allowedSiteHosts = Object.freeze({
 export const approvedGivingUrl =
 	"https://www.paypal.com/donate/?business=avivjudea613%40gmail.com&no_recurring=0&item_name=Temple%20Aviv%20Judea&currency_code=USD";
 
+/**
+ * Validates HTTPS URLs safely using native URL.canParse
+ */
 export const parseSecureUrl = (value) => {
-	if (typeof value !== "string" || !value.trim()) return null;
-	try {
-		const url = new URL(value);
-		return url.protocol === "https:" ? url : null;
-	} catch {
-		return null;
-	}
+	if (typeof value !== "string" || !URL.canParse(value)) return null;
+	const url = new URL(value);
+	return url.protocol === "https:" ? url : null;
 };
 
 export const isAllowedSecureUrl = (value, allowedHosts) => {
@@ -29,19 +26,34 @@ export const isAllowedSecureUrl = (value, allowedHosts) => {
 	return Boolean(url && allowedHosts.includes(url.hostname.toLowerCase()));
 };
 
+/**
+ * Modern WHATWG Origin Check:
+ * If resolving against DUMMY_BASE changes the origin or pathname, it's an external escape.
+ */
+export const isRootRelativePath = (value) => {
+	if (
+		typeof value !== "string" ||
+		!value.startsWith("/") ||
+		!URL.canParse(value, DUMMY_BASE)
+	) {
+		return false;
+	}
+	const url = new URL(value, DUMMY_BASE);
+	return url.origin === DUMMY_BASE && !value.includes("\\");
+};
+
 export const isApprovedGivingUrl = (value) => value === approvedGivingUrl;
 export const isEmailAddress = (value) =>
-	typeof value === "string" && emailRegex.test(value.trim());
+	typeof value === "string" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 export const isTelephoneLink = (value) =>
-	typeof value === "string" && phoneRegex.test(value.trim());
+	typeof value === "string" && /^tel:\+[1-9]\d{7,14}$/.test(value);
 export const isTwentyFourHourTime = (value) =>
-	typeof value === "string" && timeRegex.test(value.trim());
-export const isRootRelativePath = (value) =>
-	typeof value === "string" && value.startsWith("/") && !value.startsWith("//");
+	typeof value === "string" && /^(?:[01]\d|2[0-3]):[0-5]\d$/.test(value);
 
 export const isSafeCmsLink = (value) => {
 	if (typeof value !== "string" || !value.trim()) return false;
 	const trimmed = value.trim();
+
 	if (
 		isRootRelativePath(trimmed) ||
 		(trimmed.startsWith("#") && trimmed.length > 1)
@@ -50,12 +62,14 @@ export const isSafeCmsLink = (value) => {
 	if (trimmed.startsWith("mailto:"))
 		return isEmailAddress(trimmed.slice(7).split("?")[0]);
 	if (trimmed.startsWith("tel:")) return isTelephoneLink(trimmed);
+
 	return Boolean(parseSecureUrl(trimmed));
 };
 
 export const isManagedImageSource = (value) => {
 	if (typeof value !== "string" || !value.trim()) return false;
-	if (value.startsWith("/images/")) return !value.includes("..");
+	if (value.startsWith("/images/"))
+		return isRootRelativePath(value) && !value.includes("..");
 	return isAllowedSecureUrl(value, allowedSiteHosts.tinaMedia);
 };
 

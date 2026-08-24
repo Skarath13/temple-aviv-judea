@@ -4,6 +4,7 @@ import type { PageBeliefs } from "../../../tina/__generated__/types";
 import { cmsImageSource } from "../../lib/cms";
 import CmsSections from "../CmsSections.astro";
 import PageHero from "../PageHero.astro";
+import TinaMarkdown from '@tinacms/astro/TinaMarkdown.astro';
 
 interface Props {
 	page: PageBeliefs;
@@ -55,7 +56,7 @@ const pillarAnchors = new Set(["prayer", "proclamation", "people"]);
 <section class="live-banner-section">
   <figure class="shell belief-banner-card" data-reveal="wipe" data-tina-field={tinaField(communityBanner)}>
     <img src={cmsImageSource(communityBanner.image)} alt={communityBanner.imageAlt} width="1800" height="599" loading="lazy" />
-    <figcaption>{communityBanner.caption}</figcaption>
+    <figcaption data-tina-field={tinaField(communityBanner, 'caption')}>{communityBanner.caption}</figcaption>
   </figure>
 </section>
 

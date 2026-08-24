@@ -293,8 +293,13 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
           <source media="(max-width: 760px)" srcset={cmsImageSource(location.mobileImage)} />
           <img src={cmsImageSource(location.desktopImage)} alt={location.imageAlt} width="1280" height="720" loading="lazy" />
         </picture>
-        <figcaption><SiteIcon name="jewish-star" size={21} /><span><strong>{location.captionTitle}</strong><small>{location.captionSubtitle}</small></span></figcaption>
-      </figure>
+        <figcaption>
+          <SiteIcon name="jewish-star" size={21} />
+          <span>
+            <strong data-tina-field={tinaField(location, 'captionTitle')}>{location.captionTitle}</strong>
+            <small data-tina-field={tinaField(location, 'captionSubtitle')}>{location.captionSubtitle}</small>
+          </span>
+        </figcaption>      </figure>
       <div class="location-card map-card">
         <div class="map-card-footer">
           <SiteIcon name="map-pin" size={22} />
