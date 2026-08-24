@@ -446,6 +446,7 @@ const homeTemplate = pageTemplate('home', 'Home', [
       string('captionSubtitle', 'Image caption subtitle'),
       string('mapTitle', 'Map accessibility title'),
       string('directionsLabel', 'Directions button label'),
+      string('mapAppLabel', 'Map app button label'),
     ],
   },
   {

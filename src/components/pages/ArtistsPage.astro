@@ -21,8 +21,8 @@ const ctaUrl = cmsLink(callToAction.buttonUrl);
   <div class="shell artists-grid" data-stagger>
     {page.gallery?.map((artwork) => artwork && (
       <figure data-tina-field={tinaField(artwork)}>
-        <img src={cmsImageSource(artwork.image)} alt={artwork.imageAlt} width="929" height="1200" />
-        <figcaption>{artwork.caption}</figcaption>
+        <img src={cmsImageSource(artwork.image)} alt={artwork.imageAlt} width="929" height="1200" data-tina-field={tinaField(artwork, 'image')} />
+        <figcaption data-tina-field={tinaField(artwork, 'caption')}>{artwork.caption}</figcaption>
       </figure>
     ))}
   </div>

@@ -77,6 +77,10 @@ test('map and donation controls stop compressing before their labels clip', () =
     globalCss,
     /\.location-grid > \.button\s*\{[^}]*flex:\s*0 0 auto\s*;[^}]*white-space:\s*nowrap\s*;[^}]*\}/,
   );
+  assert.match(
+    globalCss,
+    /\.map-card-actions\s*\{[^}]*display:\s*flex\s*;[^}]*flex-wrap:\s*wrap\s*;[^}]*gap:\s*\.6rem\s*;[^}]*\}/,
+  );
 
   const tabletRules = globalCss.match(
     /@media \(max-width:\s*900px\)\s*\{(?<declarations>[\s\S]*?)\n\}/,
@@ -89,5 +93,18 @@ test('map and donation controls stop compressing before their labels clip', () =
   assert.match(
     tabletRules.groups.declarations,
     /\.location-grid\s*\{[^}]*flex-direction:\s*column\s*;[^}]*\}/,
+  );
+
+  const mobileRules = globalCss.match(
+    /@media \(max-width:\s*760px\)\s*\{(?<declarations>[\s\S]*?)\n\}/,
+  );
+  assert.ok(mobileRules, 'expected the mobile layout breakpoint');
+  assert.match(
+    mobileRules.groups.declarations,
+    /\.map-card-actions\s*\{[^}]*width:\s*100%\s*;[^}]*\}/,
+  );
+  assert.match(
+    mobileRules.groups.declarations,
+    /\.map-card-footer \.button\s*\{[^}]*width:\s*100%\s*;[^}]*\}/,
   );
 });

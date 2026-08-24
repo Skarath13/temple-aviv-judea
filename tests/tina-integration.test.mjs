@@ -49,6 +49,56 @@ test('visual editing has one primary page island plus live global islands', asyn
   assert.match(registry, /getTinaSiteSettings/);
 });
 
+test('visible nested content exposes granular click-to-edit markers', async () => {
+  const [home, beliefs, visit, story, ministries, artists, sections] = await Promise.all([
+    read('src/components/pages/HomePage.astro'),
+    read('src/components/pages/BeliefsPage.astro'),
+    read('src/components/pages/VisitPage.astro'),
+    read('src/components/pages/StoryPage.astro'),
+    read('src/components/pages/MinistriesPage.astro'),
+    read('src/components/pages/ArtistsPage.astro'),
+    read('src/components/CmsSections.astro'),
+  ]);
+
+  for (const field of [
+    'title',
+    'emphasis',
+    'closing',
+    'captionTitle',
+    'captionSubtitle',
+    'mapAppLabel',
+  ]) {
+    assert.match(home, new RegExp(`tinaField\\([^,]+, ['"]${field}['"]\\)`));
+  }
+  for (const [source, fields] of [
+    [beliefs, ['caption', 'references', 'paragraphs']],
+    [visit, ['flowIntro', 'flow']],
+    [story, ['year', 'names']],
+    [ministries, ['credit', 'buttonLabel']],
+    [artists, ['image', 'caption']],
+    [sections, ['body', 'image', 'linkLabel', 'buttonLabel']],
+  ]) {
+    for (const field of fields) {
+      assert.match(source, new RegExp(`tinaField\\([^,]+, ['"]${field}['"]\\)`));
+    }
+  }
+});
+
+test('the lazy Google map remains primary and map-app directions are additive', async () => {
+  const [home, settingsSchema, contentRules] = await Promise.all([
+    read('src/components/pages/HomePage.astro'),
+    read('tina/collections/site-settings.ts'),
+    read('src/lib/content-rules.mjs'),
+  ]);
+
+  assert.match(home, /<iframe[^>]+loading=["']lazy["']/);
+  assert.match(home, /cmsGoogleMapsEmbed\(address\.embed\)/);
+  assert.match(home, /cmsMapAppLink\(address\.mapApp\)/);
+  assert.match(home, /tinaField\(address, ['"]mapApp['"]\)/);
+  assert.match(settingsSchema, /name:\s*['"]mapApp['"]/);
+  assert.match(contentRules, /mapApp:\s*Object\.freeze\(\[['"]maps\.rbt\.no['"]\]\)/);
+});
+
 test('an empty event schedule remains discoverable only inside Tina preview', async () => {
   const [layout, events, styles] = await Promise.all([
     read('src/layouts/BaseLayout.astro'),

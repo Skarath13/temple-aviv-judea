@@ -147,7 +147,8 @@
     "captionTitle": "Temple Aviv Judea",
     "captionSubtitle": "Our congregation’s home since 2014",
     "mapTitle": "Google Map showing Temple Aviv Judea in Fullerton",
-    "directionsLabel": "Get directions"
+    "directionsLabel": "View on Google Maps",
+    "mapAppLabel": "Open in your maps app"
   },
   "ministriesPromo": {
     "eyebrow": "Life together",
@@ -166,10 +167,6 @@
       "Creative arts"
     ]
   },
-  "sections": [
-    {
-      "_template": "content"
-    }
-  ],
+  "sections": [],
   "_template": "home"
 }

@@ -123,6 +123,19 @@ export const SiteSettingsCollection: Collection = {
             },
           },
         },
+        {
+          name: 'mapApp',
+          label: 'Default map app link',
+          type: 'string',
+          description: 'Optional secondary link that opens the visitor\'s preferred map app.',
+          ui: {
+            validate: (value) => validateAllowedHost(
+              value,
+              allowedSiteHosts.mapApp,
+              'map app',
+            ),
+          },
+        },
       ],
     },
     { name: 'phone', label: 'Displayed phone number', type: 'string', required: true },

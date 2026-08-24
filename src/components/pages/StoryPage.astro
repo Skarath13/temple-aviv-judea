@@ -39,13 +39,13 @@ const visionUrl = cmsLink(vision.buttonUrl);
   <div class="shell timeline" data-stagger>
     {page.timeline?.map((entry) => entry && (
       <article class:list={['timeline-entry', { 'featured-entry': entry.featured }]} data-tina-field={tinaField(entry)}>
-        <div class="timeline-year">{entry.year}</div>
+        <div class="timeline-year" data-tina-field={tinaField(entry, 'year')}>{entry.year}</div>
         <div class="timeline-content">
-          <span class="eyebrow">{entry.eyebrow}</span>
-          <h2>{entry.heading}</h2>
-          <p>{entry.body}</p>
+          <span class="eyebrow" data-tina-field={tinaField(entry, 'eyebrow')}>{entry.eyebrow}</span>
+          <h2 data-tina-field={tinaField(entry, 'heading')}>{entry.heading}</h2>
+          <p data-tina-field={tinaField(entry, 'body')}>{entry.body}</p>
           {entry.image && (
-            <picture class="story-building">
+            <picture class="story-building" data-tina-field={tinaField(entry, 'image')}>
               {entry.mobileImage && <source media="(max-width: 760px)" srcset={cmsImageSource(entry.mobileImage)} />}
               <img src={cmsImageSource(entry.image)} alt={entry.imageAlt || ''} width="1280" height="720" loading="lazy" />
             </picture>
@@ -79,10 +79,10 @@ const visionUrl = cmsLink(vision.buttonUrl);
     <div class="leadership-grid" data-stagger>
       {leadership.groups?.map((group) => group && (
         <article class="leadership-card" data-tina-field={tinaField(group)}>
-          <span class="eyebrow">{group.role}</span>
+          <span class="eyebrow" data-tina-field={tinaField(group, 'role')}>{group.role}</span>
           {group.names?.length === 1
-            ? <h3>{group.names[0]}</h3>
-            : <ul class="leadership-names">{group.names?.map((name) => <li>{name}</li>)}</ul>}
+            ? <h3 data-tina-field={tinaField(group, 'names')}>{group.names[0]}</h3>
+            : <ul class="leadership-names" data-tina-field={tinaField(group, 'names')}>{group.names?.map((name) => <li>{name}</li>)}</ul>}
         </article>
       ))}
     </div>

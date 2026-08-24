@@ -15,6 +15,7 @@ import {
   cmsGoogleMapsLink,
   cmsImageSource,
   cmsLink,
+  cmsMapAppLink,
   cmsYouTubeLink,
 } from '../../lib/cms';
 import { mobileHeroMedia } from '../../lib/hero-media';
@@ -33,6 +34,7 @@ const upcomingEvents = selectUpcomingEvents(eventSchedule);
 const youtubeUrl = cmsYouTubeLink(site.youtube);
 const mapsUrl = cmsGoogleMapsLink(address.maps);
 const mapEmbedUrl = cmsGoogleMapsEmbed(address.embed);
+const mapAppUrl = cmsMapAppLink(address.mapApp);
 const hero = page.hero!;
 const heroMedia = page.heroMedia!;
 const heroActions = page.heroActions!;
@@ -150,7 +152,7 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
   <div class="shell hero-content">
     <div class="hero-copy">
       <span class="eyebrow eyebrow-light hero-desktop-detail" data-tina-field={tinaField(hero, 'eyebrow')}>{hero.eyebrow}</span>
-      <h1 data-tina-field={tinaField(hero, 'title')}>{hero.title}<br /><em>{hero.emphasis}</em><br />{hero.closing}</h1>
+      <h1><span data-tina-field={tinaField(hero, 'title')}>{hero.title}</span><br /><em data-tina-field={tinaField(hero, 'emphasis')}>{hero.emphasis}</em><br /><span data-tina-field={tinaField(hero, 'closing')}>{hero.closing}</span></h1>
       <p class="hero-desktop-detail" data-tina-field={tinaField(hero, 'intro')}>{hero.intro}</p>
       <div class="button-row">
         {visitUrl && <a class="button button-gold" href={visitUrl} data-tina-field={tinaField(heroActions, 'visitLabel')}>{heroActions.visitLabel}</a>}
@@ -200,9 +202,9 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
     </div>
     {schedule.map((item) => (
       <div class="schedule-item" data-tina-field={tinaField(item)}>
-        <strong>{item.time}</strong>
-        <span>{item.label}</span>
-        <small>{item.note}</small>
+        <strong data-tina-field={tinaField(item, 'time')}>{item.time}</strong>
+        <span data-tina-field={tinaField(item, 'label')}>{item.label}</span>
+        <small data-tina-field={tinaField(item, 'note')}>{item.note}</small>
       </div>
     ))}
   </div>
@@ -255,7 +257,7 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
     <div class="story-stats">
       {storyFeature.stats?.map((stat) => stat && (
         <div data-tina-field={tinaField(stat)}>
-          <strong>{stat.value}</strong><span>{stat.label}</span>
+          <strong data-tina-field={tinaField(stat, 'value')}>{stat.value}</strong><span data-tina-field={tinaField(stat, 'label')}>{stat.label}</span>
         </div>
       ))}
     </div>
@@ -277,10 +279,10 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
         if (!item || !style) return null;
         return (
           <article data-tina-field={tinaField(item)}>
-            <img class="expect-card-art" src={cmsImageSource(item.image)} alt={item.imageAlt} width="900" height="900" loading="lazy" />
+            <img class="expect-card-art" src={cmsImageSource(item.image)} alt={item.imageAlt} width="900" height="900" loading="lazy" data-tina-field={tinaField(item, 'image')} />
             <span class={`expect-icon ${style.color}`}><SiteIcon name={style.icon} size={25} /></span>
-            <h3>{item.title}</h3>
-            <p>{item.text}</p>
+            <h3 data-tina-field={tinaField(item, 'title')}>{item.title}</h3>
+            <p data-tina-field={tinaField(item, 'text')}>{item.text}</p>
           </article>
         );
       })}
@@ -301,12 +303,12 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
     <div class="live-moments-grid" data-stagger>
       {community.moments?.map((moment) => moment && (
         <figure data-tina-field={tinaField(moment)}>
-          <img src={cmsImageSource(moment.image)} alt={moment.imageAlt} width="1200" height="1200" loading="lazy" />
-          <figcaption>{moment.caption}</figcaption>
+          <img src={cmsImageSource(moment.image)} alt={moment.imageAlt} width="1200" height="1200" loading="lazy" data-tina-field={tinaField(moment, 'image')} />
+          <figcaption data-tina-field={tinaField(moment, 'caption')}>{moment.caption}</figcaption>
         </figure>
       ))}
       {youtubeUrl && <a class="recordings-card" href={youtubeUrl} target="_blank" rel="noreferrer" data-youtube-cta data-tina-field={tinaField(community, 'recordingsLabel')}>
-        <img src={cmsImageSource(community.recordingsImage)} alt={community.recordingsImageAlt} width="1200" height="1200" loading="lazy" />
+        <img src={cmsImageSource(community.recordingsImage)} alt={community.recordingsImageAlt} width="1200" height="1200" loading="lazy" data-tina-field={tinaField(community, 'recordingsImage')} />
         <span><span class="recordings-label"><SiteIcon name="brand-youtube" size={22} /> {community.recordingsLabel}</span><SiteIcon name="external-link" size={19} /></span>
       </a>}
     </div>
@@ -328,14 +330,17 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
           <source media="(max-width: 760px)" srcset={cmsImageSource(location.mobileImage)} />
           <img src={cmsImageSource(location.desktopImage)} alt={location.imageAlt} width="1280" height="720" loading="lazy" />
         </picture>
-        <figcaption><SiteIcon name="jewish-star" size={21} /><span><strong>{location.captionTitle}</strong><small>{location.captionSubtitle}</small></span></figcaption>
+        <figcaption><SiteIcon name="jewish-star" size={21} /><span><strong data-tina-field={tinaField(location, 'captionTitle')}>{location.captionTitle}</strong><small data-tina-field={tinaField(location, 'captionSubtitle')}>{location.captionSubtitle}</small></span></figcaption>
       </figure>
       <div class="location-card map-card">
         {mapEmbedUrl && <iframe src={mapEmbedUrl} title={location.mapTitle} loading="lazy" referrerpolicy="no-referrer-when-downgrade" sandbox="allow-scripts allow-same-origin allow-popups" allowfullscreen data-tina-field={tinaField(address, 'embed')}></iframe>}
         <div class="map-card-footer">
           <SiteIcon name="map-pin" size={22} />
           <span><strong data-tina-field={tinaField(address, 'street')}>{address.street}</strong><small data-tina-field={tinaField(address, 'city')}>{address.city}</small></span>
-          {mapsUrl && <a class="button button-small" href={mapsUrl} target="_blank" rel="noreferrer" data-tina-field={tinaField(location, 'directionsLabel')}>{location.directionsLabel}</a>}
+          <div class="map-card-actions">
+            {mapsUrl && <a class="button button-small" href={mapsUrl} target="_blank" rel="noreferrer" data-tina-field={tinaField(address, 'maps')}><span data-tina-field={tinaField(location, 'directionsLabel')}>{location.directionsLabel}</span></a>}
+            {mapAppUrl && <a class="button button-small button-outline" href={mapAppUrl} target="_blank" rel="noreferrer" data-tina-field={tinaField(address, 'mapApp')}><span data-tina-field={tinaField(location, 'mapAppLabel')}>{location.mapAppLabel}</span></a>}
+          </div>
         </div>
       </div>
     </div>

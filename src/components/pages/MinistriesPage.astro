@@ -31,12 +31,12 @@ const etsyUrl = cmsEtsyLink(site.baruchDesignsEtsy);
       const link = cmsLink(card.linkUrl || undefined);
       return (
         <article class={`ministry-card has-photo ${card.style}-card`} data-tina-field={tinaField(card)}>
-          <img src={cmsImageSource(card.image)} alt={card.imageAlt} width="1200" height="750" loading="lazy" />
+          <img src={cmsImageSource(card.image)} alt={card.imageAlt} width="1200" height="750" loading="lazy" data-tina-field={tinaField(card, 'image')} />
           <div class="ministry-card-body">
-            <span class="eyebrow">{card.eyebrow}</span>
-            <h2>{card.title}</h2>
-            <p>{card.body}</p>
-            {link && card.linkLabel && <a class="arrow-link" href={link} target={link.startsWith('http') ? '_blank' : undefined} rel={link.startsWith('http') ? 'noreferrer' : undefined} aria-label={link.startsWith('http') ? `${card.linkLabel}. Opens in a new tab.` : undefined}>{card.linkLabel} {link.startsWith('http') && <SiteIcon name="external-link" size={18} />}</a>}
+            <span class="eyebrow" data-tina-field={tinaField(card, 'eyebrow')}>{card.eyebrow}</span>
+            <h2 data-tina-field={tinaField(card, 'title')}>{card.title}</h2>
+            <p data-tina-field={tinaField(card, 'body')}>{card.body}</p>
+            {link && card.linkLabel && <a class="arrow-link" href={link} target={link.startsWith('http') ? '_blank' : undefined} rel={link.startsWith('http') ? 'noreferrer' : undefined} aria-label={link.startsWith('http') ? `${card.linkLabel}. Opens in a new tab.` : undefined} data-tina-field={tinaField(card, 'linkLabel')}>{card.linkLabel} {link.startsWith('http') && <SiteIcon name="external-link" size={18} />}</a>}
           </div>
         </article>
       );
@@ -45,28 +45,28 @@ const etsyUrl = cmsEtsyLink(site.baruchDesignsEtsy);
     <article class="ministry-card blue-card wide-card study-card" data-tina-field={tinaField(bibleStudy)}>
       <span class="ministry-symbol"><SiteIcon name="book" size={30} /></span>
       <div>
-        <span class="eyebrow">{bibleStudy.eyebrow}</span>
-        <h2>{bibleStudy.heading}</h2>
-        <p>{bibleStudy.body}</p>
-        {bibleStudyHref && <a class="arrow-link" href={bibleStudyHref}>{bibleStudy.linkLabel} <SiteIcon name="arrow-right" size={18} /></a>}
+        <span class="eyebrow" data-tina-field={tinaField(bibleStudy, 'eyebrow')}>{bibleStudy.eyebrow}</span>
+        <h2 data-tina-field={tinaField(bibleStudy, 'heading')}>{bibleStudy.heading}</h2>
+        <p data-tina-field={tinaField(bibleStudy, 'body')}>{bibleStudy.body}</p>
+        {bibleStudyHref && <a class="arrow-link" href={bibleStudyHref} data-tina-field={tinaField(bibleStudy, 'linkLabel')}>{bibleStudy.linkLabel} <SiteIcon name="arrow-right" size={18} /></a>}
       </div>
     </article>
 
     <article class="ministry-card purple-card wide-card" data-tina-field={tinaField(artistFeature)}>
       <div class="artist-thumbnails">
         {artistFeature.artworks?.map((artwork) => artwork && (
-          <figure>
-            <img src={cmsImageSource(artwork.image)} alt={artwork.imageAlt} width="929" height="1200" loading="lazy" />
-            <figcaption><strong>{artwork.title}</strong><span>{artwork.credit}</span></figcaption>
+          <figure data-tina-field={tinaField(artwork)}>
+            <img src={cmsImageSource(artwork.image)} alt={artwork.imageAlt} width="929" height="1200" loading="lazy" data-tina-field={tinaField(artwork, 'image')} />
+            <figcaption><strong data-tina-field={tinaField(artwork, 'title')}>{artwork.title}</strong><span data-tina-field={tinaField(artwork, 'credit')}>{artwork.credit}</span></figcaption>
           </figure>
         ))}
       </div>
       <div>
-        <span class="eyebrow eyebrow-light">{artistFeature.eyebrow}</span>
-        <h2>{artistFeature.heading}</h2>
-        <p>{artistFeature.body}</p>
+        <span class="eyebrow eyebrow-light" data-tina-field={tinaField(artistFeature, 'eyebrow')}>{artistFeature.eyebrow}</span>
+        <h2 data-tina-field={tinaField(artistFeature, 'heading')}>{artistFeature.heading}</h2>
+        <p data-tina-field={tinaField(artistFeature, 'body')}>{artistFeature.body}</p>
       </div>
-      {etsyUrl && <a class="button button-ghost-light" href={etsyUrl} target="_blank" rel="noreferrer" aria-label={`${artistFeature.buttonLabel}. Opens in a new tab.`} data-tina-field={tinaField(site, 'baruchDesignsEtsy')}>{artistFeature.buttonLabel} <SiteIcon name="external-link" size={18} /></a>}
+      {etsyUrl && <a class="button button-ghost-light" href={etsyUrl} target="_blank" rel="noreferrer" aria-label={`${artistFeature.buttonLabel}. Opens in a new tab.`} data-tina-field={tinaField(site, 'baruchDesignsEtsy')}><span data-tina-field={tinaField(artistFeature, 'buttonLabel')}>{artistFeature.buttonLabel}</span> <SiteIcon name="external-link" size={18} /></a>}
     </article>
   </div>
 </section>

@@ -12,6 +12,7 @@ export const allowedSiteHosts = Object.freeze({
     'maps.google.com',
     'maps.app.goo.gl',
   ]),
+  mapApp: Object.freeze(['maps.rbt.no']),
   paypal: Object.freeze(['www.paypal.com', 'paypal.com']),
   tinaMedia: Object.freeze(['assets.tina.io']),
   youtube: Object.freeze(['www.youtube.com', 'youtube.com', 'youtu.be']),
