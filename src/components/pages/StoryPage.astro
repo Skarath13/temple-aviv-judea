@@ -17,7 +17,6 @@ const rabbi = page.rabbi!;
 const leadership = page.leadership!;
 const vision = page.vision!;
 const rabbiUrl = cmsLink(rabbi.linkUrl);
-const visionUrl = cmsLink(vision.buttonUrl);
 ---
 
 <PageHero eyebrow={hero.eyebrow} title={hero.title} intro={hero.intro} accent={hero.accent as 'blue' | 'coral' | 'gold' | 'teal'} data={hero} />
@@ -94,7 +93,6 @@ const visionUrl = cmsLink(vision.buttonUrl);
     <span class="eyebrow eyebrow-light" data-tina-field={tinaField(vision, 'eyebrow')}>{vision.eyebrow}</span>
     <h2 data-tina-field={tinaField(vision, 'heading')}>{vision.heading}</h2>
     <p data-tina-field={tinaField(vision, 'body')}>{vision.body}</p>
-    {visionUrl && <a class="button button-gold" href={visionUrl} data-tina-field={tinaField(vision, 'buttonLabel')}>{vision.buttonLabel}</a>}
   </div>
 </section>
 

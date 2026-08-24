@@ -7,49 +7,35 @@ import {
 } from "./content-rules.mjs";
 import { withBase } from "./urls";
 
-export const cmsImageSource = (value?: string) => {
-	if (!value || !isManagedImageSource(value)) return undefined;
-	if (value.startsWith("/")) return withBase(value);
-	return value;
-};
+export const cmsImageSource = (value?: string | null) =>
+	value && isManagedImageSource(value)
+		? value.startsWith("/")
+			? withBase(value)
+			: value
+		: undefined;
 
-export const cmsAllowedHostLink = (
-	value: string | null | undefined,
-	allowedHosts: readonly string[],
-) => {
-	if (!value || !isAllowedSecureUrl(value, allowedHosts)) return undefined;
-	return value;
-};
+export const cmsLink = (value?: string | null) =>
+	value && isSafeCmsLink(value)
+		? value.startsWith("/")
+			? withBase(value)
+			: value
+		: undefined;
 
-export const cmsGoogleMapsLink = (value?: string | null) =>
-	cmsAllowedHostLink(value, allowedSiteHosts.googleMaps);
-
-export const cmsGoogleMapsEmbed = (value?: string | null) => {
-	const link = cmsGoogleMapsLink(value);
-	if (!link) return undefined;
-	try {
-		return new URL(link).searchParams.get("output") === "embed"
-			? link
-			: undefined;
-	} catch {
-		return undefined;
-	}
-};
+export const cmsMapsLink = (value?: string | null) =>
+	value && isAllowedSecureUrl(value, allowedSiteHosts.maps) ? value : undefined;
 
 export const cmsPayPalLink = (value?: string | null) =>
 	value && isApprovedGivingUrl(value) ? value : undefined;
 
 export const cmsYouTubeLink = (value?: string | null) =>
-	cmsAllowedHostLink(value, allowedSiteHosts.youtube);
+	value && isAllowedSecureUrl(value, allowedSiteHosts.youtube)
+		? value
+		: undefined;
 
 export const cmsEtsyLink = (value?: string | null) =>
-	cmsAllowedHostLink(value, allowedSiteHosts.etsy);
+	value && isAllowedSecureUrl(value, allowedSiteHosts.etsy) ? value : undefined;
 
 export const cmsFacebookLink = (value?: string | null) =>
-	cmsAllowedHostLink(value, allowedSiteHosts.facebook);
-
-export const cmsLink = (value?: string | null) => {
-	if (!value || !isSafeCmsLink(value)) return undefined;
-	if (value.startsWith("/")) return withBase(value);
-	return value;
-};
+	value && isAllowedSecureUrl(value, allowedSiteHosts.facebook)
+		? value
+		: undefined;

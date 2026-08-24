@@ -1,12 +1,7 @@
-const configuredBase = import.meta.env.BASE_URL;
-const base = configuredBase === "/" ? "" : configuredBase.replace(/\/$/, "");
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 
-export const withBase = (path: string) => {
-	if (!path.startsWith("/")) return path;
-	return `${base}${path}`;
-};
+export const withBase = (path: string) =>
+	path.startsWith("/") ? `${base}${path}` : path;
 
-export const withoutBase = (path: string) => {
-	if (!base || !path.startsWith(base)) return path;
-	return path.slice(base.length) || "/";
-};
+export const withoutBase = (path: string) =>
+	base && path.startsWith(base) ? path.slice(base.length) || "/" : path;

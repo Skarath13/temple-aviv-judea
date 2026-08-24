@@ -8,8 +8,7 @@ import type {
 import { selectUpcomingEvents } from "../../data/events";
 import { siteSchedule } from "../../data/site";
 import {
-	cmsGoogleMapsEmbed,
-	cmsGoogleMapsLink,
+	cmsMapsLink,
 	cmsImageSource,
 	cmsLink,
 	cmsYouTubeLink,
@@ -31,15 +30,13 @@ const address = site.address!;
 const schedule = siteSchedule(site);
 const upcomingEvents = selectUpcomingEvents(eventSchedule);
 const youtubeUrl = cmsYouTubeLink(site.youtube);
-const mapsUrl = cmsGoogleMapsLink(address.maps);
-const mapEmbedUrl = cmsGoogleMapsEmbed(address.embed);
+const mapsUrl = cmsMapsLink(address.maps);
 const hero = page.hero!;
 const heroMedia = page.heroMedia!;
 const heroActions = page.heroActions!;
 const scheduleHeading = page.scheduleHeading!;
 const welcome = page.welcome!;
 const storyFeature = page.storyFeature!;
-const visitPreview = page.visitPreview!;
 const community = page.community!;
 const location = page.location!;
 const ministriesPromo = page.ministriesPromo!;
@@ -56,15 +53,8 @@ const valueStyles = {
 		href: "/beliefs/#people",
 	},
 } as const;
-const expectStyles = {
-	worship: { color: "coral", icon: "music" },
-	teaching: { color: "blue", icon: "book" },
-	family: { color: "gold", icon: "heart-handshake" },
-} as const;
-const visitUrl = cmsLink(heroActions.visitUrl);
 const welcomeUrl = cmsLink(welcome.linkUrl);
 const storyUrl = cmsLink(storyFeature.linkUrl);
-const previewUrl = cmsLink(visitPreview.buttonUrl);
 const ministriesUrl = cmsLink(ministriesPromo.linkUrl);
 const heroVideoMp4 = withBase(mobileHeroMedia.mp4);
 const heroVideoPoster = withBase(mobileHeroMedia.poster);
@@ -161,7 +151,6 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
       <h1 data-tina-field={tinaField(hero, 'title')}>{hero.title}<br /><em>{hero.emphasis}</em><br />{hero.closing}</h1>
       <p class="hero-desktop-detail" data-tina-field={tinaField(hero, 'intro')}>{hero.intro}</p>
       <div class="button-row">
-        {visitUrl && <a class="button button-gold" href={visitUrl} data-tina-field={tinaField(heroActions, 'visitLabel')}>{heroActions.visitLabel}</a>}
         {youtubeUrl && <a class="button button-youtube" href={youtubeUrl} target="_blank" rel="noreferrer" data-mobile-app-link data-youtube-cta data-tina-field={tinaField(site, 'youtube')}>
           <SiteIcon name="brand-youtube" size={25} />
           <span class="youtube-button-copy">
@@ -172,11 +161,6 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
       </div>
     </div>
   </div>
-  {mapsUrl && <a class="hero-location" href={mapsUrl} target="_blank" rel="noreferrer" data-tina-field={tinaField(address, 'maps')}>
-    <span class="location-pin"><SiteIcon name="map-pin" size={22} /></span>
-    <span><strong data-tina-field={tinaField(address, 'street')}>{address.street}</strong><small data-tina-field={tinaField(address, 'city')}>{address.city}</small></span>
-    <SiteIcon name="external-link" size={17} />
-  </a>}
 </section>
 
 <section class="mobile-hero-continuation" aria-label="About Temple Aviv Judea">
@@ -270,33 +254,6 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
   </div>
 </section>
 
-<section class="section visit-preview">
-  <div class="shell">
-    <div class="section-heading centered" data-reveal>
-      <span class="eyebrow" data-tina-field={tinaField(visitPreview, 'eyebrow')}>{visitPreview.eyebrow}</span>
-      <h2 data-tina-field={tinaField(visitPreview, 'heading')}>{visitPreview.heading}</h2>
-      <p data-tina-field={tinaField(visitPreview, 'intro')}>{visitPreview.intro}</p>
-    </div>
-    <div class="expect-grid" data-stagger>
-      {visitPreview.items?.map((item) => {
-        const style = item && item.kind
-          ? expectStyles[item.kind as keyof typeof expectStyles]
-          : undefined;
-        if (!item || !style) return null;
-        return (
-          <article data-tina-field={tinaField(item)}>
-            <img class="expect-card-art" src={cmsImageSource(item.image)} alt={item.imageAlt} width="900" height="900" loading="lazy" />
-            <span class={`expect-icon ${style.color}`}><SiteIcon name={style.icon} size={25} /></span>
-            <h3>{item.title}</h3>
-            <p>{item.text}</p>
-          </article>
-        );
-      })}
-    </div>
-    {previewUrl && <div class="centered-action" data-reveal="scale"><a class="button" href={previewUrl} data-tina-field={tinaField(visitPreview, 'buttonLabel')}>{visitPreview.buttonLabel}</a></div>}
-  </div>
-</section>
-
 <UpcomingEvents events={upcomingEvents} schedule={eventSchedule} />
 
 <section class="section live-moments-section">
@@ -339,7 +296,6 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
         <figcaption><SiteIcon name="jewish-star" size={21} /><span><strong>{location.captionTitle}</strong><small>{location.captionSubtitle}</small></span></figcaption>
       </figure>
       <div class="location-card map-card">
-        {mapEmbedUrl && <iframe src={mapEmbedUrl} title={location.mapTitle} loading="lazy" referrerpolicy="no-referrer-when-downgrade" sandbox="allow-scripts allow-same-origin allow-popups" allowfullscreen data-tina-field={tinaField(address, 'embed')}></iframe>}
         <div class="map-card-footer">
           <SiteIcon name="map-pin" size={22} />
           <span><strong data-tina-field={tinaField(address, 'street')}>{address.street}</strong><small data-tina-field={tinaField(address, 'city')}>{address.city}</small></span>

@@ -114,40 +114,12 @@ export const SiteSettingsCollection: Collection = {
 				},
 				{
 					name: "maps",
-					label: "Google Maps link",
+					label: "Maps link",
 					type: "string",
 					required: true,
 					ui: {
 						validate: (value) =>
-							validateAllowedHost(
-								value,
-								allowedSiteHosts.googleMaps,
-								"Google Maps",
-							),
-					},
-				},
-				{
-					name: "embed",
-					label: "Google Maps embed link",
-					type: "string",
-					required: true,
-					description: "Use a Google Maps URL ending in output=embed.",
-					ui: {
-						validate: (value) => {
-							const hostError = validateAllowedHost(
-								value,
-								allowedSiteHosts.googleMaps,
-								"Google Maps embed",
-							);
-							if (hostError) return hostError;
-							try {
-								return new URL(value).searchParams.get("output") === "embed"
-									? undefined
-									: "Use a Google Maps URL ending in output=embed.";
-							} catch {
-								return "Use a secure Google Maps embed URL.";
-							}
-						},
+							validateAllowedHost(value, allowedSiteHosts.maps, "Maps"),
 					},
 				},
 			],
@@ -208,13 +180,6 @@ export const SiteSettingsCollection: Collection = {
 					name: "giveLabel",
 					label: "Give link label",
 					type: "string",
-					required: true,
-				},
-				{
-					name: "visitLabel",
-					label: "Visit button label",
-					type: "string",
-					required: true,
 				},
 				{
 					name: "livestreamLabel",
@@ -250,12 +215,6 @@ export const SiteSettingsCollection: Collection = {
 					type: "string",
 					required: true,
 					ui: { component: "textarea" },
-				},
-				{
-					name: "visitLabel",
-					label: "Visit button label",
-					type: "string",
-					required: true,
 				},
 				{
 					name: "exploreHeading",

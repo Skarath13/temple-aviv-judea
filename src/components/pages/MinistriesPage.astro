@@ -4,10 +4,10 @@ import type {
 	PageMinistries,
 	SiteSettingsQuery,
 } from "../../../tina/__generated__/types";
-import { cmsEtsyLink, cmsImageSource, cmsLink } from "../../lib/cms";
 import CmsSections from "../CmsSections.astro";
 import PageHero from "../PageHero.astro";
 import SiteIcon from "../SiteIcon.astro";
+import { cmsEtsyLink, cmsImageSource, cmsLink } from "../../lib/cms";
 
 interface Props {
 	page: PageMinistries;
@@ -18,9 +18,7 @@ const { page, site } = Astro.props;
 const hero = page.hero!;
 const bibleStudy = page.bibleStudy!;
 const artistFeature = page.artistFeature!;
-const callToAction = page.callToAction!;
 const cardStyles = new Set(["coral", "blue", "gold", "teal"]);
-const ctaUrl = cmsLink(callToAction.buttonUrl);
 const bibleStudyHref = cmsLink(
 	`mailto:${site.email}?subject=${encodeURIComponent(bibleStudy.emailSubject)}`,
 );
@@ -73,17 +71,6 @@ const etsyUrl = cmsEtsyLink(site.baruchDesignsEtsy);
       </div>
       {etsyUrl && <a class="button button-ghost-light" href={etsyUrl} target="_blank" rel="noreferrer" aria-label={`${artistFeature.buttonLabel}. Opens in a new tab.`} data-tina-field={tinaField(site, 'baruchDesignsEtsy')}>{artistFeature.buttonLabel} <SiteIcon name="external-link" size={18} /></a>}
     </article>
-  </div>
-</section>
-
-<section class="cta-section">
-  <div class="shell cta-inner" data-stagger>
-    <div>
-      <span class="eyebrow" data-tina-field={tinaField(callToAction, 'eyebrow')}>{callToAction.eyebrow}</span>
-      <h2 data-tina-field={tinaField(callToAction, 'heading')}>{callToAction.heading}</h2>
-      <p data-tina-field={tinaField(callToAction, 'body')}>{callToAction.body}</p>
-    </div>
-    {ctaUrl && <a class="button" href={ctaUrl} data-tina-field={tinaField(callToAction, 'buttonLabel')}>{callToAction.buttonLabel}</a>}
   </div>
 </section>
 

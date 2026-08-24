@@ -1,11 +1,12 @@
 ---
+import { siteNavigation, type SiteSettingsData } from "../data/site";
 import { tinaField } from "@tinacms/astro/tina-field";
-import { type SiteSettingsData, siteNavigation } from "../data/site";
 import {
 	cmsFacebookLink,
-	cmsGoogleMapsLink,
+	cmsMapsLink,
 	cmsLink,
 	cmsYouTubeLink,
+	cmsPayPalLink,
 } from "../lib/cms";
 import { formatPublicHours } from "../lib/site-structured-data.mjs";
 import { withBase } from "../lib/urls";
@@ -17,8 +18,8 @@ interface Props {
 
 const { site } = Astro.props;
 const navItems = siteNavigation(site);
-const address = site.address;
-const mapsUrl = cmsGoogleMapsLink(address.maps);
+const address = site.address!;
+const mapsUrl = cmsMapsLink(address.maps);
 const phoneUrl = cmsLink(site.phoneHref);
 const emailUrl = cmsLink(`mailto:${site.email}`);
 const youtubeUrl = cmsYouTubeLink(site.youtube);
@@ -26,6 +27,7 @@ const facebookUrl = cmsFacebookLink(site.facebook);
 const adminPath =
 	import.meta.env.BASE_URL === "/" ? "/admin/" : "/admin-preview/";
 const publicHours = formatPublicHours(site.publicHours);
+const givingUrl = cmsPayPalLink(site.giving);
 ---
 
 <footer class="site-footer">
@@ -35,7 +37,10 @@ const publicHours = formatPublicHours(site.publicHours);
       <span class="eyebrow eyebrow-light" data-tina-field={tinaField(site.footerCopy, 'eyebrow')}>{site.footerCopy.eyebrow}</span>
       <h2 data-tina-field={tinaField(site.footerCopy, 'heading')}>{site.footerCopy.heading}</h2>
       <p data-tina-field={tinaField(site.footerCopy, 'body')}>{site.footerCopy.body}</p>
-      <a class="button button-gold" href={withBase('/visit/')} data-tina-field={tinaField(site.footerCopy, 'visitLabel')}>{site.footerCopy.visitLabel}</a>
+      <a class="paypal-give-button" href={givingUrl} target="_blank" rel="noreferrer" aria-label={`Donate with PayPal. Opens in a new tab.`} data-tina-field={tinaField(site, 'giving')}>
+                    <span><SiteIcon name="brand-paypal" size={27} /><span class="paypal-button-copy"><small>Donate with PayPal</small></span></span>
+                    <SiteIcon name="external-link" size={18} />
+                  </a>
     </div>
 
     <div>
@@ -45,8 +50,6 @@ const publicHours = formatPublicHours(site.publicHours);
           const href = cmsLink(item.href);
           return href && <li><a href={href} data-tina-field={tinaField(item)}>{item.label}</a></li>;
         })}
-        <li><a href={withBase('/artists/')}>Artists’ Gallery</a></li>
-        <li><a href={withBase('/give/')}>Give</a></li>
       </ul>
     </div>
 

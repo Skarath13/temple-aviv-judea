@@ -302,11 +302,7 @@ const homeTemplate = pageTemplate("home", "Home", [
 		label: "Home hero buttons",
 		type: "object",
 		required: true,
-		fields: [
-			string("visitLabel", "Visit button label"),
-			link("visitUrl", "Visit button URL"),
-			string("watchLabel", "Livestream button label"),
-		],
+		fields: [string("watchLabel", "Livestream button label")],
 	},
 	{
 		name: "scheduleHeading",
@@ -373,41 +369,6 @@ const homeTemplate = pageTemplate("home", "Home", [
 		],
 	},
 	{
-		name: "visitPreview",
-		label: "First visit preview",
-		type: "object",
-		required: true,
-		fields: [
-			string("eyebrow", "Small heading"),
-			string("heading", "Heading"),
-			text("intro", "Introduction"),
-			list(
-				"items",
-				"What to expect",
-				[
-					string("kind", "Card style", {
-						description:
-							"Developer-controlled identity used to keep reordered cards safe.",
-						options: [
-							{ value: "worship", label: "Worship" },
-							{ value: "teaching", label: "Teaching" },
-							{ value: "family", label: "Family" },
-						],
-						ui: { component: null },
-					}),
-					...imageFields(),
-					string("title", "Title"),
-					text("text", "Text"),
-				],
-				3,
-				"title",
-				3,
-			),
-			string("buttonLabel", "Button label"),
-			link("buttonUrl", "Button URL"),
-		],
-	},
-	{
 		name: "community",
 		label: "Community moments",
 		type: "object",
@@ -460,73 +421,6 @@ const homeTemplate = pageTemplate("home", "Home", [
 			link("linkUrl", "Link URL"),
 			string("directoryEyebrow", "Directory small heading"),
 			stringList("ministries", "Ministry names", 12),
-		],
-	},
-]);
-
-const visitTemplate = pageTemplate("visit", "Visit", [
-	{
-		name: "banner",
-		label: "Shabbat artwork",
-		type: "object",
-		required: true,
-		fields: imageFields(),
-	},
-	{
-		name: "schedulePanel",
-		label: "Schedule panel",
-		type: "object",
-		required: true,
-		fields: [
-			string("eyebrow", "Small heading"),
-			string("heading", "Heading"),
-			string("directionsLabel", "Directions button label"),
-			string("livestreamLabel", "Livestream button label"),
-		],
-	},
-	{
-		name: "welcomeCard",
-		label: "Welcome card",
-		type: "object",
-		required: true,
-		fields: [string("heading", "Heading"), text("body", "Body")],
-	},
-	{
-		name: "service",
-		label: "What happens in a service",
-		type: "object",
-		required: true,
-		fields: [
-			string("eyebrow", "Small heading"),
-			string("heading", "Heading"),
-			text("body", "Description"),
-			text("flowIntro", "Service rhythm introduction"),
-			stringList("flow", "Recurring service elements", 10),
-		],
-	},
-	list(
-		"questions",
-		"Visitor questions",
-		[string("heading", "Question"), text("body", "Answer")],
-		8,
-		"heading",
-	),
-	{
-		name: "personalWelcome",
-		label: "Personal welcome",
-		type: "object",
-		required: true,
-		fields: [string("heading", "Heading"), text("body", "Body")],
-	},
-	{
-		name: "location",
-		label: "Location callout",
-		type: "object",
-		required: true,
-		fields: [
-			string("eyebrow", "Small heading"),
-			text("body", "Location note"),
-			string("buttonLabel", "Map button label"),
 		],
 	},
 ]);
@@ -602,8 +496,6 @@ const storyTemplate = pageTemplate("story", "Our Story", [
 			string("eyebrow", "Small heading"),
 			string("heading", "Heading"),
 			text("body", "Body"),
-			string("buttonLabel", "Button label"),
-			link("buttonUrl", "Button URL"),
 		],
 	},
 ]);
@@ -830,55 +722,6 @@ const ministriesTemplate = pageTemplate("ministries", "Ministries", [
 			string("buttonLabel", "Gallery button label"),
 		],
 	},
-	{
-		name: "callToAction",
-		label: "Bottom call to action",
-		type: "object",
-		required: true,
-		fields: [
-			string("eyebrow", "Small heading"),
-			string("heading", "Heading"),
-			text("body", "Description"),
-			string("buttonLabel", "Button label"),
-			link("buttonUrl", "Button URL"),
-		],
-	},
-]);
-
-const giveTemplate = pageTemplate("give", "Give", [
-	{
-		name: "banner",
-		label: "Giving artwork",
-		type: "object",
-		required: true,
-		fields: imageFields(),
-	},
-	{
-		name: "givingIntro",
-		label: "Giving introduction",
-		type: "object",
-		required: true,
-		fields: [
-			string("eyebrow", "Small heading"),
-			string("heading", "Heading"),
-			text("lead", "Lead paragraph"),
-			text("body", "Second paragraph"),
-			stringList("donationOptions", "Donation button names", 2, 2),
-			stringList("trustPoints", "Checkout reassurance", 4),
-			text("securityNote", "Payment security note"),
-		],
-	},
-	{
-		name: "supportPanel",
-		label: "What giving supports",
-		type: "object",
-		required: true,
-		fields: [
-			...imageFields(),
-			string("eyebrow", "Small heading"),
-			stringList("items", "Supported ministries", 8),
-		],
-	},
 ]);
 
 const artistsTemplate = pageTemplate("artists", "Artists’ Gallery", [
@@ -922,11 +765,9 @@ export const PageCollection: Collection = {
 	},
 	templates: [
 		homeTemplate,
-		visitTemplate,
 		storyTemplate,
 		beliefsTemplate,
 		ministriesTemplate,
-		giveTemplate,
 		artistsTemplate,
 	],
 };
