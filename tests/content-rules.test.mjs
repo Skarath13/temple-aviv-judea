@@ -156,6 +156,27 @@ test('provider URLs require an exact allowlisted hostname', () => {
   );
 });
 
+test('the optional map-app redirect uses only the approved host', () => {
+  assert.equal(
+    isAllowedSecureUrl(
+      'https://maps.rbt.no/?q=704%20E%20Commonwealth%20Ave',
+      allowedSiteHosts.mapApp,
+    ),
+    true,
+  );
+  for (const value of [
+    'http://maps.rbt.no/?q=Fullerton',
+    'https://subdomain.maps.rbt.no/?q=Fullerton',
+    'https://maps.rbt.no.attacker.example/?q=Fullerton',
+  ]) {
+    assert.equal(
+      isAllowedSecureUrl(value, allowedSiteHosts.mapApp),
+      false,
+      value,
+    );
+  }
+});
+
 test('the donation destination cannot be changed to another PayPal account', () => {
   assert.equal(isApprovedGivingUrl(approvedGivingUrl), true);
   assert.equal(

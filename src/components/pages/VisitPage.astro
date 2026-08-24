@@ -50,7 +50,7 @@ const location = page.location!;
         {schedule.map((item, index) => (
           <div class="vertical-schedule-item" data-tina-field={tinaField(item)}>
             <span class="timeline-dot">{index + 1}</span>
-            <div><strong>{item.time}</strong><h3>{item.label}</h3><p>{item.note}</p></div>
+            <div><strong data-tina-field={tinaField(item, 'time')}>{item.time}</strong><h3 data-tina-field={tinaField(item, 'label')}>{item.label}</h3><p data-tina-field={tinaField(item, 'note')}>{item.note}</p></div>
           </div>
         ))}
       </div>
@@ -62,27 +62,27 @@ const location = page.location!;
 
     <div class="content-stack">
       <article class="content-card" data-tina-field={tinaField(welcomeCard)}>
-        <h3>{welcomeCard.heading}</h3>
-        <p>{welcomeCard.body}</p>
+        <h3 data-tina-field={tinaField(welcomeCard, 'heading')}>{welcomeCard.heading}</h3>
+        <p data-tina-field={tinaField(welcomeCard, 'body')}>{welcomeCard.body}</p>
       </article>
       <article class="content-card feature-card" data-tina-field={tinaField(service)}>
-        <span class="card-kicker">{service.eyebrow}</span>
-        <h2>{service.heading}</h2>
-        <p>{service.body}</p>
-        <p class="service-flow-intro">{service.flowIntro}</p>
-        <ul class="service-flow">
+        <span class="card-kicker" data-tina-field={tinaField(service, 'eyebrow')}>{service.eyebrow}</span>
+        <h2 data-tina-field={tinaField(service, 'heading')}>{service.heading}</h2>
+        <p data-tina-field={tinaField(service, 'body')}>{service.body}</p>
+        <p class="service-flow-intro" data-tina-field={tinaField(service, 'flowIntro')}>{service.flowIntro}</p>
+        <ul class="service-flow" data-tina-field={tinaField(service, 'flow')}>
           {service.flow?.map((item) => <li>{item}</li>)}
         </ul>
       </article>
       {page.questions?.map((question) => question && (
         <article class="content-card" data-tina-field={tinaField(question)}>
-          <h3>{question.heading}</h3>
-          <p>{question.body}</p>
+          <h3 data-tina-field={tinaField(question, 'heading')}>{question.heading}</h3>
+          <p data-tina-field={tinaField(question, 'body')}>{question.body}</p>
         </article>
       ))}
       <article class="content-card accent-card" data-tina-field={tinaField(personalWelcome)}>
-        <h3>{personalWelcome.heading}</h3>
-        <p>{personalWelcome.body}</p>
+        <h3 data-tina-field={tinaField(personalWelcome, 'heading')}>{personalWelcome.heading}</h3>
+        <p data-tina-field={tinaField(personalWelcome, 'body')}>{personalWelcome.body}</p>
         <div class="inline-links">{phoneUrl && <a href={phoneUrl} data-tina-field={tinaField(site, 'phone')}>{site.phone}</a>}{emailUrl && <a href={emailUrl} data-tina-field={tinaField(site, 'email')}>{site.email}</a>}</div>
       </article>
     </div>

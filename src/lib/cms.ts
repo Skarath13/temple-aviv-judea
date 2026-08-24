@@ -24,6 +24,9 @@ export const cmsAllowedHostLink = (
 export const cmsGoogleMapsLink = (value?: string | null) =>
   cmsAllowedHostLink(value, allowedSiteHosts.googleMaps);
 
+export const cmsMapAppLink = (value?: string | null) =>
+  cmsAllowedHostLink(value, allowedSiteHosts.mapApp);
+
 export const cmsGoogleMapsEmbed = (value?: string | null) => {
   const link = cmsGoogleMapsLink(value);
   if (!link) return undefined;

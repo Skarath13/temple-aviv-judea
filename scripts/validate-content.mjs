@@ -176,7 +176,7 @@ const pageObjectContracts = {
     storyFeature: ['image', 'imageAlt', 'eyebrow', 'headingLines', 'body', 'linkLabel', 'linkUrl', 'stats'],
     visitPreview: ['eyebrow', 'heading', 'intro', 'items', 'buttonLabel', 'buttonUrl'],
     community: ['eyebrow', 'heading', 'intro', 'moments', 'recordingsImage', 'recordingsImageAlt', 'recordingsLabel'],
-    location: ['eyebrow', 'headingLines', 'body', 'desktopImage', 'mobileImage', 'imageAlt', 'captionTitle', 'captionSubtitle', 'mapTitle', 'directionsLabel'],
+    location: ['eyebrow', 'headingLines', 'body', 'desktopImage', 'mobileImage', 'imageAlt', 'captionTitle', 'captionSubtitle', 'mapTitle', 'directionsLabel', 'mapAppLabel'],
     ministriesPromo: ['eyebrow', 'heading', 'body', 'linkLabel', 'linkUrl', 'directoryEyebrow', 'ministries'],
   },
   visit: {
@@ -338,6 +338,12 @@ if (settings) {
     if (!isAllowedSecureUrl(settings.address?.[field], allowedSiteHosts.googleMaps)) {
       errors.push(`site.address.${field} is not an allowed Google Maps URL.`);
     }
+  }
+  if (
+    settings.address?.mapApp &&
+    !isAllowedSecureUrl(settings.address.mapApp, allowedSiteHosts.mapApp)
+  ) {
+    errors.push('site.address.mapApp is not an allowed map app URL.');
   }
   try {
     if (new URL(settings.address?.embed).searchParams.get('output') !== 'embed') {
