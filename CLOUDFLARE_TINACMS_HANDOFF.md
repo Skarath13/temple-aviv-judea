@@ -71,14 +71,21 @@ bun audit --prod
 bunx wrangler deploy --dry-run
 ```
 
-Keep the direct Vite 8.1.5, Rolldown 1.1.5, and Cloudflare Vite plugin 1.47.0 development pins. Bun otherwise resolves a newer nested Worker toolchain while Tina still needs its own Vite 4 graph; the resulting build can pass prerendering but fail the dynamic Tina island and hero-media routes at runtime.
+Keep Astro 7.2.6, the Cloudflare adapter 14.2.4, Vite 8.2.2, Rolldown
+1.2.5, the Cloudflare Vite plugin 1.53.1, and Wrangler 4.125.0 exact and
+coherent. Updating only the direct bundler packages can make Bun retain a
+nested adapter graph while Tina still needs its separate Vite 4 dependency.
+That split can pass prerendering while failing a dynamic Worker route. Upgrade
+the set together and rerun both the Tina island and hero-media smoke tests.
 
 Expected results:
 
 - Content validation passes.
 - Astro reports zero diagnostics.
 - Static and Tina/Cloudflare builds pass.
-- The production dependency audit reports zero known vulnerabilities.
+- The production dependency audit output is captured and reviewed; do not
+  assume that build/editor-only transitive advisories are absent or
+  production-exploitable without tracing their runtime path.
 - The Worker dry run finds the generated asset manifest, `IMAGES`, `ASSETS`,
   and the pinned `SESSION` binding.
 - The compressed Worker remains below the selected plan's script-size limit.

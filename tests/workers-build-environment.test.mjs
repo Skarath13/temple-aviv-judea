@@ -111,24 +111,33 @@ test('rejects an unpinned Workers Bun version', () => {
   }
 });
 
-test('locks the Worker bundler graph that preserves dynamic routes', async () => {
+test('locks the coherent Worker toolchain that preserves dynamic routes', async () => {
   const packageJson = JSON.parse(
     await readFile(new URL('../package.json', import.meta.url), 'utf8'),
   );
   const lock = await readFile(new URL('../bun.lock', import.meta.url), 'utf8');
 
-  assert.equal(packageJson.devDependencies.vite, '8.1.5');
-  assert.equal(packageJson.devDependencies.rolldown, '1.1.5');
+  assert.equal(packageJson.dependencies.astro, '7.2.6');
+  assert.equal(packageJson.dependencies['@astrojs/cloudflare'], '14.2.4');
+  assert.equal(packageJson.devDependencies.vite, '8.2.2');
+  assert.equal(packageJson.devDependencies.rolldown, '1.2.5');
   assert.equal(
     packageJson.devDependencies['@cloudflare/vite-plugin'],
-    '1.47.0',
+    '1.53.1',
   );
-  assert.match(lock, /"vite": \["vite@8\.1\.5"/);
-  assert.match(lock, /"rolldown": \["rolldown@1\.1\.5"/);
+  assert.equal(packageJson.devDependencies.wrangler, '4.125.0');
+  assert.match(lock, /"astro": \["astro@7\.2\.6"/);
   assert.match(
     lock,
-    /"@cloudflare\/vite-plugin": \["@cloudflare\/vite-plugin@1\.47\.0"/,
+    /"@astrojs\/cloudflare": \["@astrojs\/cloudflare@14\.2\.4"/,
   );
+  assert.match(lock, /"vite": \["vite@8\.2\.2"/);
+  assert.match(lock, /"rolldown": \["rolldown@1\.2\.5"/);
+  assert.match(
+    lock,
+    /"@cloudflare\/vite-plugin": \["@cloudflare\/vite-plugin@1\.53\.1"/,
+  );
+  assert.match(lock, /"wrangler": \["wrangler@4\.125\.0"/);
   assert.doesNotMatch(lock, /"(?:astro|@astrojs\/cloudflare)\/vite":/);
 });
 
