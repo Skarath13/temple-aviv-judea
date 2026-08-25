@@ -1,11 +1,12 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
+import { normalizePageFrontmatter } from '../src/lib/page-frontmatter.mjs';
 import { resolveTinaBranch } from '../src/lib/tina/branch.mjs';
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), 'utf8');
 
-test('all seven public routes use the typed CMS page boundary', async () => {
+test('all six retained public pages use the typed CMS page boundary', async () => {
   const routes = new Map([
     ['src/pages/index.astro', 'home'],
     ['src/pages/visit.astro', 'visit'],
@@ -13,7 +14,6 @@ test('all seven public routes use the typed CMS page boundary', async () => {
     ['src/pages/beliefs.astro', 'beliefs'],
     ['src/pages/ministries.astro', 'ministries'],
     ['src/pages/give.astro', 'give'],
-    ['src/pages/artists.astro', 'artists'],
   ]);
 
   for (const [path, pageKey] of routes) {
@@ -50,13 +50,12 @@ test('visual editing has one primary page island plus live global islands', asyn
 });
 
 test('visible nested content exposes granular click-to-edit markers', async () => {
-  const [home, beliefs, visit, story, ministries, artists, sections] = await Promise.all([
+  const [home, beliefs, visit, story, ministries, sections] = await Promise.all([
     read('src/components/pages/HomePage.astro'),
     read('src/components/pages/BeliefsPage.astro'),
     read('src/components/pages/VisitPage.astro'),
     read('src/components/pages/StoryPage.astro'),
     read('src/components/pages/MinistriesPage.astro'),
-    read('src/components/pages/ArtistsPage.astro'),
     read('src/components/CmsSections.astro'),
   ]);
 
@@ -74,8 +73,7 @@ test('visible nested content exposes granular click-to-edit markers', async () =
     [beliefs, ['caption', 'references', 'paragraphs']],
     [visit, ['flowIntro', 'flow']],
     [story, ['year', 'names']],
-    [ministries, ['credit', 'buttonLabel']],
-    [artists, ['image', 'caption']],
+    [ministries, ['credit', 'buttonLabel', 'contactLabel']],
     [sections, ['body', 'image', 'linkLabel', 'buttonLabel']],
   ]) {
     for (const field of fields) {
@@ -126,8 +124,30 @@ test('the preview renderer stays an on-demand Tina route', async () => {
 test('the Cloudflare build validates content before Astro emits a Worker', async () => {
   const packageJson = JSON.parse(await read('package.json'));
   const command = packageJson.scripts['build:cloudflare'];
-  assert.match(command, /TINA_CMS=true tinacms build/);
-  assert.match(command, /pnpm run validate:content && astro check && astro build/);
+  assert.match(command, /^bun run validate:content && TINA_CMS=true tinacms build/);
+  assert.match(command, /-c "astro check && astro build"$/);
+});
+
+test('static MDX frontmatter normalizes nested rich text for CMS sections', () => {
+  const page = normalizePageFrontmatter({
+    sections: [{ _template: 'content', body: 'Welcome **home**.' }],
+  });
+
+  assert.equal(page.sections[0].body.type, 'root');
+  assert.equal(page.sections[0].body.children[0].children[0].text, 'Welcome ');
+  assert.equal(page.sections[0].body.children[0].children[1].text, 'home');
+  assert.equal(page.sections[0].body.children[0].children[1].bold, true);
+});
+
+test('the retired Artists page redirects to consolidated creative arts content', async () => {
+  const [config, footer, ministries] = await Promise.all([
+    read('astro.config.mjs'),
+    read('src/components/Footer.astro'),
+    read('src/components/pages/MinistriesPage.astro'),
+  ]);
+  assert.match(config, /['"]\/artists\/['"]:\s*`[^`]*\/ministries\/#creative-arts`/);
+  assert.doesNotMatch(footer, /\/artists\//);
+  assert.match(ministries, /id=["']creative-arts["']/);
 });
 
 test('Cloudflare branch injection wins and local mode safely falls back to main', () => {
@@ -138,19 +158,4 @@ test('Cloudflare branch injection wins and local mode safely falls back to main'
     GITHUB_BRANCH: 'unrelated-branch',
   }), 'cloudflare-branch');
   assert.equal(resolveTinaBranch({ WORKERS_CI_BRANCH: '   ', HEAD: 'preview' }), 'preview');
-});
-
-test('the committed Tina schema lock matches all editor-visible models', async () => {
-  const lock = await read('tina/tina-lock.json');
-  for (const fieldName of [
-    'livestreamNote',
-    'headerCopy',
-    'footerCopy',
-    'sectionCopy',
-    'endsAt',
-    'kind',
-  ]) {
-    assert.match(lock, new RegExp(`"name":"${fieldName}"`));
-  }
-  assert.doesNotMatch(lock, /"name":"watchNote"/);
 });

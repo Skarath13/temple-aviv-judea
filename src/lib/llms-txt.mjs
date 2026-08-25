@@ -7,10 +7,9 @@ const ROUTE_PRIORITY = new Map([
   ['/story/', 3],
   ['/ministries/', 4],
   ['/give/', 5],
-  ['/artists/', 6],
 ]);
 
-const OPTIONAL_ROUTES = new Set(['/give/', '/artists/']);
+const OPTIONAL_ROUTES = new Set(['/give/']);
 const PUBLIC_ROUTE = /^\/(?:[a-z0-9][a-z0-9-]*\/)*$/;
 
 const requiredInlineText = (value, label) => {

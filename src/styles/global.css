@@ -402,6 +402,8 @@ html.tina-preview .tina-empty-events { display: block; }
 .purple-card p { color: rgba(255,255,255,.76); }
 .wide-card { grid-column: 1 / -1; grid-template-columns: auto minmax(0, 1fr); min-height: 280px; align-items: center; }
 .wide-card > .button { grid-column: 2; justify-self: start; }
+.artist-actions { display: flex; grid-column: 2; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; }
+.artist-actions .arrow-link { color: var(--white); }
 .study-card { min-height: 260px; }
 .study-card .arrow-link { margin-top: 1.5rem; }
 .artist-thumbnails { display: grid; grid-template-columns: repeat(2, 340px); gap: .75rem; }
@@ -415,13 +417,12 @@ html.tina-preview .tina-empty-events { display: block; }
 .cta-inner h2 { margin-bottom: .6rem; color: var(--blue); }
 .cta-inner p { margin-bottom: 0; color: var(--muted); }
 
-/* Artists */
-.artists-section { background: var(--cream); }
-.artists-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1.5rem, 5vw, 4rem); align-items: start; }
-.artists-grid figure { margin: 0; padding: 1rem; border-radius: var(--radius); background: var(--white); box-shadow: var(--shadow); }
-.artists-grid figure:nth-child(2) { margin-top: 5rem; }
-.artists-grid img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 1rem; }
-.artists-grid figcaption { padding: 1.2rem .5rem .5rem; color: var(--blue); font-weight: 700; }
+/* CMS galleries */
+.cms-gallery-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1.5rem, 5vw, 4rem); align-items: start; }
+.cms-gallery-grid figure { margin: 0; padding: 1rem; border-radius: var(--radius); background: var(--white); box-shadow: var(--shadow); }
+.cms-gallery-grid figure:nth-child(2) { margin-top: 5rem; }
+.cms-gallery-grid img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 1rem; }
+.cms-gallery-grid figcaption { padding: 1.2rem .5rem .5rem; color: var(--blue); font-weight: 700; }
 
 /* Give */
 .give-section { background: var(--paper); }
@@ -592,11 +593,11 @@ html.tina-preview .tina-empty-events { display: block; }
 
 @media (hover: hover) and (pointer: fine) {
   .button:hover::before, .paypal-give-button:hover::before { opacity: 1; transform: skewX(-18deg) translateX(650%); }
-  .value-card, .expect-grid article, .live-moments-grid figure, .recordings-card, .location-card, .content-card, .belief-grid article, .pillar-card, .ministry-card, .artists-grid figure, .give-card, .paypal-give-panel { transition: transform .4s cubic-bezier(.22, 1, .36, 1), box-shadow .4s ease; }
-  .value-card:hover, .expect-grid article:hover, .live-moments-grid figure:hover, .recordings-card:hover, .location-card:hover, .content-card:hover, .pillar-card:hover, .ministry-card:hover, .artists-grid figure:hover, .give-card:hover, .paypal-give-panel:hover { transform: translateY(-6px); box-shadow: 0 28px 74px rgba(12,43,72,.19); }
+  .value-card, .expect-grid article, .live-moments-grid figure, .recordings-card, .location-card, .content-card, .belief-grid article, .pillar-card, .ministry-card, .cms-gallery-grid figure, .give-card, .paypal-give-panel { transition: transform .4s cubic-bezier(.22, 1, .36, 1), box-shadow .4s ease; }
+  .value-card:hover, .expect-grid article:hover, .live-moments-grid figure:hover, .recordings-card:hover, .location-card:hover, .content-card:hover, .pillar-card:hover, .ministry-card:hover, .cms-gallery-grid figure:hover, .give-card:hover, .paypal-give-panel:hover { transform: translateY(-6px); box-shadow: 0 28px 74px rgba(12,43,72,.19); }
   .belief-grid article:hover { transform: translateY(-4px); box-shadow: inset 0 3px 0 var(--gold), 0 18px 40px rgba(12,43,72,.1); }
-  .value-card-art, .expect-card-art, .live-moments-grid img, .building-card img, .ministry-card.has-photo > img, .artists-grid img, .give-photo, .rabbi-grid > img { transition: transform .8s cubic-bezier(.22, 1, .36, 1); }
-  .value-card:hover .value-card-art, .expect-grid article:hover .expect-card-art, .live-moments-grid figure:hover img, .recordings-card:hover img, .building-card:hover img, .ministry-card.has-photo:hover > img, .artists-grid figure:hover img, .give-card:hover .give-photo, .rabbi-grid > img:hover { transform: scale(1.035); }
+  .value-card-art, .expect-card-art, .live-moments-grid img, .building-card img, .ministry-card.has-photo > img, .cms-gallery-grid img, .give-photo, .rabbi-grid > img { transition: transform .8s cubic-bezier(.22, 1, .36, 1); }
+  .value-card:hover .value-card-art, .expect-grid article:hover .expect-card-art, .live-moments-grid figure:hover img, .recordings-card:hover img, .building-card:hover img, .ministry-card.has-photo:hover > img, .cms-gallery-grid figure:hover img, .give-card:hover .give-photo, .rabbi-grid > img:hover { transform: scale(1.035); }
   .ministry-pills span { transition: transform .25s ease, background .25s ease, border-color .25s ease; }
   .ministry-pills span:hover { transform: translateY(-3px); border-color: rgba(255,255,255,.7); background: rgba(255,255,255,.15); }
 }
@@ -607,6 +608,7 @@ html.tina-preview .tina-empty-events { display: block; }
   .header-actions { margin-left: auto; }
   .wide-card { grid-template-columns: 1fr; }
   .wide-card > .button { grid-column: auto; justify-self: stretch; }
+  .artist-actions { grid-column: auto; }
   .artist-thumbnails { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
   .artist-thumbnails img { width: 100%; height: auto; aspect-ratio: auto; object-fit: contain; }
 }
@@ -769,10 +771,11 @@ html.tina-preview .tina-empty-events { display: block; }
   .ministry-card.has-photo > img { width: 100%; height: auto; aspect-ratio: auto; object-fit: contain; }
   .wide-card { align-items: start; }
   .wide-card > .button { grid-column: auto; justify-self: stretch; }
+  .artist-actions { grid-column: auto; align-items: stretch; }
   .artist-thumbnails { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
   .artist-thumbnails img { width: 100%; height: auto; aspect-ratio: auto; object-fit: contain; }
-  .artists-grid { grid-template-columns: 1fr; }
-  .artists-grid figure:nth-child(2) { margin-top: 0; }
+  .cms-gallery-grid { grid-template-columns: 1fr; }
+  .cms-gallery-grid figure:nth-child(2) { margin-top: 0; }
   .footer-grid { grid-template-columns: 1fr; gap: 3rem; }
   .footer-intro { grid-column: auto; }
   .footer-bottom { flex-direction: column; }

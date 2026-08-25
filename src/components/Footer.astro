@@ -44,7 +44,6 @@ const publicHours = formatPublicHours(site.publicHours);
           const href = cmsLink(item.href);
           return href && <li><a href={href} data-tina-field={tinaField(item)}>{item.label}</a></li>;
         })}
-        <li><a href={withBase('/artists/')}>Artists’ Gallery</a></li>
         <li><a href={withBase('/give/')}>Give</a></li>
       </ul>
     </div>

@@ -17,7 +17,6 @@ const pageKeys = new Set<PageKey>([
   'beliefs',
   'ministries',
   'give',
-  'artists',
 ]);
 
 const readPageKey = (params: URLSearchParams): PageKey => {

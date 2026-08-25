@@ -20,6 +20,9 @@ jobs:
         uses: actions/checkout@v7
       - name: Install, build, and upload site
         uses: withastro/action@v6
+        with:
+          node-version: 24
+          package-manager: bun@1.2.15
 
   deploy:
     needs: build

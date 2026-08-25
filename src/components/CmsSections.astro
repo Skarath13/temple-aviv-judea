@@ -116,7 +116,7 @@ const sectionKind = (section: CmsSection) => {
             {section.eyebrow && <span class="eyebrow" data-tina-field={tinaField(section, 'eyebrow')}>{section.eyebrow}</span>}
             {section.heading && <h2 data-tina-field={tinaField(section, 'heading')}>{section.heading}</h2>}
           </div>
-          <div class="artists-grid" data-stagger>
+          <div class="cms-gallery-grid" data-stagger>
             {(section.images || []).map((item) => {
               if (!item) return null;
               const image = cmsImageSource(item.image || undefined);

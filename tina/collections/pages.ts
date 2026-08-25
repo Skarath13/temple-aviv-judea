@@ -844,6 +844,8 @@ const ministriesTemplate = pageTemplate('ministries', 'Ministries', [
         2,
       ),
       string('buttonLabel', 'Gallery button label'),
+      string('contactLabel', 'Creative arts contact label'),
+      link('contactUrl', 'Creative arts contact link'),
     ],
   },
   {
@@ -897,37 +899,11 @@ const giveTemplate = pageTemplate('give', 'Give', [
   },
 ]);
 
-const artistsTemplate = pageTemplate('artists', 'Artists’ Gallery', [
-  list(
-    'gallery',
-    'Artwork',
-    [
-      ...imageFields(),
-      string('caption', 'Caption'),
-    ],
-    12,
-    'caption',
-  ),
-  {
-    name: 'callToAction',
-    label: 'Creative arts call to action',
-    type: 'object',
-    required: true,
-    fields: [
-      string('eyebrow', 'Small heading'),
-      string('heading', 'Heading'),
-      text('body', 'Description'),
-      string('buttonLabel', 'Button label'),
-      link('buttonUrl', 'Button URL'),
-    ],
-  },
-]);
-
 export const PageCollection: Collection = {
   name: 'page',
   label: 'Pages',
   path: 'src/content/pages',
-  format: 'json',
+  format: 'mdx',
   ui: {
     allowedActions: {
       create: false,
@@ -948,6 +924,5 @@ export const PageCollection: Collection = {
     beliefsTemplate,
     ministriesTemplate,
     giveTemplate,
-    artistsTemplate,
   ],
 };

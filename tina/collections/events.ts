@@ -51,7 +51,7 @@ export const EventCollection: Collection = {
       ui: {
         max: 3,
         itemProps: (item) => ({
-          label: item?.title || 'New event',
+          label: `${item?.published ? 'Published' : 'Draft'}: ${item?.title || 'New event'}`,
         }),
       },
       fields: [
@@ -118,13 +118,13 @@ export const EventCollection: Collection = {
         },
         {
           name: 'image',
-          label: 'Event photograph',
+          label: 'Event image',
           type: 'image',
           required: true,
         },
         {
           name: 'imageAlt',
-          label: 'Photograph description',
+          label: 'Image description',
           type: 'string',
           required: true,
           description: 'Describe the meaningful content for visitors using a screen reader.',

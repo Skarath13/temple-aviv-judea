@@ -49,21 +49,21 @@ If DNS rollback is required:
 
 ## Build and deployment contract
 
-Use Node 24 and pnpm 11.17.0.
+Use Node 24 and Bun 1.2.15.
 
 ```sh
-pnpm install --frozen-lockfile
-pnpm run validate:content
-pnpm run check
-pnpm run build
-pnpm run build:cloudflare
-pnpm audit --prod
-pnpm exec wrangler deploy --dry-run
+bun install --frozen-lockfile
+bun run validate:content
+bun run check
+bun run build
+bun run build:cloudflare
+bun audit --prod
+bunx wrangler deploy --dry-run
 ```
 
-- `pnpm run build` is the GitHub Pages/static rollback build. It must remain CMS-runtime-free.
-- `pnpm run build:cloudflare` is the Tina-enabled Cloudflare build. It must emit `/admin/`, the Tina bridge markers on editable pages, and the dynamic `/tina-island/[name]` route.
-- `pnpm exec wrangler deploy` follows Astro's generated `dist/server/wrangler.json`. Do not replace it with a hand-written entry point.
+- `bun run build` is the GitHub Pages/static rollback build. It must remain CMS-runtime-free.
+- `bun run build:cloudflare` is the Tina-enabled Cloudflare build. It must emit `/admin/`, the Tina bridge markers on editable pages, and the dynamic `/tina-island/[name]` route.
+- `bunx wrangler deploy` follows Astro's generated `dist/server/wrangler.json`. Do not replace it with a hand-written entry point.
 - Before deployment, require zero content-validation failures and zero Astro diagnostics.
 - Inspect the dry-run upload size. The July 26 artifact was 2,517.72 KiB gzip
   against the current 3 MiB Workers Free limit, so bundle headroom is limited.
@@ -75,8 +75,8 @@ GitHub Pages rollback artifact only when an operator intentionally runs it.
 
 Cloudflare Workers Builds is the primary production deployment method. Its
 production branch is `main`, non-production branch builds are disabled, the
-build command is `pnpm run build:cloudflare`, and the deploy command is
-`pnpm exec wrangler deploy`. Use manual `wrangler deploy` only for an explicitly
+build command is `bun run build:cloudflare`, and the deploy command is
+`bunx wrangler deploy`. Use manual `wrangler deploy` only for an explicitly
 documented emergency or release diagnostic, then reconcile the deployed source
 with `main`. Do not use the Cloudflare code editor as an alternate source of
 truth.
@@ -85,6 +85,7 @@ Workers Builds requires these Cloudflare build variables:
 
 - Encrypted secret: `TINA_TOKEN`
 - Variables: `PUBLIC_TINA_CLIENT_ID`, `SITE_URL`
+- Pinned package manager: `BUN_VERSION=1.2.15`
 - Node heap setting: `NODE_OPTIONS=--max-old-space-size=4096`
 - `SITE_URL` must be `https://www.avivjudea.org`.
 - Do not add `WORKERS_CI_BRANCH` manually. Cloudflare injects it for each build.

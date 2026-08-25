@@ -5,13 +5,13 @@ import type {
   PageQuery,
   SiteSettingsQuery,
 } from '../../../tina/__generated__/types';
-import { pages, type PageKey } from '../../data/pages';
+import type { PageKey } from '../../data/pages';
 import { eventSchedule } from '../../data/events';
 import { site } from '../../data/site';
 
 export const cmsEnabled = import.meta.env.TINA_CMS === 'true';
 
-const relativePath = (pageKey: PageKey) => `${pageKey}.json`;
+const relativePath = (pageKey: PageKey) => `${pageKey}.mdx`;
 
 export interface TinaPageBundle {
   page: PageQuery['page'];
@@ -37,7 +37,10 @@ export const getTinaPage = async (
 export const getPage = async (
   pageKey: PageKey,
 ): Promise<PageQuery['page']> => {
-  if (!cmsEnabled) return pages[pageKey];
+  if (!cmsEnabled) {
+    const { pages } = await import('#static-pages');
+    return pages[pageKey];
+  }
   return getTinaPage(pageKey);
 };
 
@@ -91,6 +94,7 @@ export const getPageBundle = async (
   pageKey: PageKey,
 ): Promise<TinaPageBundle> => {
   if (cmsEnabled) return getTinaPageBundle(pageKey);
+  const { pages } = await import('#static-pages');
   return {
     page: pages[pageKey],
     siteSettings: site,

@@ -1,6 +1,5 @@
 ---
 import type {
-  PageArtists,
   PageBeliefs,
   PageGive,
   PageHome,
@@ -12,7 +11,6 @@ import type {
   SiteSettingsQuery,
 } from '../../../tina/__generated__/types';
 import type { PageKey } from '../../data/pages';
-import ArtistsPage from './ArtistsPage.astro';
 import BeliefsPage from './BeliefsPage.astro';
 import GivePage from './GivePage.astro';
 import HomePage from './HomePage.astro';
@@ -36,4 +34,3 @@ const { page, pageKey, site, eventSchedule } = Astro.props;
 {pageKey === 'beliefs' && <BeliefsPage page={page as PageBeliefs} />}
 {pageKey === 'ministries' && <MinistriesPage page={page as PageMinistries} site={site} />}
 {pageKey === 'give' && <GivePage page={page as PageGive} site={site} />}
-{pageKey === 'artists' && <ArtistsPage page={page as PageArtists} />}

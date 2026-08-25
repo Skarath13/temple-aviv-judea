@@ -31,8 +31,8 @@ Cloudflare is connected directly to the GitHub repository. A push to `main`
 starts a native Workers Build and deploys the resulting Worker:
 
 ```sh
-pnpm run build:cloudflare
-pnpm exec wrangler deploy
+bun run build:cloudflare
+bunx wrangler deploy
 ```
 
 Non-production branch builds are disabled. The GitHub Actions Worker workflow
@@ -44,6 +44,7 @@ Cloudflare build variables:
 - `PUBLIC_TINA_CLIENT_ID`
 - encrypted `TINA_TOKEN`
 - `SITE_URL=https://www.avivjudea.org`
+- `BUN_VERSION=1.2.15`
 - `NODE_OPTIONS=--max-old-space-size=4096`
 
 Cloudflare supplies `WORKERS_CI_BRANCH` and the Git metadata variables. It also
@@ -58,17 +59,19 @@ Workers Build proves it is no longer required.
 
 ## Repository verification
 
-Use Node 24 and pnpm 11.17.0:
+Use Node 24 and Bun 1.2.15:
 
 ```sh
-pnpm install --frozen-lockfile
-pnpm run validate:content
-pnpm run check
-pnpm run build
-pnpm run build:cloudflare
-pnpm audit --prod
-pnpm exec wrangler deploy --dry-run
+bun install --frozen-lockfile
+bun run validate:content
+bun run check
+bun run build
+bun run build:cloudflare
+bun audit --prod
+bunx wrangler deploy --dry-run
 ```
+
+Keep the direct Vite 8.1.5, Rolldown 1.1.5, and Cloudflare Vite plugin 1.47.0 development pins. Bun otherwise resolves a newer nested Worker toolchain while Tina still needs its own Vite 4 graph; the resulting build can pass prerendering but fail the dynamic Tina island and hero-media routes at runtime.
 
 Expected results:
 
@@ -87,7 +90,7 @@ dependency upgrade or material CMS/runtime change.
 ## TinaCMS boundary
 
 - Global settings: `src/content/settings/site.json`
-- Public page documents: `src/content/pages/*.json`
+- Public page documents: `src/content/pages/*.mdx`
 - Upcoming events: `src/content/events/events.json`
 - Schema and editor configuration: `tina/`
 - Managed media: `public/images/`

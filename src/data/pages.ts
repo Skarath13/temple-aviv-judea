@@ -1,11 +1,11 @@
-import artistsContent from '../content/pages/artists.json';
-import beliefsContent from '../content/pages/beliefs.json';
-import giveContent from '../content/pages/give.json';
-import homeContent from '../content/pages/home.json';
-import ministriesContent from '../content/pages/ministries.json';
-import storyContent from '../content/pages/story.json';
-import visitContent from '../content/pages/visit.json';
+import { frontmatter as beliefsContent } from '../content/pages/beliefs.mdx';
+import { frontmatter as giveContent } from '../content/pages/give.mdx';
+import { frontmatter as homeContent } from '../content/pages/home.mdx';
+import { frontmatter as ministriesContent } from '../content/pages/ministries.mdx';
+import { frontmatter as storyContent } from '../content/pages/story.mdx';
+import { frontmatter as visitContent } from '../content/pages/visit.mdx';
 import type { PageQuery } from '../../tina/__generated__/types';
+import { normalizePageFrontmatter } from '../lib/page-frontmatter.mjs';
 
 export type PageKey =
   | 'home'
@@ -13,17 +13,17 @@ export type PageKey =
   | 'story'
   | 'beliefs'
   | 'ministries'
-  | 'give'
-  | 'artists';
+  | 'give';
 
 export type CmsPage = PageQuery['page'];
 
-export const pages: Record<PageKey, CmsPage> = {
-  home: homeContent,
-  visit: visitContent,
-  story: storyContent,
-  beliefs: beliefsContent,
-  ministries: ministriesContent,
-  give: giveContent,
-  artists: artistsContent,
-} as unknown as Record<PageKey, CmsPage>;
+export const pages: Record<PageKey, CmsPage> = Object.fromEntries(
+  Object.entries({
+    home: homeContent,
+    visit: visitContent,
+    story: storyContent,
+    beliefs: beliefsContent,
+    ministries: ministriesContent,
+    give: giveContent,
+  }).map(([key, page]) => [key, normalizePageFrontmatter(page)]),
+) as Record<PageKey, CmsPage>;
