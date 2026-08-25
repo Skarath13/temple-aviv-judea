@@ -164,7 +164,11 @@ Final Cloudflare-only production proof on July 26, 2026:
 - The Worker build needs `PUBLIC_TINA_CLIENT_ID`, read-only `TINA_TOKEN`,
   `SITE_URL`, `NODE_OPTIONS=--max-old-space-size=4096`, and Cloudflare's injected
   `WORKERS_CI_BRANCH`.
-- `/tina-island/page` is POST-only for Tina preview requests. Normal GET should return 405. Invalid or cross-site requests must not become a write path.
+- Tina island URLs are POST-only for Tina preview requests. Read the exact URL
+  from the page's `data-tina-island` marker: page islands require a validated
+  page key such as `/tina-island/page?page=home`, while header and footer use
+  their own emitted URLs. Normal GET should return 405. Missing/invalid page
+  keys and cross-site requests must not become a write path.
 - Tina visual preview replaces the editable island after form acknowledgement.
   The layout deliberately avoids `motion-ready` when the same-origin referrer is
   `/admin/`, then retains a frame/island fallback, so replacement content never

@@ -39,6 +39,7 @@ test('visual editing has one primary page island plus live global islands', asyn
   ]);
 
   assert.match(page, /<TinaIsland name="page"[^>]*primary>/);
+  assert.match(page, /params=\{\{\s*page:\s*pageKey\s*\}\}/);
   assert.match(layout, /<TinaIsland name="header"/);
   assert.match(layout, /<TinaIsland name="footer"/);
   assert.match(layout, /new MutationObserver\(refreshExpiredEvents\)/);

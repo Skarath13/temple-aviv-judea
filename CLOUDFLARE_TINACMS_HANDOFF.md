@@ -151,8 +151,11 @@ After every native Workers Build:
 - Verify canonical and Open Graph URLs use HTTPS `www`.
 - Verify apex HTTP and HTTPS redirects preserve path and query.
 - Require homepage Tina bridge markers.
-- Require island GET `405`, valid preview POST `200`, and explicit cross-site
-  browser POST denial.
+- Read each emitted `data-tina-island` URL from the page before testing it.
+  Require GET `405`, a same-origin preview POST with Tina's preview content type
+  to return `200`, and an explicit cross-site browser POST denial. The page
+  island requires its emitted page key, for example
+  `/tina-island/page?page=home`; `/tina-island/page` alone is invalid.
 - Confirm both MX records are unchanged.
 - Check Worker logs for binding, island, and 5xx errors.
 - Keep the prior Worker version and GitHub Pages build available through the
