@@ -1,28 +1,29 @@
 ---
-import type { EventScheduleData, UpcomingEvent } from '../data/events';
-import { tinaField } from '@tinacms/astro/tina-field';
-import { cmsLink } from '../lib/cms';
-import { cmsImageSource } from '../lib/cms';
-import SiteIcon from './SiteIcon.astro';
+import type { EventScheduleData, UpcomingEvent } from "../data/events";
+import { tinaField } from "@tinacms/astro/tina-field";
+import { cmsLink } from "../lib/cms";
+import { cmsImageSource } from "../lib/cms";
+import SiteIcon from "./SiteIcon.astro";
 
 interface Props {
-  events: readonly UpcomingEvent[];
-  schedule: EventScheduleData;
+	events: readonly UpcomingEvent[];
+	schedule: EventScheduleData;
 }
 
 const { events, schedule } = Astro.props;
 const visibleEvents = events.slice(0, 3);
 const copy = schedule.sectionCopy!;
-const formatStart = (startsAt: string) => new Intl.DateTimeFormat('en-US', {
-  weekday: 'long',
-  month: 'long',
-  day: 'numeric',
-  year: 'numeric',
-  hour: 'numeric',
-  minute: '2-digit',
-  timeZoneName: 'short',
-  timeZone: 'America/Los_Angeles',
-}).format(new Date(startsAt));
+const formatStart = (startsAt: string) =>
+	new Intl.DateTimeFormat("en-US", {
+		weekday: "long",
+		month: "long",
+		day: "numeric",
+		year: "numeric",
+		hour: "numeric",
+		minute: "2-digit",
+		timeZoneName: "short",
+		timeZone: "America/Los_Angeles",
+	}).format(new Date(startsAt));
 ---
 
 {visibleEvents.length > 0 && (
@@ -63,7 +64,7 @@ const formatStart = (startsAt: string) => new Intl.DateTimeFormat('en-US', {
       <div class="section-heading light">
         <span class="eyebrow eyebrow-light" data-tina-field={tinaField(copy, 'eyebrow')}>{copy.eyebrow}</span>
         <h2 id="empty-upcoming-events-title" data-tina-field={tinaField(copy, 'heading')}>{copy.heading}</h2>
-        <p>No upcoming events are currently published. Select this section to add the first event.</p>
+        <p>No upcoming events.</p>
       </div>
     </div>
   </section>

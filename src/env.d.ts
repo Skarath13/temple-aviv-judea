@@ -1,5 +1,5 @@
-type CloudflareRuntime = import('@astrojs/cloudflare').Runtime;
+type CloudflareRuntime = import("@astrojs/cloudflare").Runtime;
 
 declare namespace App {
-  interface Locals extends CloudflareRuntime {}
+	interface Locals extends CloudflareRuntime {}
 }

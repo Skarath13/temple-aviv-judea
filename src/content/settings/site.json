@@ -1,86 +1,86 @@
 {
-  "name": "Temple Aviv Judea",
-  "shortName": "TAJ",
-  "description": "A Messianic Jewish congregation in Fullerton, California.",
-  "address": {
-    "street": "704 E Commonwealth Ave",
-    "city": "Fullerton, CA 92831",
-    "locality": "Fullerton",
-    "region": "CA",
-    "postalCode": "92831",
-    "country": "US",
-    "mailing": "P.O. Box 7331, Fullerton, CA 92834",
-    "maps": "https://maps.app.goo.gl/UiN1bc91vG4a8LiGA",
-    "embed": "https://www.google.com/maps?q=704+E+Commonwealth+Ave,+Fullerton,+CA+92831&output=embed",
-    "mapApp": "https://maps.rbt.no/?q=704%20E%20Commonwealth%20Ave%2C%20Fullerton%2C%20CA%2092831"
-  },
-  "phone": "(714) 748-4504",
-  "phoneHref": "tel:+17147484504",
-  "email": "info@avivjudea.org",
-  "youtube": "https://www.youtube.com/@templeavivjudea1558/live",
-  "livestreamNote": "Saturdays · 11:00 AM PT",
-  "headerCopy": {
-    "tagline": "A Messianic Jewish Congregation",
-    "giveLabel": "Give",
-    "visitLabel": "Plan a visit",
-    "livestreamLabel": "Watch live on YouTube"
-  },
-  "footerCopy": {
-    "eyebrow": "Shalom & welcome",
-    "heading": "There is a place for you in the story.",
-    "body": "Join us as we worship, learn, celebrate, and grow together in Messiah.",
-    "visitLabel": "Come this Shabbat",
-    "exploreHeading": "Explore",
-    "connectHeading": "Connect",
-    "motto": "Jewish roots · Living faith · Open doors"
-  },
-  "facebook": "https://www.facebook.com/templeavivjudea/",
-  "baruchDesignsEtsy": "https://www.etsy.com/shop/BaruchDesignsStudio?etsrc=sdt#items",
-  "giving": "https://www.paypal.com/donate/?business=avivjudea613%40gmail.com&no_recurring=0&item_name=Temple%20Aviv%20Judea&currency_code=USD",
-  "publicHours": [
-    {
-      "dayOfWeek": "Saturday",
-      "opens": "09:00",
-      "closes": "16:00"
-    }
-  ],
-  "schedule": [
-    {
-      "time": "11:00 AM",
-      "label": "Shabbat Service",
-      "note": "In person & livestream.  "
-    },
-    {
-      "time": "1:00 PM",
-      "label": "Oneg / Lunch",
-      "note": "Stay and share a meal"
-    },
-    {
-      "time": "2:30 PM",
-      "label": "Rabbi's Corner",
-      "note": "Torah conversation & questions"
-    }
-  ],
-  "navigation": [
-    {
-      "label": "Home",
-      "href": "/"
-    },
-    {
-      "label": "Visit",
-      "href": "/visit/"
-    },
-    {
-      "label": "Our Story",
-      "href": "/story/"
-    },
-    {
-      "label": "Beliefs",
-      "href": "/beliefs/"
-    },
-    {
-      "label": "Ministries",
-      "href": "/ministries/"
-    }
-  ]
+	"name": "Temple Aviv Judea",
+	"shortName": "TAJ",
+	"description": "A Messianic Jewish congregation in Fullerton, California.",
+	"address": {
+		"street": "704 E Commonwealth Ave",
+		"city": "Fullerton, CA 92831",
+		"locality": "Fullerton",
+		"region": "CA",
+		"postalCode": "92831",
+		"country": "US",
+		"mailing": "P.O. Box 7331, Fullerton, CA 92834",
+		"maps": "https://maps.app.goo.gl/UiN1bc91vG4a8LiGA",
+		"embed": "https://www.google.com/maps?q=704+E+Commonwealth+Ave,+Fullerton,+CA+92831&output=embed",
+		"mapApp": "https://maps.rbt.no/?q=704%20E%20Commonwealth%20Ave%2C%20Fullerton%2C%20CA%2092831"
+	},
+	"phone": "(714) 748-4504",
+	"phoneHref": "tel:+17147484504",
+	"email": "info@avivjudea.org",
+	"youtube": "https://www.youtube.com/@templeavivjudea1558/live",
+	"livestreamNote": "Saturdays · 11:00 AM PT",
+	"headerCopy": {
+		"tagline": "A Messianic Jewish Congregation",
+		"giveLabel": "Give",
+		"visitLabel": "Plan a visit",
+		"livestreamLabel": "Watch live on YouTube"
+	},
+	"footerCopy": {
+		"eyebrow": "Shalom & welcome",
+		"heading": "There is a place for you in the story.",
+		"body": "Join us as we worship, learn, celebrate, and grow together in Messiah.",
+		"visitLabel": "Come this Shabbat",
+		"exploreHeading": "Explore",
+		"connectHeading": "Connect",
+		"motto": "Jewish roots · Living faith · Open doors"
+	},
+	"facebook": "https://www.facebook.com/templeavivjudea/",
+	"baruchDesignsEtsy": "https://www.etsy.com/shop/BaruchDesignsStudio?etsrc=sdt#items",
+	"giving": "https://www.paypal.com/donate/?business=avivjudea613%40gmail.com&no_recurring=0&item_name=Temple%20Aviv%20Judea&currency_code=USD",
+	"publicHours": [
+		{
+			"dayOfWeek": "Saturday",
+			"opens": "09:00",
+			"closes": "16:00"
+		}
+	],
+	"schedule": [
+		{
+			"time": "11:00 AM",
+			"label": "Shabbat Service",
+			"note": "In person & livestream.  "
+		},
+		{
+			"time": "1:00 PM",
+			"label": "Oneg / Lunch",
+			"note": "Stay and share a meal"
+		},
+		{
+			"time": "2:30 PM",
+			"label": "Rabbi's Corner",
+			"note": "Torah conversation & questions"
+		}
+	],
+	"navigation": [
+		{
+			"label": "Home",
+			"href": "/"
+		},
+		{
+			"label": "Visit",
+			"href": "/visit/"
+		},
+		{
+			"label": "Our Story",
+			"href": "/story/"
+		},
+		{
+			"label": "Beliefs",
+			"href": "/beliefs/"
+		},
+		{
+			"label": "Ministries",
+			"href": "/ministries/"
+		}
+	]
 }
