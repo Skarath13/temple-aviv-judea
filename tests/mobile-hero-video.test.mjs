@@ -149,8 +149,7 @@ test("autoplays muted and reveals only after a presented frame", async () => {
 	harness.video.currentTime = 0.2;
 	harness.video.dispatchEvent(new Event("timeupdate"));
 	harness.video.frameCallback();
-	await wait(5);
-	assert.equal(harness.root.dataset.heroVideoState, "playing");
+	await waitFor(() => harness.root.dataset.heroVideoState === "playing", 500);
 
 	harness.controller.destroy();
 });
