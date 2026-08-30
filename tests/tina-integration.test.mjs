@@ -106,15 +106,14 @@ test("the lazy Google map remains primary and map-app directions are additive", 
 	);
 });
 
-test("an empty event schedule remains discoverable only inside Tina preview", async () => {
-	const [layout, events, styles] = await Promise.all([
-		read("src/layouts/BaseLayout.astro"),
+test("an empty event schedule remains visible with clear public copy", async () => {
+	const [events, styles] = await Promise.all([
 		read("src/components/UpcomingEvents.astro"),
 		read("src/styles/global.css"),
 	]);
-	assert.match(layout, /classList\.add\(['"]tina-preview['"]\)/);
 	assert.match(events, /tina-empty-events/);
 	assert.match(events, /tinaField\(schedule, ['"]events['"]\)/);
+	assert.match(events, /No upcoming events\./);
 	assert.match(styles, /\.tina-empty-events\s*\{\s*display:\s*block/);
 });
 
