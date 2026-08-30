@@ -61,7 +61,7 @@ const hasText = (value) => typeof value === "string" && value.trim().length > 0;
 
 const validateImage = (value, label) => {
 	if (!isManagedImageSource(value)) {
-		report(`${label} must use /images/ or the exact Tina media host.`);
+		report(`${label} must use /images/ or a clean HTTPS URL.`);
 		return;
 	}
 	if (value.startsWith("/")) referencedLocalImages.add(value);

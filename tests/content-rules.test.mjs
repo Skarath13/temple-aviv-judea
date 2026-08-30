@@ -252,12 +252,15 @@ test("requires zero-padded 24-hour HH:MM times", () => {
 	}
 });
 
-test("managed images stay under /images or the exact Tina media host", () => {
+test("managed images accept clean local paths and HTTPS sources", () => {
 	for (const value of [
 		"/images/photo.webp",
 		"/images/events/shabbat.jpg",
 		"https://assets.tina.io/example/photo.webp",
 		"https://ASSETS.TINA.IO/example/photo.webp",
+		"https://example.com/photo.webp",
+		"https://media.example.org/photo.webp?width=1200#hero",
+		"https://subdomain.assets.tina.io/example/photo.webp",
 	]) {
 		assert.equal(isManagedImageSource(value), true, value);
 	}
@@ -267,14 +270,14 @@ test("managed images stay under /images or the exact Tina media host", () => {
 		"images/photo.webp",
 		"//assets.tina.io/example/photo.webp",
 		"http://assets.tina.io/example/photo.webp",
-		"https://subdomain.assets.tina.io/example/photo.webp",
-		"https://assets.tina.io.attacker.example/photo.webp",
-		"https://example.com/photo.webp",
 		"https://user@assets.tina.io/example/photo.webp",
 		"/images/safe\\photo.webp",
 		"/images/safe\nphoto.webp",
 		"/images/safe\u0000photo.webp",
 		"/images/safe\u007fphoto.webp",
+		"/images/photo.webp?width=1200",
+		"https://example.com/safe\\photo.webp",
+		"https://example.com/safe\nphoto.webp",
 		" /images/photo.webp",
 		"/images/photo.webp ",
 		"",

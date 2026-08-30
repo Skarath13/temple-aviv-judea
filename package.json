@@ -18,7 +18,7 @@
 		"generate:tina-types": "tinacms build --local --skip-cloud-checks --skip-indexing --noTelemetry -c \"true\"",
 		"preview": "astro preview",
 		"types:cloudflare": "wrangler types",
-		"test:strict": "node --test tests/content-rules.test.mjs tests/hero-media-range.test.mjs tests/llms-txt.test.mjs tests/mobile-hero-video.test.mjs tests/navigation-scroll.test.mjs tests/site-structured-data.test.mjs tests/tina-integration.test.mjs tests/upcoming-events.test.mjs tests/workers-build-environment.test.mjs",
+		"test:strict": "node --test --test-concurrency=1 tests/content-rules.test.mjs tests/hero-media-range.test.mjs tests/llms-txt.test.mjs tests/mobile-hero-video.test.mjs tests/navigation-scroll.test.mjs tests/site-structured-data.test.mjs tests/tina-integration.test.mjs tests/upcoming-events.test.mjs tests/workers-build-environment.test.mjs",
 		"validate:schema": "tinacms audit --noTelemetry",
 		"validate:contracts": "node scripts/validate-content.mjs",
 		"validate:content": "bun run validate:schema && bun run validate:contracts && bun run verify:hero-video && bun run test:strict",

@@ -44,7 +44,7 @@ test("visual editing has one primary page island plus live global islands", asyn
 	assert.match(layout, /<TinaIsland name="footer"/);
 	assert.match(layout, /new MutationObserver\(refreshExpiredEvents\)/);
 	for (const name of ["page", "header", "footer"]) {
-		assert.match(registry, new RegExp(`\\n  ${name}: \\{`));
+		assert.match(registry, new RegExp(`\\n\\s+${name}:\\s*\\{`));
 	}
 	assert.match(registry, /getTinaPageBundle/);
 	assert.match(registry, /getTinaSiteSettings/);

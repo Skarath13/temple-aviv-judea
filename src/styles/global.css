@@ -51,6 +51,11 @@ body {
 	line-height: 1.65;
 	-webkit-font-smoothing: antialiased;
 }
+@supports (min-height: 100dvh) {
+	body {
+		min-height: 100dvh;
+	}
+}
 main {
 	background: var(--paper);
 }
@@ -1317,7 +1322,7 @@ html.tina-preview .tina-empty-events {
 	max-width: 14ch;
 	font-size: clamp(2.25rem, 4vw, 3.25rem);
 }
-.service-flow-intro {
+.content-card .service-flow-intro {
 	margin-top: 1.75rem;
 	color: var(--blue);
 	font-weight: 700;
@@ -3073,7 +3078,11 @@ html.tina-preview .tina-empty-events {
 	}
 	.home-hero {
 		min-height: calc(100vh - 4.65rem - 1px);
-		/*min-height: calc(100svh - 4.65rem - 1px - env(safe-area-inset-top, 0px));*/
+	}
+	@supports (min-height: 100svh) {
+		.home-hero {
+			min-height: calc(100svh - 4.65rem - 1px - env(safe-area-inset-top, 0px));
+		}
 	}
 	.hero-video-frame {
 		position: absolute;
@@ -3504,10 +3513,10 @@ html.tina-preview .tina-empty-events {
 	*,
 	*::before,
 	*::after {
-		scroll-behavior: auto;
-		animation-duration: 0.01ms;
-		animation-iteration-count: 1;
-		transition-duration: 0.01ms;
+		scroll-behavior: auto !important;
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
 	}
 	.scroll-progress {
 		display: none;
@@ -3520,8 +3529,8 @@ html.tina-preview .tina-empty-events {
 	.motion-ready .home-hero .hero-copy > *,
 	.motion-ready .home-hero .hero-location,
 	.motion-ready .page-hero-inner > * {
-		opacity: 1;
-		clip-path: none;
-		transform: none;
+		opacity: 1 !important;
+		clip-path: none !important;
+		transform: none !important;
 	}
 }

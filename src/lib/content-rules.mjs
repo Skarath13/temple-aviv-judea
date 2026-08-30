@@ -1,10 +1,9 @@
 const controlOrBackslash = /[\\\p{Cc}]/u;
-// const controlOrBackslashHex = /[\\\x00-\x1F\x7F]/u;
 const emailAddress =
 	/^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)+$/u;
 const e164TelephoneLink = /^tel:\+[1-9]\d{7,14}$/u;
 const twentyFourHourTime = /^(?:[01]\d|2[0-3]):[0-5]\d$/u;
-const managedImagePathPattern = new URLPattern({ pathname: "/images/*" });
+const managedImagePathPattern = /^\/images\/[A-Za-z0-9._/-]+$/u;
 
 export const allowedSiteHosts = Object.freeze({
 	etsy: Object.freeze(["www.etsy.com", "etsy.com"]),
@@ -100,7 +99,7 @@ export const isManagedImageSource = (value) => {
 			.split("/")
 			.every((segment) => segment !== "." && segment !== "..");
 	}
-	return isAllowedSecureUrl(value, allowedSiteHosts.tinaMedia);
+	return Boolean(parseSecureUrl(value));
 };
 
 export const validateSafeLink = (value) => {
