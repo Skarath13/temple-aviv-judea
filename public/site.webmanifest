@@ -1,26 +1,26 @@
 {
-  "id": "./",
-  "name": "Temple Aviv Judea",
-  "short_name": "TAJ",
-  "description": "A Messianic Jewish congregation in Fullerton, California.",
-  "lang": "en-US",
-  "start_url": "./",
-  "scope": "./",
-  "display": "standalone",
-  "background_color": "#071f37",
-  "theme_color": "#071f37",
-  "icons": [
-    {
-      "src": "apple-touch-icon.png",
-      "sizes": "180x180",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "images/taj-logo.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    }
-  ]
+	"id": "./",
+	"name": "Temple Aviv Judea",
+	"short_name": "TAJ",
+	"description": "A Messianic Jewish congregation in Fullerton, California.",
+	"lang": "en-US",
+	"start_url": "./",
+	"scope": "./",
+	"display": "standalone",
+	"background_color": "#071f37",
+	"theme_color": "#071f37",
+	"icons": [
+		{
+			"src": "apple-touch-icon.png",
+			"sizes": "180x180",
+			"type": "image/png",
+			"purpose": "any"
+		},
+		{
+			"src": "images/taj-logo.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "any"
+		}
+	]
 }

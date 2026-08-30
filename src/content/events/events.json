@@ -1,9 +1,9 @@
 {
-  "sectionCopy": {
-    "eyebrow": "Gather with us",
-    "heading": "Upcoming events.",
-    "intro": "Special gatherings, celebrations, and opportunities to share life together.",
-    "detailsLabel": "Event details"
-  },
-  "events": []
+	"sectionCopy": {
+		"eyebrow": "Gather with us",
+		"heading": "Upcoming events.",
+		"intro": "Special gatherings, celebrations, and opportunities to share life together.",
+		"detailsLabel": "Event details"
+	},
+	"events": []
 }
