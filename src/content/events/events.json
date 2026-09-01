@@ -1,9 +1,20 @@
 {
-	"sectionCopy": {
-		"eyebrow": "Gather with us",
-		"heading": "Upcoming events.",
-		"intro": "Special gatherings, celebrations, and opportunities to share life together.",
-		"detailsLabel": "Event details"
-	},
-	"events": []
+  "sectionCopy": {
+    "eyebrow": "Gather with us",
+    "heading": "Upcoming events.",
+    "intro": "Special gatherings, celebrations, and opportunities to share life together.",
+    "detailsLabel": "Event details"
+  },
+  "events": [
+    {
+      "published": true,
+      "title": "Rosh HaShanah (Yom Teruah)",
+      "startsAt": "2026-09-13T04:42:09.550Z",
+      "endsAt": "2026-09-13T04:42:22.333Z",
+      "location": "Temple",
+      "summary": " ",
+      "image": "/images/625144562.avif",
+      "imageAlt": "apples and honey"
+    }
+  ]
 }
