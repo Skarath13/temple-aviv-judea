@@ -6416,6 +6416,7 @@
 								"label": "Event name",
 								"type": "string",
 								"required": true,
+								"ui": {},
 								"namespace": ["eventSchedule", "events", "title"],
 								"searchable": true,
 								"uid": false
@@ -6445,6 +6446,7 @@
 								"label": "Location",
 								"type": "string",
 								"required": true,
+								"ui": {},
 								"namespace": ["eventSchedule", "events", "location"],
 								"searchable": true,
 								"uid": false
@@ -6453,7 +6455,7 @@
 								"name": "summary",
 								"label": "Short description",
 								"type": "string",
-								"required": true,
+								"description": "Optional. Leave this blank when the event name, date, location, and image provide enough detail.",
 								"ui": { "component": "textarea" },
 								"namespace": ["eventSchedule", "events", "summary"],
 								"searchable": true,
@@ -6474,6 +6476,7 @@
 								"type": "string",
 								"required": true,
 								"description": "Describe the meaningful content for visitors using a screen reader.",
+								"ui": {},
 								"namespace": ["eventSchedule", "events", "imageAlt"],
 								"searchable": true,
 								"uid": false
@@ -21681,11 +21684,8 @@
 						"name": { "kind": "Name", "value": "summary" },
 						"arguments": [],
 						"type": {
-							"kind": "NonNullType",
-							"type": {
-								"kind": "NamedType",
-								"name": { "kind": "Name", "value": "String" }
-							}
+							"kind": "NamedType",
+							"name": { "kind": "Name", "value": "String" }
 						}
 					},
 					{

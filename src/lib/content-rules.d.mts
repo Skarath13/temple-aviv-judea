@@ -2,6 +2,7 @@ export const allowedSiteHosts: Readonly<{
 	etsy: readonly string[];
 	facebook: readonly string[];
 	googleMaps: readonly string[];
+	mapApp: readonly string[];
 	paypal: readonly string[];
 	tinaMedia: readonly string[];
 	youtube: readonly string[];
@@ -21,6 +22,10 @@ export function isRootRelativePath(value: unknown): boolean;
 export function isSafeCmsLink(value: unknown): boolean;
 export function isManagedImageSource(value: unknown): boolean;
 export function validateSafeLink(value?: string | null): string | undefined;
+export function validateRequiredText(
+	value: unknown,
+	fieldName?: string,
+): string | undefined;
 export function validateAllowedHost(
 	value: string | null | undefined,
 	allowedHosts: readonly string[],

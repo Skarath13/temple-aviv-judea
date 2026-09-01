@@ -36,5 +36,13 @@
 				"organizeImports": "on"
 			}
 		}
-	}
+	},
+	"overrides": [
+		{
+			"includes": ["src/content/**/*.json"],
+			"formatter": {
+				"enabled": false
+			}
+		}
+	]
 }

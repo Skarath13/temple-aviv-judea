@@ -117,6 +117,26 @@ test("an empty event schedule remains visible with clear public copy", async () 
 	assert.match(styles, /\.tina-empty-events\s*\{\s*display:\s*block/);
 });
 
+test("the event editor rejects blank required text before committing", async () => {
+	const [schema, dataBoundary, biomeConfig] = await Promise.all([
+		read("tina/collections/events.ts"),
+		read("src/data/events.ts"),
+		read("biome.json"),
+	]);
+	assert.match(schema, /validateRequiredText/);
+	for (const fieldName of ["Event name", "Location", "Image description"]) {
+		assert.match(
+			schema,
+			new RegExp(`validateRequiredText\\(value, ["']${fieldName}["']\\)`),
+		);
+	}
+	assert.match(schema, /Optional\. Leave this blank/);
+	assert.match(dataBoundary, /parseEventScheduleRecord\(\s*eventContent/);
+	assert.doesNotMatch(dataBoundary, /export const upcomingEvents/);
+	assert.match(biomeConfig, /"includes": \["src\/content\/\*\*\/\*\.json"\]/);
+	assert.match(biomeConfig, /"formatter": \{\s*"enabled": false\s*\}/);
+});
+
 test("the preview renderer stays an on-demand Tina route", async () => {
 	const [config, route] = await Promise.all([
 		read("astro.config.mjs"),

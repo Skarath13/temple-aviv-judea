@@ -43,7 +43,7 @@ const formatStart = (startsAt: string) =>
             <div class="upcoming-event-copy">
               <span class="event-date" data-tina-field={tinaField(event.source, 'startsAt')}><SiteIcon name="calendar-event" size={19} /> <time datetime={event.startsAt}>{formatStart(event.startsAt)}</time></span>
               <h3 data-tina-field={tinaField(event.source, 'title')}>{event.title}</h3>
-              <p data-tina-field={tinaField(event.source, 'summary')}>{event.summary}</p>
+              {event.summary && <p data-tina-field={tinaField(event.source, 'summary')}>{event.summary}</p>}
               <span class="event-location" data-tina-field={tinaField(event.source, 'location')}><SiteIcon name="map-pin" size={18} /> {event.location}</span>
               {cmsLink(event.detailsUrl) && <a class="button button-gold" href={cmsLink(event.detailsUrl)} data-tina-field={tinaField(event.source, 'detailsUrl')}><span data-tina-field={tinaField(copy, 'detailsLabel')}>{copy.detailsLabel}</span></a>}
             </div>

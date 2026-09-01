@@ -4,7 +4,10 @@ import { fileURLToPath } from "node:url";
 import { parse } from "yaml";
 import { normalizePageFrontmatter } from "../src/lib/page-frontmatter.mjs";
 import { normalizePublicHours } from "../src/lib/site-structured-data.mjs";
-import { selectUpcomingEventRecords } from "../src/lib/upcoming-events.mjs";
+import {
+	parseEventScheduleRecord,
+	selectUpcomingEventRecords,
+} from "../src/lib/upcoming-events.mjs";
 import {
 	allowedSiteHosts,
 	isAllowedSecureUrl,
@@ -217,7 +220,8 @@ if (site) {
 const eventSchedule = await readJson("src/content/events/events.json");
 if (eventSchedule) {
 	try {
-		selectUpcomingEventRecords(eventSchedule, new Date(0));
+		const parsedEventSchedule = parseEventScheduleRecord(eventSchedule);
+		selectUpcomingEventRecords(parsedEventSchedule, new Date(0));
 	} catch (error) {
 		report(error.message);
 	}

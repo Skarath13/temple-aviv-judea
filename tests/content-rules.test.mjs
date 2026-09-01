@@ -14,6 +14,7 @@ import {
 	parseSecureUrl,
 	validateAllowedHost,
 	validateEmailAddress,
+	validateRequiredText,
 	validateRootRelativePath,
 	validateSafeLink,
 	validateTelephoneLink,
@@ -327,4 +328,27 @@ test("editor validators accept empty optional values and explain invalid values"
 		assert.equal(typeof message, "string");
 		assert.ok(message.length > 0);
 	}
+});
+
+test("required text validation rejects empty and whitespace-only CMS values", () => {
+	assert.equal(
+		validateRequiredText("Community gathering", "Event name"),
+		undefined,
+	);
+	assert.equal(
+		validateRequiredText("  Community gathering  ", "Event name"),
+		undefined,
+	);
+	assert.equal(
+		validateRequiredText("", "Event name"),
+		"Event name cannot be blank.",
+	);
+	assert.equal(
+		validateRequiredText("   ", "Event name"),
+		"Event name cannot be blank.",
+	);
+	assert.equal(
+		validateRequiredText(null, "Event name"),
+		"Event name cannot be blank.",
+	);
 });

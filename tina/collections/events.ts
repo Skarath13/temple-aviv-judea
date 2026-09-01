@@ -1,5 +1,8 @@
 import type { Collection } from "tinacms";
-import { validateSafeLink } from "../../src/lib/content-rules.mjs";
+import {
+	validateRequiredText,
+	validateSafeLink,
+} from "../../src/lib/content-rules.mjs";
 
 export const EventCollection: Collection = {
 	name: "eventSchedule",
@@ -67,6 +70,9 @@ export const EventCollection: Collection = {
 					label: "Event name",
 					type: "string",
 					required: true,
+					ui: {
+						validate: (value) => validateRequiredText(value, "Event name"),
+					},
 				},
 				{
 					name: "startsAt",
@@ -109,12 +115,16 @@ export const EventCollection: Collection = {
 					label: "Location",
 					type: "string",
 					required: true,
+					ui: {
+						validate: (value) => validateRequiredText(value, "Location"),
+					},
 				},
 				{
 					name: "summary",
 					label: "Short description",
 					type: "string",
-					required: true,
+					description:
+						"Optional. Leave this blank when the event name, date, location, and image provide enough detail.",
 					ui: {
 						component: "textarea",
 					},
@@ -132,6 +142,10 @@ export const EventCollection: Collection = {
 					required: true,
 					description:
 						"Describe the meaningful content for visitors using a screen reader.",
+					ui: {
+						validate: (value) =>
+							validateRequiredText(value, "Image description"),
+					},
 				},
 				{
 					name: "detailsUrl",

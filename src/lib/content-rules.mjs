@@ -109,6 +109,11 @@ export const validateSafeLink = (value) => {
 		: "Use an HTTPS URL, a root-relative site path, an email link, a phone link, or an in-page # link.";
 };
 
+export const validateRequiredText = (value, fieldName = "This field") =>
+	typeof value === "string" && value.trim()
+		? undefined
+		: `${fieldName} cannot be blank.`;
+
 export const validateAllowedHost = (value, allowedHosts, serviceName) => {
 	if (!value) return undefined;
 	return isAllowedSecureUrl(value, allowedHosts)
