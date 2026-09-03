@@ -14,6 +14,16 @@
       "location": "Temple",
       "image": "/images/625144562.avif",
       "imageAlt": "apples and honey"
+    },
+    {
+      "published": true,
+      "title": "Yom Kippur",
+      "startsAt": "2026-09-21T06:34:11.421Z",
+      "endsAt": "2026-09-22T06:34:20.987Z",
+      "location": "Temple",
+      "summary": "Sunday Eve Kol Nidre service at 7pm\nMonday 5pm concluding service (breaking of the fast)",
+      "image": "/images/1061644482.avif",
+      "imageAlt": "man blowing shofar"
     }
   ]
 }
