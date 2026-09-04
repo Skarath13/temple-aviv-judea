@@ -73,6 +73,9 @@ export const EventCollection: Collection = {
 					label: "Starting date and time",
 					type: "datetime",
 					required: true,
+					ui: {
+						timeFormat: "HH:mm",
+					},
 				},
 				{
 					name: "endsAt",
