@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { normalizePageFrontmatter } from "../src/lib/page-frontmatter.mjs";
 import { resolveTinaBranch } from "../src/lib/tina/branch.mjs";
+import { EventCollection } from "../tina/collections/events.ts";
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), "utf8");
 
@@ -115,6 +116,25 @@ test("an empty event schedule remains visible with clear public copy", async () 
 	assert.match(events, /tinaField\(schedule, ['"]events['"]\)/);
 	assert.match(events, /No upcoming events\./);
 	assert.match(styles, /\.tina-empty-events\s*\{\s*display:\s*block/);
+});
+
+test("event date controls match the schema TinaCloud indexes", async () => {
+	const lock = JSON.parse(await read("tina/tina-lock.json"));
+	const lockedEvents = lock.schema.collections
+		.find((collection) => collection.name === EventCollection.name)
+		.fields.find((field) => field.name === "events");
+	const sourceEvents = EventCollection.fields.find(
+		(field) => field.name === "events",
+	);
+	const dateControls = (fields) =>
+		fields
+			.filter((field) => field.type === "datetime")
+			.map((field) => ({ name: field.name, ui: field.ui || {} }));
+	assert.deepEqual(
+		dateControls(lockedEvents.fields),
+		JSON.parse(JSON.stringify(dateControls(sourceEvents.fields))),
+		"Regenerate and commit tina/tina-lock.json when event date controls change.",
+	);
 });
 
 test("the event editor rejects blank required text before committing", async () => {

@@ -6426,6 +6426,7 @@
 								"label": "Starting date and time",
 								"type": "datetime",
 								"required": true,
+								"ui": { "timeFormat": "HH:mm" },
 								"namespace": ["eventSchedule", "events", "startsAt"],
 								"searchable": true,
 								"uid": false
