@@ -157,6 +157,30 @@ test("the event editor rejects blank required text before committing", async () 
 	assert.match(biomeConfig, /"formatter": \{\s*"enabled": false\s*\}/);
 });
 
+test("the ending-time picker preserves validation against the same event's start", () => {
+	const eventFields = EventCollection.fields.find(
+		(field) => field.name === "events",
+	).fields;
+	const endingField = eventFields.find((field) => field.name === "endsAt");
+	assert.equal(endingField.ui.timeFormat, "HH:mm");
+	assert.equal(typeof endingField.ui.validate, "function");
+	const allValues = {
+		events: [
+			{ startsAt: "2026-09-21T09:00:00-07:00" },
+			{ startsAt: "2026-09-21T18:00:00-07:00" },
+		],
+	};
+	const validate = (value) =>
+		endingField.ui.validate(value, allValues, {}, { name: "events.1.endsAt" });
+	for (const end of ["2026-09-21T17:59:00-07:00", "2026-09-22T01:00:00Z"]) {
+		assert.equal(validate(end), "The event must end after it starts.");
+	}
+	assert.equal(validate("invalid"), "Enter a valid ending date and time.");
+	assert.equal(validate("2026-09-21T18:01:00-07:00"), undefined);
+	assert.equal(validate("2026-09-22T00:30:00-07:00"), undefined);
+	assert.equal(validate(""), undefined);
+});
+
 test("the preview renderer stays an on-demand Tina route", async () => {
 	const [config, route] = await Promise.all([
 		read("astro.config.mjs"),
