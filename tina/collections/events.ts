@@ -91,6 +91,7 @@ export const EventCollection: Collection = {
 					description:
 						"The event automatically leaves the homepage after this time.",
 					ui: {
+						timeFormat: "HH:mm",
 						validate: (value, allValues, _meta, field) => {
 							if (!value) return undefined;
 							const fieldName = (field as { name?: string }).name;

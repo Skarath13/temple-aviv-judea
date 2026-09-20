@@ -6437,7 +6437,7 @@
 								"type": "datetime",
 								"required": true,
 								"description": "The event automatically leaves the homepage after this time.",
-								"ui": {},
+								"ui": { "timeFormat": "HH:mm" },
 								"namespace": ["eventSchedule", "events", "endsAt"],
 								"searchable": true,
 								"uid": false
