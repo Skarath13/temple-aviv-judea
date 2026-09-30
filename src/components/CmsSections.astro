@@ -54,7 +54,7 @@ const sectionKind = (section: CmsSection) => {
   if (kind === 'content') {
     return (
       <section class="section cms-content-section">
-        <div class="shell narrow content-card" data-reveal data-tina-field={tinaField(section)}>
+        <div class="shell narrow content-card" data-tina-field={tinaField(section)}>
           {section.eyebrow && <span class="eyebrow" data-tina-field={tinaField(section, 'eyebrow')}>{section.eyebrow}</span>}
           {section.heading && <h2 data-tina-field={tinaField(section, 'heading')}>{section.heading}</h2>}
           {section.body && <div class="cms-rich-text" data-tina-field={tinaField(section, 'body')}><TinaMarkdown content={section.body} /></div>}
@@ -67,7 +67,7 @@ const sectionKind = (section: CmsSection) => {
     const image = cmsImageSource(section.image || undefined);
     return (
       <section class="section cms-split-section">
-        <div class:list={['shell', 'cms-split-layout', section.imageSide === 'right' && 'image-right']} data-stagger data-tina-field={tinaField(section)}>
+        <div class:list={['shell', 'cms-split-layout', section.imageSide === 'right' && 'image-right']} data-tina-field={tinaField(section)}>
           {image && <img src={image} alt={section.imageAlt || ''} width="1200" height="900" loading="lazy" data-tina-field={tinaField(section, 'image')} />}
           <div>
             {section.eyebrow && <span class="eyebrow" data-tina-field={tinaField(section, 'eyebrow')}>{section.eyebrow}</span>}
@@ -83,12 +83,12 @@ const sectionKind = (section: CmsSection) => {
     return (
       <section class="section cms-cards-section">
         <div class="shell">
-          <div class="section-heading" data-reveal>
+          <div class="section-heading">
             {section.eyebrow && <span class="eyebrow" data-tina-field={tinaField(section, 'eyebrow')}>{section.eyebrow}</span>}
             {section.heading && <h2 data-tina-field={tinaField(section, 'heading')}>{section.heading}</h2>}
             {section.intro && <p data-tina-field={tinaField(section, 'intro')}>{section.intro}</p>}
           </div>
-          <div class="cms-card-grid" data-stagger>
+          <div class="cms-card-grid">
             {(section.items || []).map((item) => {
               if (!item) return null;
               const image = cmsImageSource(item.image || undefined);
@@ -112,11 +112,11 @@ const sectionKind = (section: CmsSection) => {
     return (
       <section class="section cms-gallery-section">
         <div class="shell">
-          <div class="section-heading" data-reveal>
+          <div class="section-heading">
             {section.eyebrow && <span class="eyebrow" data-tina-field={tinaField(section, 'eyebrow')}>{section.eyebrow}</span>}
             {section.heading && <h2 data-tina-field={tinaField(section, 'heading')}>{section.heading}</h2>}
           </div>
-          <div class="cms-gallery-grid" data-stagger>
+          <div class="cms-gallery-grid">
             {(section.images || []).map((item) => {
               if (!item) return null;
               const image = cmsImageSource(item.image || undefined);
@@ -137,7 +137,7 @@ const sectionKind = (section: CmsSection) => {
     const link = cmsLink(section.buttonUrl || undefined);
     return (
       <section class="cta-section cms-cta-section">
-        <div class="shell cta-inner" data-stagger data-tina-field={tinaField(section)}>
+        <div class="shell cta-inner" data-tina-field={tinaField(section)}>
           <div>
             {section.eyebrow && <span class="eyebrow" data-tina-field={tinaField(section, 'eyebrow')}>{section.eyebrow}</span>}
             {section.heading && <h2 data-tina-field={tinaField(section, 'heading')}>{section.heading}</h2>}

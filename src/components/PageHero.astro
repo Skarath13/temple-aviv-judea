@@ -2,19 +2,16 @@
 import { tinaField } from '@tinacms/astro/tina-field';
 
 interface Props {
-  eyebrow: string;
   title: string;
   intro: string;
   accent?: 'blue' | 'coral' | 'gold' | 'teal';
   data?: Record<string, unknown> | null;
 }
-const { eyebrow, title, intro, accent = 'blue', data } = Astro.props;
+const { title, intro, accent = 'blue', data } = Astro.props;
 ---
 
 <section class={`page-hero page-hero-${accent}`}>
-  <div class="page-hero-pattern" aria-hidden="true"></div>
   <div class="shell page-hero-inner">
-    <span class="eyebrow" data-tina-field={tinaField(data, 'eyebrow')}>{eyebrow}</span>
     <h1 data-tina-field={tinaField(data, 'title')}>{title}</h1>
     <p data-tina-field={tinaField(data, 'intro')}>{intro}</p>
   </div>

@@ -29,12 +29,12 @@ const formatStart = (startsAt: string) =>
 {visibleEvents.length > 0 && (
   <section class="section upcoming-events-section" aria-labelledby="upcoming-events-title" data-upcoming-events-section>
     <div class="shell">
-      <div class="section-heading light" data-reveal>
+      <div class="section-heading light">
         <span class="eyebrow eyebrow-light" data-tina-field={tinaField(copy, 'eyebrow')}>{copy.eyebrow}</span>
         <h2 id="upcoming-events-title" data-tina-field={tinaField(copy, 'heading')}>{copy.heading}</h2>
         <p data-tina-field={tinaField(copy, 'intro')}>{copy.intro}</p>
       </div>
-      <div class="upcoming-events-grid" data-stagger>
+      <div class="upcoming-events-grid">
         {visibleEvents.map((event) => (
           <article class="upcoming-event-card" data-event-ends-at={event.endsAt} data-tina-field={tinaField(event.source)}>
             <div class="upcoming-event-image">

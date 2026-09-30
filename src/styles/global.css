@@ -2,7 +2,7 @@
 	--ink: #14253a;
 	--blue: #123d69;
 	--blue-deep: #092846;
-	--azure: #1c82b7;
+	--azure: #17638c;
 	--teal: #1ba6a0;
 	--coral: #ef675f;
 	--gold: #f5c14e;
@@ -12,8 +12,8 @@
 	--white: #fff;
 	--muted: #5c6773;
 	--line: rgba(18, 61, 105, 0.15);
-	--shadow: 0 24px 70px rgba(12, 43, 72, 0.14);
-	--radius: 1.5rem;
+	--shadow: 0 8px 24px rgba(12, 43, 72, 0.09);
+	--radius: 1rem;
 	--shell: min(
 		1180px,
 		calc(
@@ -730,20 +730,6 @@ p {
 		rgba(var(--overlay-rgb), 0.97) 100%
 	);
 }
-.value-card::after {
-	content: "";
-	position: absolute;
-	z-index: 1;
-	width: 220px;
-	height: 220px;
-	right: -90px;
-	bottom: -100px;
-	border: 1px solid rgba(255, 255, 255, 0.2);
-	border-radius: 50%;
-	box-shadow:
-		0 0 0 22px rgba(255, 255, 255, 0.04),
-		0 0 0 48px rgba(255, 255, 255, 0.03);
-}
 .value-card > :not(.value-card-art) {
 	position: relative;
 	z-index: 2;
@@ -767,11 +753,7 @@ p {
 	--overlay-rgb: 55, 34, 83;
 	background: var(--violet);
 }
-.value-number {
-	float: right;
-	color: rgba(255, 255, 255, 0.65);
-	font-weight: 700;
-}
+
 .value-icon {
 	display: grid;
 	place-items: center;
@@ -1075,19 +1057,6 @@ p {
 	background: var(--violet);
 	color: var(--white);
 }
-.ministries-preview::before {
-	content: "";
-	position: absolute;
-	width: min(46vw, 650px);
-	aspect-ratio: 1;
-	right: -12%;
-	top: -45%;
-	border: 1px solid rgba(255, 255, 255, 0.12);
-	border-radius: 50%;
-	box-shadow:
-		0 0 0 50px rgba(255, 255, 255, 0.035),
-		0 0 0 100px rgba(255, 255, 255, 0.025);
-}
 .ministries-preview-inner {
 	position: relative;
 	z-index: 1;
@@ -1111,12 +1080,12 @@ p {
 	margin-top: 0.35rem;
 }
 .ministries-preview-directory {
-	padding: clamp(2rem, 4vw, 3rem);
-	border: 1px solid rgba(255, 255, 255, 0.22);
-	border-radius: var(--radius);
-	background: rgba(255, 255, 255, 0.08);
-	box-shadow: 0 24px 60px rgba(43, 24, 72, 0.18);
-	backdrop-filter: blur(10px);
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	box-shadow: none;
+	backdrop-filter: none;
 }
 .ministries-preview-directory > .eyebrow {
 	margin-bottom: 1.25rem;
@@ -1129,16 +1098,17 @@ p {
 .ministry-pills span {
 	display: flex;
 	align-items: center;
-	min-height: 3.6rem;
-	padding: 0.8rem 1rem;
-	border: 1px solid rgba(255, 255, 255, 0.3);
-	border-radius: 0.9rem;
-	background: rgba(255, 255, 255, 0.08);
+	min-height: 0;
+	padding: 0.7rem 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
 	font-weight: 700;
 	line-height: 1.25;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.25);
 }
 .ministry-pills span:last-child:nth-child(odd) {
-	grid-column: 1 / -1;
+	grid-column: auto;
 }
 
 /* Inner page hero */
@@ -1148,41 +1118,6 @@ p {
 	overflow: hidden;
 	background: var(--cream);
 }
-.page-hero::after {
-	content: "";
-	position: absolute;
-	width: min(52vw, 750px);
-	aspect-ratio: 1;
-	right: -12vw;
-	top: -45%;
-	border-radius: 50%;
-	opacity: 0.85;
-}
-.page-hero-blue::after {
-	background: var(--azure);
-}
-.page-hero-coral::after {
-	background: var(--coral);
-}
-.page-hero-gold::after {
-	background: var(--gold);
-}
-.page-hero-teal::after {
-	background: var(--teal);
-}
-.page-hero-pattern {
-	position: absolute;
-	inset: 0;
-	opacity: 0.2;
-	background: radial-gradient(
-		circle at 90% 20%,
-		transparent 0 18%,
-		var(--paper) 18.2% 18.6%,
-		transparent 18.8% 25%,
-		var(--paper) 25.2% 25.5%,
-		transparent 25.7%
-	);
-}
 .page-hero-inner {
 	position: relative;
 	z-index: 1;
@@ -1191,7 +1126,7 @@ p {
 	max-width: 1040px;
 	margin-bottom: 1.25rem;
 	color: var(--blue);
-	font-size: clamp(3rem, 6.25vw, 6.25rem);
+	font-size: clamp(2.75rem, 5.5vw, 5rem);
 }
 .page-hero p {
 	max-width: 790px;
@@ -1296,7 +1231,7 @@ p {
 }
 .content-stack {
 	display: grid;
-	gap: 1rem;
+	gap: 0;
 }
 .content-card {
 	padding: clamp(2rem, 5vw, 3.5rem);
@@ -1359,7 +1294,7 @@ p {
 }
 .location-section {
 	padding: 5rem 0;
-	background: var(--coral);
+	background: #b8423d;
 	color: var(--white);
 }
 .location-grid {
@@ -1522,13 +1457,14 @@ p {
 }
 .prose-large {
 	position: relative;
-	text-align: center;
+	max-width: 70ch;
+	text-align: left;
 }
 .prose-large p {
 	margin-bottom: 0;
 	color: var(--blue);
-	font-family: "Eagle Lake", serif;
-	font-size: clamp(1.55rem, 3.4vw, 2.5rem);
+	font-family: "DM Sans", sans-serif;
+	font-size: clamp(1.2rem, 2vw, 1.4rem);
 	line-height: 1.55;
 }
 .drop-mark {
@@ -1579,6 +1515,7 @@ p {
 	box-shadow: 0 0 0 1px var(--coral);
 }
 .timeline-content {
+	min-width: 0;
 	max-width: 780px;
 }
 .timeline-content h2 {
@@ -1641,10 +1578,11 @@ p {
 }
 .leadership-card {
 	min-height: 220px;
-	padding: clamp(2rem, 4vw, 3rem);
-	border: 1px solid var(--line);
-	border-radius: var(--radius);
-	background: var(--white);
+	padding: 1.5rem 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	border-top: 1px solid var(--line);
 }
 .leadership-card h3 {
 	margin-bottom: 0;
@@ -1698,8 +1636,7 @@ p {
 }
 .unity-callout {
 	padding: clamp(2.5rem, 6vw, 4.5rem);
-	border-left: 6px solid var(--gold);
-	border-radius: 0 var(--radius) var(--radius) 0;
+	border-radius: var(--radius);
 	background: var(--cream);
 }
 .unity-callout blockquote {
@@ -1788,21 +1725,19 @@ p {
 	grid-template-columns: repeat(2, minmax(0, 1fr));
 	border-top: 1px solid var(--line);
 	border-left: 1px solid var(--line);
+	gap: 2rem 3rem;
+	border: 0;
 }
 .belief-grid article {
 	display: flex;
-	min-height: 360px;
-	padding: clamp(2rem, 4vw, 3rem);
+	min-height: 0;
+	padding: 1.75rem 0;
 	flex-direction: column;
 	border-right: 1px solid var(--line);
 	border-bottom: 1px solid var(--line);
-	background: var(--white);
-}
-.belief-grid article > span {
-	display: inline-block;
-	margin-bottom: 2.5rem;
-	color: var(--coral);
-	font-weight: 700;
+	background: transparent;
+	border: 0;
+	border-top: 1px solid var(--line);
 }
 .belief-grid h3 {
 	color: var(--blue);
@@ -1814,8 +1749,8 @@ p {
 .belief-grid .scripture-references {
 	display: grid;
 	gap: 0.35rem;
-	margin-top: auto;
-	padding-top: 2rem;
+	margin-top: 1.25rem;
+	padding-top: 0;
 	color: var(--blue);
 	font-size: 0.88rem;
 	line-height: 1.5;
@@ -1828,7 +1763,7 @@ p {
 }
 .pillars-section {
 	padding: 8rem 0;
-	background: var(--teal);
+	background: #0e6863;
 	color: var(--white);
 }
 .section-heading.light h2 {
@@ -1906,26 +1841,6 @@ p {
 .core-value-detail:last-child {
 	border-bottom: 0;
 }
-.core-value-detail > header > span {
-	display: grid;
-	width: 3rem;
-	height: 3rem;
-	margin-bottom: 2rem;
-	place-items: center;
-	border: 1px solid var(--coral);
-	border-radius: 50%;
-	color: var(--coral);
-	font-size: 0.78rem;
-	font-weight: 700;
-}
-.core-value-detail > header > p {
-	margin-bottom: 0.5rem;
-	color: var(--azure);
-	font-size: 0.75rem;
-	font-weight: 700;
-	letter-spacing: 0.15em;
-	text-transform: uppercase;
-}
 .core-value-detail > header h2 {
 	color: var(--blue);
 	font-size: clamp(2.7rem, 4vw, 3rem);
@@ -1950,10 +1865,11 @@ p {
 .prayer-practices li {
 	display: grid;
 	gap: 0.35rem;
-	padding: 1.5rem;
-	border: 1px solid var(--line);
-	border-radius: 1rem;
-	background: var(--white);
+	padding: 1.5rem 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	border-top: 1px solid var(--line);
 }
 .prayer-practices strong {
 	color: var(--blue);
@@ -1967,10 +1883,11 @@ p {
 	gap: 1rem;
 }
 .value-detail-grid > section {
-	padding: clamp(1.6rem, 4vw, 2.4rem);
-	border: 1px solid var(--line);
-	border-radius: var(--radius);
-	background: var(--white);
+	padding: 1.5rem 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	border-top: 1px solid var(--line);
 }
 .value-detail-grid h3 {
 	color: var(--blue);
@@ -2187,11 +2104,12 @@ p {
 .paypal-give-panel {
 	max-width: 580px;
 	margin-top: 2rem;
-	padding: 1.15rem;
-	border: 1px solid rgba(0, 48, 135, 0.16);
-	border-radius: 1.35rem;
-	background: #f3f8ff;
-	box-shadow: 0 16px 40px rgba(0, 48, 135, 0.08);
+	padding: 1.5rem 0 0;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	box-shadow: none;
+	border-top: 1px solid var(--line);
 }
 .paypal-button-grid {
 	display: grid;
@@ -2303,10 +2221,6 @@ p {
 	padding: 1rem 0;
 	border-bottom: 1px solid rgba(255, 255, 255, 0.16);
 }
-.give-card li span {
-	color: #ffd775;
-	font-weight: 700;
-}
 
 /* Footer */
 .site-footer {
@@ -2315,18 +2229,6 @@ p {
 	overflow: hidden;
 	background: var(--blue-deep);
 	color: var(--white);
-}
-.footer-art {
-	position: absolute;
-	width: 620px;
-	height: 620px;
-	right: -180px;
-	top: -300px;
-	border: 1px solid rgba(255, 255, 255, 0.12);
-	border-radius: 50%;
-	box-shadow:
-		0 0 0 55px rgba(255, 255, 255, 0.025),
-		0 0 0 110px rgba(255, 255, 255, 0.02);
 }
 .footer-grid {
 	position: relative;
@@ -2550,32 +2452,7 @@ p {
 	font-size: 0.9rem;
 }
 
-/* Motion system */
-@view-transition {
-	navigation: auto;
-}
-
-::view-transition-old(root) {
-	animation: page-out 0.18s ease both;
-}
-::view-transition-new(root) {
-	animation: page-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-.scroll-progress {
-	--scroll-progress: 0;
-	position: fixed;
-	z-index: 1000;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 3px;
-	pointer-events: none;
-	background: linear-gradient(90deg, var(--gold), #ffd775 52%, var(--coral));
-	box-shadow: 0 0 14px rgba(245, 193, 78, 0.38);
-	transform: scaleX(var(--scroll-progress));
-	transform-origin: left center;
-}
+/* Navigation controls */
 .back-to-top {
 	position: fixed;
 	z-index: 40;
@@ -2624,301 +2501,43 @@ p {
 	transform: scale(0.94);
 }
 
-.button,
-.paypal-give-button {
-	position: relative;
-	overflow: hidden;
-	isolation: isolate;
+/* Reading sections use spacing and rules instead of repeated boxes. */
+.visit-grid .content-card {
+	padding: 2rem 0;
+	border: 0;
+	border-bottom: 1px solid var(--line);
+	border-radius: 0;
+	background: transparent;
 }
-.button::before,
-.paypal-give-button::before {
-	content: "";
-	position: absolute;
-	inset: -45% auto -45% -45%;
-	width: 30%;
-	pointer-events: none;
-	background: linear-gradient(
-		90deg,
-		transparent,
-		rgba(255, 255, 255, 0.38),
-		transparent
-	);
-	opacity: 0;
-	transform: skewX(-18deg) translateX(-220%);
-	transition:
-		transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
-		opacity 0.2s ease;
+.visit-grid .content-card:first-child {
+	padding-top: 0;
 }
-.button:active,
-.paypal-give-button:active {
-	transform: translateY(0) scale(0.98);
+.visit-grid .content-card:last-child {
+	border-bottom: 0;
+}
+.value-card:hover,
+.pillar-card:hover,
+.recordings-card:hover {
+	outline: 2px solid var(--gold);
+	outline-offset: 3px;
 }
 
-.live-dot {
-	animation: live-pulse 2.4s ease-out infinite;
+/* A single entrance on the homepage; all reading content is visible by default. */
+.motion-ready .home-hero .hero-copy {
+	animation: hero-enter 0.45s ease-out;
 }
-.page-hero-pattern {
-	animation: pattern-drift 14s ease-in-out infinite alternate;
-}
-.footer-art {
-	animation: orb-drift 16s ease-in-out infinite alternate;
-}
-
-.motion-ready .site-header {
-	animation: header-in 0.68s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-.motion-ready .home-hero .hero-picture img {
-	animation: hero-breathe 16s ease-in-out infinite alternate;
-}
-.motion-ready .home-hero .hero-copy > *,
-.motion-ready .home-hero .hero-location,
-.motion-ready .page-hero-inner > * {
-	opacity: 0;
-	animation: load-rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-.motion-ready .home-hero .hero-copy > .eyebrow,
-.motion-ready .page-hero-inner > .eyebrow {
-	animation-name: label-in;
-}
-.motion-ready .page-hero-inner > :nth-child(1) {
-	animation-delay: 0.12s;
-}
-.motion-ready .page-hero-inner > :nth-child(2) {
-	animation-delay: 0.22s;
-}
-.motion-ready .page-hero-inner > :nth-child(3) {
-	animation-delay: 0.36s;
-}
-.motion-ready .home-hero .hero-copy > :nth-child(1) {
-	animation-delay: 0.18s;
-}
-.motion-ready .home-hero .hero-copy > :nth-child(2) {
-	animation-delay: 0.28s;
-}
-.motion-ready .home-hero .hero-copy > :nth-child(3) {
-	animation-delay: 0.4s;
-}
-.motion-ready .home-hero .hero-copy > :nth-child(4) {
-	animation-delay: 0.52s;
-}
-.motion-ready .home-hero .hero-location {
-	animation-delay: 0.65s;
-}
-
-.motion-ready [data-reveal],
-.motion-ready [data-stagger] > * {
-	opacity: 0;
-	transform: translate3d(0, 28px, 0);
-	transition:
-		opacity 0.72s ease,
-		transform 0.82s cubic-bezier(0.22, 1, 0.36, 1),
-		clip-path 0.95s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.motion-ready [data-reveal="left"] {
-	transform: translate3d(-34px, 0, 0);
-}
-.motion-ready [data-reveal="right"] {
-	transform: translate3d(34px, 0, 0);
-}
-.motion-ready [data-reveal="scale"] {
-	transform: scale(0.96);
-}
-.motion-ready [data-reveal="wipe"] {
-	clip-path: inset(0 100% 0 0 round var(--radius));
-	transform: scale(1.015);
-}
-.motion-ready [data-reveal].is-visible,
-.motion-ready [data-stagger].is-visible > * {
-	opacity: 1;
-	transform: none;
-}
-.motion-ready [data-reveal="wipe"].is-visible {
-	clip-path: inset(-1rem);
-}
-.motion-ready [data-stagger].is-visible > :nth-child(1) {
-	transition-delay: 0.03s;
-}
-.motion-ready [data-stagger].is-visible > :nth-child(2) {
-	transition-delay: 0.11s;
-}
-.motion-ready [data-stagger].is-visible > :nth-child(3) {
-	transition-delay: 0.19s;
-}
-.motion-ready [data-stagger].is-visible > :nth-child(4) {
-	transition-delay: 0.27s;
-}
-.motion-ready [data-stagger].is-visible > :nth-child(5) {
-	transition-delay: 0.35s;
-}
-.motion-ready [data-stagger].is-visible > :nth-child(6) {
-	transition-delay: 0.43s;
-}
-.motion-ready [data-reveal].is-visible .eyebrow,
-.motion-ready [data-stagger].is-visible > * .eyebrow {
-	animation: label-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both 0.18s;
-}
-
-@keyframes page-out {
-	to {
-		opacity: 0;
-		transform: translateY(-5px);
-	}
-}
-
-@keyframes page-in {
+@keyframes hero-enter {
 	from {
-		opacity: 0;
 		transform: translateY(8px);
 	}
-}
-
-@keyframes header-in {
-	from {
-		opacity: 0;
-		transform: translateY(-18px);
+	to {
+		transform: none;
 	}
 }
-
 @keyframes menu-in {
 	from {
 		opacity: 0;
-		transform: translateY(-8px) scale(0.97);
-	}
-}
-
-@keyframes load-rise {
-	from {
-		opacity: 0;
-		transform: translate3d(0, 24px, 0);
-	}
-	to {
-		opacity: 1;
-		transform: none;
-	}
-}
-
-@keyframes label-in {
-	from {
-		opacity: 0;
-		clip-path: inset(0 100% 0 0);
-		letter-spacing: 0.25em;
-		transform: translateY(7px);
-	}
-	to {
-		opacity: 1;
-		clip-path: inset(0);
-		transform: none;
-	}
-}
-
-@keyframes hero-breathe {
-	from {
-		transform: scale(1.015);
-	}
-	to {
-		transform: scale(1.055) translate3d(-.35%, -.25%, 0);
-	}
-}
-
-@keyframes live-pulse {
-	0%,
-	55% {
-		box-shadow:
-			0 0 0 2px rgba(255, 255, 255, 0.15),
-			0 0 0 0 rgba(255, 255, 255, 0.28);
-	}
-	100% {
-		box-shadow:
-			0 0 0 2px rgba(255, 255, 255, 0.15),
-			0 0 0 8px rgba(255, 255, 255, 0);
-	}
-}
-
-@keyframes pattern-drift {
-	to {
-		transform: translate3d(-1.2%, 1%, 0) scale(1.02);
-	}
-}
-
-@keyframes orb-drift {
-	to {
-		transform: translate3d(-18px, 16px, 0) scale(1.035);
-	}
-}
-
-@media (hover: hover) and (pointer: fine) {
-	.button:hover::before,
-	.paypal-give-button:hover::before {
-		opacity: 1;
-		transform: skewX(-18deg) translateX(650%);
-	}
-	.value-card,
-	.expect-grid article,
-	.live-moments-grid figure,
-	.recordings-card,
-	.location-card,
-	.content-card,
-	.belief-grid article,
-	.pillar-card,
-	.ministry-card,
-	.cms-gallery-grid figure,
-	.give-card,
-	.paypal-give-panel {
-		transition:
-			transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-			box-shadow 0.4s ease;
-	}
-	.value-card:hover,
-	.expect-grid article:hover,
-	.live-moments-grid figure:hover,
-	.recordings-card:hover,
-	.location-card:hover,
-	.content-card:hover,
-	.pillar-card:hover,
-	.ministry-card:hover,
-	.cms-gallery-grid figure:hover,
-	.give-card:hover,
-	.paypal-give-panel:hover {
-		transform: translateY(-6px);
-		box-shadow: 0 28px 74px rgba(12, 43, 72, 0.19);
-	}
-	.belief-grid article:hover {
-		transform: translateY(-4px);
-		box-shadow:
-			inset 0 3px 0 var(--gold),
-			0 18px 40px rgba(12, 43, 72, 0.1);
-	}
-	.value-card-art,
-	.expect-card-art,
-	.live-moments-grid img,
-	.building-card img,
-	.ministry-card.has-photo > img,
-	.cms-gallery-grid img,
-	.give-photo,
-	.rabbi-grid > img {
-		transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-	}
-	.value-card:hover .value-card-art,
-	.expect-grid article:hover .expect-card-art,
-	.live-moments-grid figure:hover img,
-	.recordings-card:hover img,
-	.building-card:hover img,
-	.ministry-card.has-photo:hover > img,
-	.cms-gallery-grid figure:hover img,
-	.give-card:hover .give-photo,
-	.rabbi-grid > img:hover {
-		transform: scale(1.035);
-	}
-	.ministry-pills span {
-		transition:
-			transform 0.25s ease,
-			background 0.25s ease,
-			border-color 0.25s ease;
-	}
-	.ministry-pills span:hover {
-		transform: translateY(-3px);
-		border-color: rgba(255, 255, 255, 0.7);
-		background: rgba(255, 255, 255, 0.15);
+		transform: translateY(-8px);
 	}
 }
 
@@ -3008,11 +2627,6 @@ p {
 	.ministries-preview {
 		padding: 4.5rem 0;
 	}
-	.ministries-preview::before {
-		width: 88vw;
-		right: -48%;
-		top: -12%;
-	}
 	.ministries-preview-inner {
 		gap: 2.25rem;
 	}
@@ -3026,8 +2640,7 @@ p {
 		font-size: 1rem;
 	}
 	.ministries-preview-directory {
-		padding: 1.4rem;
-		border-radius: 1.15rem;
+		padding: 0;
 	}
 	.ministries-preview-directory > .eyebrow {
 		margin-bottom: 1rem;
@@ -3036,8 +2649,8 @@ p {
 		gap: 0.6rem;
 	}
 	.ministry-pills span {
-		min-height: 3.35rem;
-		padding: 0.7rem 0.8rem;
+		min-height: 0;
+		padding: 0.7rem 0;
 		font-size: 0.9rem;
 	}
 	.header-main {
@@ -3115,10 +2728,6 @@ p {
 	}
 	.home-hero[data-hero-video-state="playing"] .hero-video-poster {
 		opacity: 0;
-	}
-	.motion-ready .home-hero .hero-picture img {
-		animation: none;
-		transform: none;
 	}
 	.hero-picture img {
 		object-position: center;
@@ -3282,11 +2891,6 @@ p {
 	.page-hero p {
 		font-size: clamp(1.05rem, 4.6vw, 1.15rem);
 	}
-	.page-hero::after {
-		width: 400px;
-		right: -270px;
-		top: -100px;
-	}
 	.belief-summary .split-layout {
 		grid-template-columns: 1fr;
 		gap: 2.5rem;
@@ -3304,7 +2908,7 @@ p {
 		flex-direction: column;
 	}
 	.visit-grid .content-card {
-		padding: 1.5rem;
+		padding: 1.5rem 0;
 	}
 	.feature-card h2 {
 		font-size: clamp(1.95rem, 8.6vw, 2.25rem);
@@ -3336,7 +2940,7 @@ p {
 		left: 7px;
 	}
 	.timeline-entry {
-		grid-template-columns: 1fr;
+		grid-template-columns: minmax(0, 1fr);
 		gap: 1rem;
 		padding: 3rem 0 3rem 2rem;
 	}
@@ -3347,8 +2951,14 @@ p {
 		left: -32px;
 		right: auto;
 	}
+	.timeline-content h2 {
+		font-size: clamp(1.65rem, 6.5vw, 2.3rem);
+	}
 	.featured-entry .timeline-content {
 		padding: 2rem;
+	}
+	.pillars-section h2 {
+		font-size: clamp(2rem, 8vw, 3.25rem);
 	}
 	.rabbi-grid {
 		grid-template-columns: 1fr;
@@ -3365,14 +2975,8 @@ p {
 	.belief-grid article {
 		min-height: auto;
 	}
-	.belief-grid article > span {
-		margin-bottom: 2rem;
-	}
 	.unity-section {
 		padding-bottom: 5rem;
-	}
-	.unity-callout {
-		border-left-width: 4px;
 	}
 	.live-banner-section {
 		padding-bottom: 6rem;
@@ -3464,26 +3068,11 @@ p {
 	.footer-bottom-links {
 		justify-content: flex-start;
 	}
-	.scroll-progress {
-		height: 2px;
-	}
 	.back-to-top {
 		right: calc(1rem + env(safe-area-inset-right, 0px));
 		bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
 		width: 3.15rem;
 		height: 3.15rem;
-	}
-	.motion-ready [data-reveal],
-	.motion-ready [data-stagger] > * {
-		transform: translate3d(0, 20px, 0);
-		transition-duration: 0.65s, 0.72s, 0.82s;
-	}
-	.motion-ready [data-reveal="left"],
-	.motion-ready [data-reveal="right"] {
-		transform: translate3d(0, 20px, 0);
-	}
-	.motion-ready [data-reveal="scale"] {
-		transform: scale(0.97);
 	}
 }
 
@@ -3504,30 +3093,23 @@ p {
 }
 
 @media (prefers-reduced-motion: reduce) {
-	html {
-		scroll-behavior: auto;
-	}
-	*,
-	*::before,
-	*::after {
-		scroll-behavior: auto !important;
-		animation-duration: 0.01ms !important;
-		animation-iteration-count: 1 !important;
-		transition-duration: 0.01ms !important;
-	}
-	.scroll-progress {
-		display: none;
+	.motion-ready .home-hero .hero-copy,
+	.mobile-menu nav {
+		animation: none;
 	}
 	.hero-video {
 		display: none;
 	}
-	.motion-ready [data-reveal],
-	.motion-ready [data-stagger] > *,
-	.motion-ready .home-hero .hero-copy > *,
-	.motion-ready .home-hero .hero-location,
-	.motion-ready .page-hero-inner > * {
-		opacity: 1 !important;
-		clip-path: none !important;
-		transform: none !important;
+	.button,
+	.paypal-give-button,
+	.back-to-top {
+		transition:
+			background-color 0.2s ease,
+			color 0.2s ease;
+	}
+	.button:hover,
+	.paypal-give-button:hover,
+	.back-to-top {
+		transform: none;
 	}
 }

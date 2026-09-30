@@ -192,7 +192,7 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
 </script>
 
 <section class="schedule-strip" aria-label="Saturday schedule">
-  <div class="shell schedule-grid" data-stagger>
+  <div class="shell schedule-grid">
     <div class="schedule-heading">
       <span class="schedule-icon"><SiteIcon name="menorah" size={25} /></span>
       <span>
@@ -211,9 +211,8 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
 </section>
 
 <section class="section welcome-section">
-  <div class="shell split-layout welcome-layout" data-stagger>
+  <div class="shell split-layout welcome-layout">
     <div>
-      <span class="eyebrow" data-tina-field={tinaField(welcome, 'eyebrow')}>{welcome.eyebrow}</span>
       <h2 data-tina-field={tinaField(welcome, 'headingLines')}>
         {welcome.headingLines?.map((line) => <span>{line}</span>)}
       </h2>
@@ -224,8 +223,8 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
       {welcomeUrl && <a class="arrow-link" href={welcomeUrl} data-tina-field={tinaField(welcome, 'linkLabel')}>{welcome.linkLabel} <SiteIcon name="arrow-right" size={19} /></a>}
     </div>
   </div>
-  <div class="shell value-ribbon" data-stagger>
-    {welcome.values?.map((value, index) => {
+  <div class="shell value-ribbon">
+    {welcome.values?.map((value) => {
       const style = value && value.kind
         ? valueStyles[value.kind as keyof typeof valueStyles]
         : undefined;
@@ -233,7 +232,6 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
       return (
         <a class={`value-card ${style.className}`} href={cmsLink(style.href)}>
           <img class="value-card-art" src={cmsImageSource(value.image)} alt="" width="720" height="640" loading="lazy" data-tina-field={tinaField(value, 'image')} />
-          <span class="value-number">{String(index + 1).padStart(2, '0')}</span>
           <div class="value-icon"><SiteIcon name={style.icon} size={32} /></div>
           <h3 data-tina-field={tinaField(value, 'title')}>{value.title}</h3>
           <p data-tina-field={tinaField(value, 'text')}>{value.text}</p>
@@ -244,11 +242,10 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
 </section>
 
 <section class="art-story-section">
-  <div class="art-panel" data-reveal="wipe">
+  <div class="art-panel">
     <img src={cmsImageSource(storyFeature.image)} alt={storyFeature.imageAlt} width="1672" height="941" loading="lazy" data-tina-field={tinaField(storyFeature, 'image')} />
   </div>
-  <div class="art-story-copy" data-reveal="right">
-    <span class="eyebrow eyebrow-light" data-tina-field={tinaField(storyFeature, 'eyebrow')}>{storyFeature.eyebrow}</span>
+  <div class="art-story-copy">
     <h2 data-tina-field={tinaField(storyFeature, 'headingLines')}>
       {storyFeature.headingLines?.map((line, index) => <>{index > 0 && <br />}{index === storyFeature.headingLines!.length - 1 ? <em>{line}</em> : line}</>)}
     </h2>
@@ -266,12 +263,11 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
 
 <section class="section visit-preview">
   <div class="shell">
-    <div class="section-heading centered" data-reveal>
-      <span class="eyebrow" data-tina-field={tinaField(visitPreview, 'eyebrow')}>{visitPreview.eyebrow}</span>
+    <div class="section-heading centered">
       <h2 data-tina-field={tinaField(visitPreview, 'heading')}>{visitPreview.heading}</h2>
       <p data-tina-field={tinaField(visitPreview, 'intro')}>{visitPreview.intro}</p>
     </div>
-    <div class="expect-grid" data-stagger>
+    <div class="expect-grid">
       {visitPreview.items?.map((item) => {
         const style = item && item.kind
           ? expectStyles[item.kind as keyof typeof expectStyles]
@@ -287,7 +283,7 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
         );
       })}
     </div>
-    {previewUrl && <div class="centered-action" data-reveal="scale"><a class="button" href={previewUrl} data-tina-field={tinaField(visitPreview, 'buttonLabel')}>{visitPreview.buttonLabel}</a></div>}
+    {previewUrl && <div class="centered-action"><a class="button" href={previewUrl} data-tina-field={tinaField(visitPreview, 'buttonLabel')}>{visitPreview.buttonLabel}</a></div>}
   </div>
 </section>
 
@@ -295,12 +291,11 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
 
 <section class="section live-moments-section">
   <div class="shell">
-    <div class="section-heading" data-reveal>
-      <span class="eyebrow" data-tina-field={tinaField(community, 'eyebrow')}>{community.eyebrow}</span>
+    <div class="section-heading">
       <h2 data-tina-field={tinaField(community, 'heading')}>{community.heading}</h2>
       <p data-tina-field={tinaField(community, 'intro')}>{community.intro}</p>
     </div>
-    <div class="live-moments-grid" data-stagger>
+    <div class="live-moments-grid">
       {community.moments?.map((moment) => moment && (
         <figure data-tina-field={tinaField(moment)}>
           <img src={cmsImageSource(moment.image)} alt={moment.imageAlt} width="1200" height="1200" loading="lazy" data-tina-field={tinaField(moment, 'image')} />
@@ -317,14 +312,13 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
 
 <section class="section home-location-section">
   <div class="shell">
-    <div class="home-location-heading" data-stagger>
+    <div class="home-location-heading">
       <div>
-        <span class="eyebrow" data-tina-field={tinaField(location, 'eyebrow')}>{location.eyebrow}</span>
         <h2 data-tina-field={tinaField(location, 'headingLines')}>{location.headingLines?.map((line, index) => <>{index > 0 && <br />}{line}</>)}</h2>
       </div>
       <p data-tina-field={tinaField(location, 'body')}>{location.body}</p>
     </div>
-    <div class="home-location-grid" data-stagger>
+    <div class="home-location-grid">
       <figure class="location-card building-card">
         <picture data-tina-field={tinaField(location, 'desktopImage')}>
           <source media="(max-width: 760px)" srcset={cmsImageSource(location.mobileImage)} />
@@ -348,15 +342,13 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
 </section>
 
 <section class="ministries-preview">
-  <div class="shell ministries-preview-inner" data-stagger>
+  <div class="shell ministries-preview-inner">
     <div class="ministries-preview-copy">
-      <span class="eyebrow eyebrow-light" data-tina-field={tinaField(ministriesPromo, 'eyebrow')}>{ministriesPromo.eyebrow}</span>
       <h2 data-tina-field={tinaField(ministriesPromo, 'heading')}>{ministriesPromo.heading}</h2>
       <p data-tina-field={tinaField(ministriesPromo, 'body')}>{ministriesPromo.body}</p>
       {ministriesUrl && <a class="arrow-link arrow-link-light" href={ministriesUrl} data-tina-field={tinaField(ministriesPromo, 'linkLabel')}>{ministriesPromo.linkLabel} <SiteIcon name="arrow-right" size={19} /></a>}
     </div>
     <div class="ministries-preview-directory">
-      <span class="eyebrow eyebrow-light" data-tina-field={tinaField(ministriesPromo, 'directoryEyebrow')}>{ministriesPromo.directoryEyebrow}</span>
       <div class="ministry-pills" aria-label="Ministries" data-tina-field={tinaField(ministriesPromo, 'ministries')}>
         {ministriesPromo.ministries?.map((ministry) => <span>{ministry}</span>)}
       </div>

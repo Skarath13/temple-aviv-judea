@@ -19,18 +19,17 @@ const supportPanel = page.supportPanel!;
 const givingUrl = cmsPayPalLink(site.giving);
 ---
 
-<PageHero eyebrow={hero.eyebrow} title={hero.title} intro={hero.intro} accent={hero.accent as 'blue' | 'coral' | 'gold' | 'teal'} data={hero} />
+<PageHero title={hero.title} intro={hero.intro} accent={hero.accent as 'blue' | 'coral' | 'gold' | 'teal'} data={hero} />
 
 <section class="mosaic-feature mosaic-gold" aria-label="Giving artwork">
-  <div class="shell mosaic-frame" data-reveal="wipe">
+  <div class="shell mosaic-frame">
     <img src={cmsImageSource(banner.image)} alt={banner.imageAlt} width="1800" height="630" data-tina-field={tinaField(banner, 'image')} />
   </div>
 </section>
 
 <section class="section give-section">
-  <div class="shell give-grid" data-stagger>
+  <div class="shell give-grid">
     <div>
-      <span class="eyebrow" data-tina-field={tinaField(givingIntro, 'eyebrow')}>{givingIntro.eyebrow}</span>
       <h2 data-tina-field={tinaField(givingIntro, 'heading')}>{givingIntro.heading}</h2>
       <p class="lead" data-tina-field={tinaField(givingIntro, 'lead')}>{givingIntro.lead}</p>
       <p data-tina-field={tinaField(givingIntro, 'body')}>{givingIntro.body}</p>
@@ -54,7 +53,7 @@ const givingUrl = cmsPayPalLink(site.giving);
       <div class="give-card-body">
         <span class="eyebrow eyebrow-light" data-tina-field={tinaField(supportPanel, 'eyebrow')}>{supportPanel.eyebrow}</span>
         <ul data-tina-field={tinaField(supportPanel, 'items')}>
-          {supportPanel.items?.map((item, index) => <li><span>{String(index + 1).padStart(2, '0')}</span>{item}</li>)}
+          {supportPanel.items?.map((item) => <li>{item}</li>)}
         </ul>
       </div>
     </aside>

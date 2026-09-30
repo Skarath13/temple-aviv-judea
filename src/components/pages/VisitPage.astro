@@ -33,18 +33,17 @@ const personalWelcome = page.personalWelcome!;
 const location = page.location!;
 ---
 
-<PageHero eyebrow={hero.eyebrow} title={hero.title} intro={hero.intro} accent={hero.accent as 'blue' | 'coral' | 'gold' | 'teal'} data={hero} />
+<PageHero title={hero.title} intro={hero.intro} accent={hero.accent as 'blue' | 'coral' | 'gold' | 'teal'} data={hero} />
 
 <section class="mosaic-feature mosaic-coral" aria-label="Shabbat artwork">
-  <div class="shell mosaic-frame" data-reveal="wipe">
+  <div class="shell mosaic-frame">
     <img src={cmsImageSource(banner.image)} alt={banner.imageAlt} width="853" height="309" data-tina-field={tinaField(banner, 'image')} />
   </div>
 </section>
 
 <section class="section">
-  <div class="shell visit-grid" data-stagger>
+  <div class="shell visit-grid">
     <div class="sticky-card">
-      <span class="eyebrow" data-tina-field={tinaField(schedulePanel, 'eyebrow')}>{schedulePanel.eyebrow}</span>
       <h2 data-tina-field={tinaField(schedulePanel, 'heading')}>{schedulePanel.heading}</h2>
       <div class="vertical-schedule">
         {schedule.map((item, index) => (
@@ -66,7 +65,6 @@ const location = page.location!;
         <p data-tina-field={tinaField(welcomeCard, 'body')}>{welcomeCard.body}</p>
       </article>
       <article class="content-card feature-card" data-tina-field={tinaField(service)}>
-        <span class="card-kicker" data-tina-field={tinaField(service, 'eyebrow')}>{service.eyebrow}</span>
         <h2 data-tina-field={tinaField(service, 'heading')}>{service.heading}</h2>
         <p data-tina-field={tinaField(service, 'body')}>{service.body}</p>
         <p class="service-flow-intro" data-tina-field={tinaField(service, 'flowIntro')}>{service.flowIntro}</p>
@@ -90,9 +88,8 @@ const location = page.location!;
 </section>
 
 <section class="location-section">
-  <div class="shell location-grid" data-stagger>
+  <div class="shell location-grid">
     <div>
-      <span class="eyebrow eyebrow-light" data-tina-field={tinaField(location, 'eyebrow')}>{location.eyebrow}</span>
       <h2 class="location-address"><span data-tina-field={tinaField(address, 'street')}>{address.street}</span><span data-tina-field={tinaField(address, 'city')}>{address.city}</span></h2>
       <p data-tina-field={tinaField(location, 'body')}>{location.body}</p>
     </div>

@@ -23,10 +23,10 @@ const etsyUrl = cmsEtsyLink(site.baruchDesignsEtsy);
 const artistContactUrl = cmsLink(artistFeature.contactUrl);
 ---
 
-<PageHero eyebrow={hero.eyebrow} title={hero.title} intro={hero.intro} accent={hero.accent as 'blue' | 'coral' | 'gold' | 'teal'} data={hero} />
+<PageHero title={hero.title} intro={hero.intro} accent={hero.accent as 'blue' | 'coral' | 'gold' | 'teal'} data={hero} />
 
 <section class="section ministries-grid-section">
-  <div class="shell ministry-card-grid" data-stagger>
+  <div class="shell ministry-card-grid">
     {page.ministryCards?.map((card) => {
       if (!card || !cardStyles.has(card.style)) return null;
       const link = cmsLink(card.linkUrl || undefined);
@@ -34,7 +34,6 @@ const artistContactUrl = cmsLink(artistFeature.contactUrl);
         <article class={`ministry-card has-photo ${card.style}-card`} data-tina-field={tinaField(card)}>
           <img src={cmsImageSource(card.image)} alt={card.imageAlt} width="1200" height="750" loading="lazy" data-tina-field={tinaField(card, 'image')} />
           <div class="ministry-card-body">
-            <span class="eyebrow" data-tina-field={tinaField(card, 'eyebrow')}>{card.eyebrow}</span>
             <h2 data-tina-field={tinaField(card, 'title')}>{card.title}</h2>
             <p data-tina-field={tinaField(card, 'body')}>{card.body}</p>
             {link && card.linkLabel && <a class="arrow-link" href={link} target={link.startsWith('http') ? '_blank' : undefined} rel={link.startsWith('http') ? 'noreferrer' : undefined} aria-label={link.startsWith('http') ? `${card.linkLabel}. Opens in a new tab.` : undefined} data-tina-field={tinaField(card, 'linkLabel')}>{card.linkLabel} {link.startsWith('http') && <SiteIcon name="external-link" size={18} />}</a>}
@@ -46,7 +45,6 @@ const artistContactUrl = cmsLink(artistFeature.contactUrl);
     <article class="ministry-card blue-card wide-card study-card" data-tina-field={tinaField(bibleStudy)}>
       <span class="ministry-symbol"><SiteIcon name="book" size={30} /></span>
       <div>
-        <span class="eyebrow" data-tina-field={tinaField(bibleStudy, 'eyebrow')}>{bibleStudy.eyebrow}</span>
         <h2 data-tina-field={tinaField(bibleStudy, 'heading')}>{bibleStudy.heading}</h2>
         <p data-tina-field={tinaField(bibleStudy, 'body')}>{bibleStudy.body}</p>
         {bibleStudyHref && <a class="arrow-link" href={bibleStudyHref} data-tina-field={tinaField(bibleStudy, 'linkLabel')}>{bibleStudy.linkLabel} <SiteIcon name="arrow-right" size={18} /></a>}
@@ -76,9 +74,8 @@ const artistContactUrl = cmsLink(artistFeature.contactUrl);
 </section>
 
 <section class="cta-section">
-  <div class="shell cta-inner" data-stagger>
+  <div class="shell cta-inner">
     <div>
-      <span class="eyebrow" data-tina-field={tinaField(callToAction, 'eyebrow')}>{callToAction.eyebrow}</span>
       <h2 data-tina-field={tinaField(callToAction, 'heading')}>{callToAction.heading}</h2>
       <p data-tina-field={tinaField(callToAction, 'body')}>{callToAction.body}</p>
     </div>

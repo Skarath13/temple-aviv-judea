@@ -23,18 +23,17 @@ const people = page.people!;
 const pillarAnchors = new Set(['prayer', 'proclamation', 'people']);
 ---
 
-<PageHero eyebrow={hero.eyebrow} title={hero.title} intro={hero.intro} accent={hero.accent as 'blue' | 'coral' | 'gold' | 'teal'} data={hero} />
+<PageHero title={hero.title} intro={hero.intro} accent={hero.accent as 'blue' | 'coral' | 'gold' | 'teal'} data={hero} />
 
 <section class="mosaic-feature mosaic-teal" aria-label="Torah artwork">
-  <div class="shell mosaic-frame" data-reveal="wipe">
+  <div class="shell mosaic-frame">
     <img src={cmsImageSource(banner.image)} alt={banner.imageAlt} width="853" height="294" data-tina-field={tinaField(banner, 'image')} />
   </div>
 </section>
 
 <section class="section belief-summary">
-  <div class="shell split-layout" data-stagger>
+  <div class="shell split-layout">
     <div>
-      <span class="eyebrow" data-tina-field={tinaField(foundation, 'eyebrow')}>{foundation.eyebrow}</span>
       <h2 data-tina-field={tinaField(foundation, 'heading')}>{foundation.heading}</h2>
     </div>
     <div class="welcome-copy">
@@ -45,7 +44,7 @@ const pillarAnchors = new Set(['prayer', 'proclamation', 'people']);
 </section>
 
 <section class="unity-section">
-  <div class="shell unity-callout" data-reveal>
+  <div class="shell unity-callout">
     <blockquote data-tina-field={tinaField(unity, 'quote')}>{unity.quote}</blockquote>
     <cite data-tina-field={tinaField(unity, 'citation')}>{unity.citation}</cite>
     <p data-tina-field={tinaField(unity, 'body')}>{unity.body}</p>
@@ -53,7 +52,7 @@ const pillarAnchors = new Set(['prayer', 'proclamation', 'people']);
 </section>
 
 <section class="live-banner-section">
-  <figure class="shell belief-banner-card" data-reveal="wipe" data-tina-field={tinaField(communityBanner)}>
+  <figure class="shell belief-banner-card" data-tina-field={tinaField(communityBanner)}>
     <img src={cmsImageSource(communityBanner.image)} alt={communityBanner.imageAlt} width="1800" height="599" loading="lazy" data-tina-field={tinaField(communityBanner, 'image')} />
     <figcaption data-tina-field={tinaField(communityBanner, 'caption')}>{communityBanner.caption}</figcaption>
   </figure>
@@ -61,15 +60,13 @@ const pillarAnchors = new Set(['prayer', 'proclamation', 'people']);
 
 <section class="belief-grid-section">
   <div class="shell">
-    <div class="section-heading faith-heading" data-reveal>
-      <span class="eyebrow" data-tina-field={tinaField(faithIntro, 'eyebrow')}>{faithIntro.eyebrow}</span>
+    <div class="section-heading faith-heading">
       <h2 data-tina-field={tinaField(faithIntro, 'heading')}>{faithIntro.heading}</h2>
       <p data-tina-field={tinaField(faithIntro, 'intro')}>{faithIntro.intro}</p>
     </div>
-    <div class="belief-grid" data-stagger>
-      {page.faithStatements?.map((statement, index) => statement && (
+    <div class="belief-grid">
+      {page.faithStatements?.map((statement) => statement && (
         <article data-tina-field={tinaField(statement)}>
-          <span>{String(index + 1).padStart(2, '0')}</span>
           <h3 data-tina-field={tinaField(statement, 'title')}>{statement.title}</h3>
           <p data-tina-field={tinaField(statement, 'body')}>{statement.body}</p>
           <p class="scripture-references" data-tina-field={tinaField(statement, 'references')}><strong>Scripture</strong>{statement.references}</p>
@@ -81,12 +78,11 @@ const pillarAnchors = new Set(['prayer', 'proclamation', 'people']);
 
 <section class="pillars-section">
   <div class="shell">
-    <div class="section-heading centered light" data-reveal>
-      <span class="eyebrow eyebrow-light" data-tina-field={tinaField(pillarsIntro, 'eyebrow')}>{pillarsIntro.eyebrow}</span>
+    <div class="section-heading centered light">
       <h2 data-tina-field={tinaField(pillarsIntro, 'heading')}>{pillarsIntro.heading}</h2>
       <p data-tina-field={tinaField(pillarsIntro, 'intro')}>{pillarsIntro.intro}</p>
     </div>
-    <div class="pillars-grid" data-stagger>
+    <div class="pillars-grid">
       {page.pillars?.map((pillar) => pillar && pillarAnchors.has(pillar.kind) && (
         <a class="pillar-card" href={`#${pillar.kind}`} data-tina-field={tinaField(pillar)}>
           <img class="pillar-card-art" src={cmsImageSource(pillar.image)} alt="" width="720" height="640" loading="lazy" data-tina-field={tinaField(pillar, 'image')} />
@@ -100,10 +96,8 @@ const pillarAnchors = new Set(['prayer', 'proclamation', 'people']);
 
 <section class="core-values-detail-section">
   <div class="shell core-values-detail">
-    <article class="core-value-detail" id="prayer" data-reveal>
+    <article class="core-value-detail" id="prayer">
       <header>
-        <span>01</span>
-        <p data-tina-field={tinaField(prayer, 'eyebrow')}>{prayer.eyebrow}</p>
         <h2 data-tina-field={tinaField(prayer, 'heading')}>{prayer.heading}</h2>
       </header>
       <div class="core-value-copy">
@@ -115,10 +109,8 @@ const pillarAnchors = new Set(['prayer', 'proclamation', 'people']);
       </div>
     </article>
 
-    <article class="core-value-detail" id="proclamation" data-reveal>
+    <article class="core-value-detail" id="proclamation">
       <header>
-        <span>02</span>
-        <p data-tina-field={tinaField(proclamation, 'eyebrow')}>{proclamation.eyebrow}</p>
         <h2 data-tina-field={tinaField(proclamation, 'heading')}>{proclamation.heading}</h2>
       </header>
       <div class="core-value-copy value-detail-grid">
@@ -132,10 +124,8 @@ const pillarAnchors = new Set(['prayer', 'proclamation', 'people']);
       </div>
     </article>
 
-    <article class="core-value-detail" id="people" data-reveal>
+    <article class="core-value-detail" id="people">
       <header>
-        <span>03</span>
-        <p data-tina-field={tinaField(people, 'eyebrow')}>{people.eyebrow}</p>
         <h2 data-tina-field={tinaField(people, 'heading')}>{people.heading}</h2>
       </header>
       <div class="core-value-copy value-detail-grid people-detail-grid">

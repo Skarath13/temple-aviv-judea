@@ -28,10 +28,8 @@ const publicHours = formatPublicHours(site.publicHours);
 ---
 
 <footer class="site-footer">
-  <div class="footer-art" aria-hidden="true"></div>
-  <div class="shell footer-grid" data-stagger>
+  <div class="shell footer-grid">
     <div class="footer-intro">
-      <span class="eyebrow eyebrow-light" data-tina-field={tinaField(site.footerCopy, 'eyebrow')}>{site.footerCopy.eyebrow}</span>
       <h2 data-tina-field={tinaField(site.footerCopy, 'heading')}>{site.footerCopy.heading}</h2>
       <p data-tina-field={tinaField(site.footerCopy, 'body')}>{site.footerCopy.body}</p>
       <a class="button button-gold" href={withBase('/visit/')} data-tina-field={tinaField(site.footerCopy, 'visitLabel')}>{site.footerCopy.visitLabel}</a>
