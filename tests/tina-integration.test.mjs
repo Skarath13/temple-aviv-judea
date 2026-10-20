@@ -118,6 +118,15 @@ test("an empty event schedule remains visible with clear public copy", async () 
 	assert.match(styles, /\.tina-empty-events\s*\{\s*display:\s*block/);
 });
 
+test("the events menu opens its document editor instead of the homepage form", () => {
+	assert.equal(EventCollection.ui.router, undefined);
+	assert.equal(EventCollection.ui.global, true);
+	assert.deepEqual(EventCollection.ui.allowedActions, {
+		create: false,
+		delete: false,
+	});
+});
+
 test("event date controls match the schema TinaCloud indexes", async () => {
 	const lock = JSON.parse(await read("tina/tina-lock.json"));
 	const lockedEvents = lock.schema.collections

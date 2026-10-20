@@ -14,7 +14,6 @@ export const EventCollection: Collection = {
 	},
 	ui: {
 		global: true,
-		router: () => "/",
 		allowedActions: {
 			create: false,
 			delete: false,
