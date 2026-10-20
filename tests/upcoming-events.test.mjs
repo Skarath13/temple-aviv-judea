@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
+	assertEventScheduleReadyForSave,
 	parseEventScheduleRecord,
 	selectUpcomingEventRecords,
 } from "../src/lib/upcoming-events.mjs";
@@ -97,6 +98,78 @@ test("sorts chronologically and limits the homepage to three events", () => {
 
 	assert.deepEqual(
 		result.map(({ title }) => title),
+		["Event 1", "Event 2", "Event 3"],
+	);
+});
+
+test("an empty, all-expired, or all-draft schedule is valid", () => {
+	const now = new Date("2026-10-20T00:00:00.000Z");
+	for (const events of [[], [event()], [{ published: false }]]) {
+		const schedule = eventSchedule({ events });
+		assert.doesNotThrow(() => parseEventScheduleRecord(schedule));
+		assert.deepEqual(selectUpcomingEventRecords(schedule, now), []);
+	}
+});
+
+test("saving validates every nested event, including drafts and expired records", () => {
+	assert.doesNotThrow(() =>
+		assertEventScheduleReadyForSave(eventSchedule({ events: [] })),
+	);
+	for (const published of [true, false]) {
+		assert.doesNotThrow(() =>
+			assertEventScheduleReadyForSave(
+				eventSchedule({ events: [event({ published })] }),
+			),
+		);
+		for (const key of [
+			"title",
+			"startsAt",
+			"endsAt",
+			"location",
+			"image",
+			"imageAlt",
+		]) {
+			assert.throws(
+				() =>
+					assertEventScheduleReadyForSave(
+						eventSchedule({ events: [event({ [key]: undefined, published })] }),
+					),
+				/required/,
+			);
+		}
+		for (const values of [
+			{ endsAt: "2026-08-15T18:00:00.000Z" },
+			{ endsAt: "2026-08-15T17:00:00.000Z" },
+			{ endsAt: "invalid" },
+			{ image: "javascript:alert(1)" },
+			{ detailsUrl: "javascript:alert(1)" },
+		]) {
+			assert.throws(() =>
+				assertEventScheduleReadyForSave(
+					eventSchedule({ events: [event({ ...values, published })] }),
+				),
+			);
+		}
+	}
+});
+
+test("past events and unfinished drafts do not crowd out the next three published events", () => {
+	const future = [5, 2, 4, 1, 3].map((hour) =>
+		event({
+			title: `Event ${hour}`,
+			startsAt: `2026-10-21T0${hour}:00:00.000Z`,
+			endsAt: `2026-10-21T0${hour + 1}:00:00.000Z`,
+		}),
+	);
+	const schedule = eventSchedule({
+		events: [event(), { published: false, title: "Unfinished" }, ...future],
+	});
+	assert.doesNotThrow(() => parseEventScheduleRecord(schedule));
+	assert.deepEqual(
+		selectUpcomingEventRecords(
+			schedule,
+			new Date("2026-10-20T00:00:00.000Z"),
+		).map(({ title }) => title),
 		["Event 1", "Event 2", "Event 3"],
 	);
 });

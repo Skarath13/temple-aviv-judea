@@ -40,3 +40,10 @@ export function selectUpcomingEventRecords(
 ): readonly UpcomingEventRecord[];
 
 export function parseEventScheduleRecord(value: unknown): EventScheduleRecord;
+
+export function assertEventScheduleReadyForSave(value: unknown): void;
+
+export class EventScheduleValidationError extends Error {
+	fieldName: string;
+	constructor(message: string, fieldName: string);
+}

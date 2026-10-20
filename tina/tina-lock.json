@@ -6399,8 +6399,9 @@
 						"type": "object",
 						"list": true,
 						"required": true,
+						"description": "The next three published events appear on the homepage. Past events and drafts stay here without blocking new events.",
 						"openFormOnCreate": true,
-						"ui": { "max": 3 },
+						"ui": { "defaultItem": { "published": false } },
 						"fields": [
 							{
 								"name": "published",

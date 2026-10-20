@@ -18,7 +18,7 @@
 		"generate:tina-types": "tinacms build --local --skip-cloud-checks --skip-indexing --noTelemetry -c \"true\"",
 		"preview": "astro preview",
 		"types:cloudflare": "wrangler types",
-		"test:strict": "node --test --test-concurrency=1 tests/content-rules.test.mjs tests/hero-media-range.test.mjs tests/llms-txt.test.mjs tests/mobile-hero-video.test.mjs tests/navigation-scroll.test.mjs tests/site-structured-data.test.mjs tests/tina-integration.test.mjs tests/upcoming-events.test.mjs tests/workers-build-environment.test.mjs",
+		"test:strict": "node --test --test-concurrency=1 tests/cms-form-state.test.mjs tests/content-rules.test.mjs tests/hero-media-range.test.mjs tests/llms-txt.test.mjs tests/mobile-hero-video.test.mjs tests/navigation-scroll.test.mjs tests/site-structured-data.test.mjs tests/tina-integration.test.mjs tests/upcoming-events.test.mjs tests/workers-build-environment.test.mjs",
 		"validate:schema": "tinacms audit --noTelemetry",
 		"validate:contracts": "node scripts/validate-content.mjs",
 		"validate:content": "bun run validate:schema && bun run validate:contracts && bun run verify:hero-video && bun run test:strict",
@@ -41,11 +41,18 @@
 		"@tinacms/cli": "2.6.1",
 		"@tinacms/mdx": "2.2.1",
 		"@types/node": "26.4.0",
+		"final-form": "5.0.1",
+		"final-form-arrays": "4.0.1",
+		"jsdom": "30.1.3",
+		"react-final-form": "7.0.1",
 		"rolldown": "1.2.6",
 		"tinacms": "3.12.1",
 		"typescript": "6.0.3",
 		"vite": "8.2.2",
 		"wrangler": "4.127.1",
 		"yaml": "2.9.0"
+	},
+	"patchedDependencies": {
+		"react-final-form@7.0.1": "patches/react-final-form@7.0.1.patch"
 	}
 }

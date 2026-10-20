@@ -3,6 +3,10 @@ import {
 	validateRequiredText,
 	validateSafeLink,
 } from "../../src/lib/content-rules.mjs";
+import {
+	assertEventScheduleReadyForSave,
+	EventScheduleValidationError,
+} from "../../src/lib/upcoming-events.mjs";
 
 export const EventCollection: Collection = {
 	name: "eventSchedule",
@@ -14,6 +18,26 @@ export const EventCollection: Collection = {
 	},
 	ui: {
 		global: true,
+		beforeSubmit: async ({ values, cms, form }) => {
+			try {
+				assertEventScheduleReadyForSave(values);
+			} catch (error) {
+				// Open the invalid group before Tina records a submit error, so its
+				// navigation guard cannot prevent correcting the rejected fields.
+				if (error instanceof EventScheduleValidationError) {
+					cms.dispatch({
+						type: "forms:set-active-field-name",
+						value: { formId: form.id, fieldName: error.fieldName },
+					});
+				}
+				cms.alerts.error(
+					error instanceof Error
+						? error.message
+						: "Check the event fields before saving.",
+				);
+				throw error;
+			}
+		},
 		allowedActions: {
 			create: false,
 			delete: false,
@@ -49,9 +73,11 @@ export const EventCollection: Collection = {
 			type: "object",
 			list: true,
 			required: true,
+			description:
+				"The next three published events appear on the homepage. Past events and drafts stay here without blocking new events.",
 			openFormOnCreate: true,
 			ui: {
-				max: 3,
+				defaultItem: { published: false },
 				itemProps: (item) => ({
 					label: `${item?.published ? "Published" : "Draft"}: ${item?.title || "New event"}`,
 				}),

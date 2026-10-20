@@ -1,3 +1,5 @@
+import { isManagedImageSource, isSafeCmsLink } from "./content-rules.mjs";
+
 const isRecord = (value) =>
 	typeof value === "object" && value !== null && !Array.isArray(value);
 
@@ -58,6 +60,86 @@ export const parseEventScheduleRecord = (value) => {
 	});
 
 	return value;
+};
+
+// Nested Tina field validators are unregistered when returning to the list.
+// Validate the complete document before saving, including draft event fields.
+export class EventScheduleValidationError extends Error {
+	constructor(message, fieldName) {
+		super(message);
+		this.name = "EventScheduleValidationError";
+		this.fieldName = fieldName;
+	}
+}
+
+export const assertEventScheduleReadyForSave = (value) => {
+	const schedule =
+		isRecord(value) && Array.isArray(value.events)
+			? value
+			: parseEventScheduleRecord(value);
+	if (isRecord(schedule.sectionCopy)) {
+		for (const key of ["eyebrow", "heading", "intro", "detailsLabel"]) {
+			if (
+				typeof schedule.sectionCopy[key] !== "string" ||
+				!schedule.sectionCopy[key].trim()
+			) {
+				throw new EventScheduleValidationError(
+					`Homepage section wording: ${key} is required.`,
+					`sectionCopy.${key}`,
+				);
+			}
+		}
+	}
+	for (const [index, event] of schedule.events.entries()) {
+		if (!isRecord(event))
+			throw new EventScheduleValidationError(
+				`Event ${index + 1} is invalid. Remove it and add it again.`,
+				"",
+			);
+		const where = `Event ${index + 1}${event.title ? ` (${event.title})` : ""}`;
+		for (const [key, label] of [
+			["title", "Event name"],
+			["startsAt", "Starting date and time"],
+			["endsAt", "Ending date and time"],
+			["location", "Location"],
+			["image", "Event image"],
+			["imageAlt", "Image description"],
+		]) {
+			if (typeof event[key] !== "string" || !event[key].trim()) {
+				throw new EventScheduleValidationError(
+					`${where}: ${label} is required. Open this event to complete it.`,
+					`events.${index}.${key}`,
+				);
+			}
+		}
+		const start = Date.parse(event.startsAt);
+		const end = Date.parse(event.endsAt);
+		if (!Number.isFinite(start) || !Number.isFinite(end)) {
+			throw new EventScheduleValidationError(
+				`${where}: Enter valid starting and ending dates and times.`,
+				`events.${index}.${Number.isFinite(start) ? "endsAt" : "startsAt"}`,
+			);
+		}
+		if (end <= start) {
+			throw new EventScheduleValidationError(
+				`${where}: The event must end after it starts.`,
+				`events.${index}.endsAt`,
+			);
+		}
+		if (!isManagedImageSource(event.image)) {
+			throw new EventScheduleValidationError(
+				`${where}: Choose an event image from the media manager.`,
+				`events.${index}.image`,
+			);
+		}
+		if (event.detailsUrl && !isSafeCmsLink(event.detailsUrl)) {
+			throw new EventScheduleValidationError(
+				`${where}: Use a valid event details link or leave it blank.`,
+				`events.${index}.detailsUrl`,
+			);
+		}
+	}
+	parseEventScheduleRecord(value);
 };
 
 export const selectUpcomingEventRecords = (schedule, now = new Date()) => {

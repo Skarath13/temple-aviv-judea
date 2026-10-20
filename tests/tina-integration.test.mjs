@@ -107,13 +107,14 @@ test("the lazy Google map remains primary and map-app directions are additive", 
 	);
 });
 
-test("an empty event schedule remains visible with clear public copy", async () => {
+test("an empty event schedule opens the document form rather than a list item without an index", async () => {
 	const [events, styles] = await Promise.all([
 		read("src/components/UpcomingEvents.astro"),
 		read("src/styles/global.css"),
 	]);
 	assert.match(events, /tina-empty-events/);
-	assert.match(events, /tinaField\(schedule, ['"]events['"]\)/);
+	assert.match(events, /data-tina-field=\{tinaField\(schedule\)\}/);
+	assert.doesNotMatch(events, /tinaField\(schedule, ['"]events['"]\)/);
 	assert.match(events, /No upcoming events\./);
 	assert.match(styles, /\.tina-empty-events\s*\{\s*display:\s*block/);
 });
@@ -125,6 +126,51 @@ test("the events menu opens its document editor instead of the homepage form", (
 		create: false,
 		delete: false,
 	});
+});
+
+test("expired events and drafts do not consume a fixed number of editor slots", () => {
+	const events = EventCollection.fields.find(
+		(field) => field.name === "events",
+	);
+	assert.equal(events.ui.max, undefined);
+	assert.deepEqual(events.ui.defaultItem, { published: false });
+});
+
+test("the final save guard reports nested errors without discarding typed content", async () => {
+	const alerts = [];
+	const actions = [];
+	const values = {
+		sectionCopy: {
+			eyebrow: "Gather",
+			heading: "Events",
+			intro: "Join us",
+			detailsLabel: "Details",
+		},
+		events: [{ published: false, title: "Retain my draft" }],
+	};
+	const original = structuredClone(values);
+	await assert.rejects(
+		EventCollection.ui.beforeSubmit({
+			values,
+			form: { id: "src/content/events/events.json" },
+			cms: {
+				dispatch: (action) => actions.push(action),
+				alerts: { error: (message) => alerts.push(message) },
+			},
+		}),
+		/Starting date and time/,
+	);
+	assert.match(alerts[0], /Event 1 \(Retain my draft\)/);
+	assert.deepEqual(values, original);
+	assert.deepEqual(actions, [
+		{
+			type: "forms:set-active-field-name",
+			value: {
+				formId: "src/content/events/events.json",
+				fieldName: "events.0.startsAt",
+			},
+		},
+	]);
 });
 
 test("event date controls match the schema TinaCloud indexes", async () => {
