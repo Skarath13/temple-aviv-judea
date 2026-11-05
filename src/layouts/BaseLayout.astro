@@ -129,7 +129,7 @@ const serializedStructuredData = serializeJsonLd(structuredData);
     ) : (
       <Header currentPath={Astro.url.pathname} site={site} />
     )}
-    <main id="main-content">
+    <main id="main-content" tabindex="-1">
       <slot />
     </main>
     {cmsEnabled && editableGlobals ? (
@@ -140,6 +140,44 @@ const serializedStructuredData = serializeJsonLd(structuredData);
       <Footer site={site} />
     )}
     <YouTubeCtaNotice />
+    <script>
+      // Delegate from the layout so Tina can replace the editable header.
+      document.addEventListener('click', (event) => {
+        const target = event.target;
+        if (!(target instanceof Node)) return;
+        document.querySelectorAll<HTMLDetailsElement>('.mobile-menu[open]').forEach((menu) => {
+          const selectedLink = target instanceof Element && target.closest('a[href]');
+          if (!menu.contains(target) || selectedLink) menu.open = false;
+        });
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape' || event.defaultPrevented || !(event.target instanceof Element)) return;
+        const menu = event.target.closest<HTMLDetailsElement>('.mobile-menu[open]');
+        if (!menu) return;
+        event.preventDefault();
+        menu.open = false;
+        menu.querySelector('summary')?.focus({ preventScroll: true });
+      });
+
+      document.addEventListener('focusin', (event) => {
+        const target = event.target;
+        if (!(target instanceof Node)) return;
+        document.querySelectorAll<HTMLDetailsElement>('.mobile-menu[open]').forEach((menu) => {
+          if (!menu.contains(target)) menu.open = false;
+        });
+      });
+
+      document.addEventListener('focusout', (event) => {
+        if (!(event.target instanceof Element)) return;
+        const menu = event.target.closest<HTMLDetailsElement>('.mobile-menu[open]');
+        if (!menu) return;
+        // WebKit does not emit parent-document focusin when focus enters an iframe.
+        window.setTimeout(() => {
+          if (!menu.contains(document.activeElement)) menu.open = false;
+        }, 0);
+      });
+    </script>
     <script>
       let eventExpiryTimer: ReturnType<typeof setTimeout> | undefined;
       let eventExpiryObserver: MutationObserver | undefined;
@@ -230,7 +268,7 @@ const serializedStructuredData = serializeJsonLd(structuredData);
         button.addEventListener('click', () => {
           const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
           window.scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' });
-          button.blur();
+          document.querySelector('.brand')?.focus({ preventScroll: true });
         });
         update();
         window.addEventListener('scroll', queueUpdate, { passive: true });

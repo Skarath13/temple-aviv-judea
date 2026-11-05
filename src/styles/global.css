@@ -127,7 +127,6 @@ p {
 	left: calc(1rem + env(safe-area-inset-left, 0px));
 	z-index: 999;
 	transform: translateY(-200%);
-	visibility: hidden;
 	opacity: 0;
 	background: var(--white);
 	color: var(--blue);
@@ -137,7 +136,6 @@ p {
 }
 .skip-link:focus-visible {
 	transform: none;
-	visibility: visible;
 	opacity: 1;
 }
 :focus-visible {
