@@ -61,9 +61,9 @@ const artistContactUrl = cmsLink(artistFeature.contactUrl);
         ))}
       </div>
       <div>
-        <span class="eyebrow eyebrow-light" data-tina-field={tinaField(artistFeature, 'eyebrow')}>{artistFeature.eyebrow}</span>
         <h2 data-tina-field={tinaField(artistFeature, 'heading')}>{artistFeature.heading}</h2>
         <p data-tina-field={tinaField(artistFeature, 'body')}>{artistFeature.body}</p>
+        <p class="artist-studio" data-tina-field={tinaField(artistFeature, 'eyebrow')}>{artistFeature.eyebrow}</p>
       </div>
       <div class="artist-actions">
         {etsyUrl && <a class="button button-ghost-light" href={etsyUrl} target="_blank" rel="noreferrer" aria-label={`${artistFeature.buttonLabel}. Opens in a new tab.`} data-tina-field={tinaField(site, 'baruchDesignsEtsy')}><span data-tina-field={tinaField(artistFeature, 'buttonLabel')}>{artistFeature.buttonLabel}</span> <SiteIcon name="external-link" size={18} /></a>}

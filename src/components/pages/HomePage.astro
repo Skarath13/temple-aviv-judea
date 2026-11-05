@@ -46,15 +46,11 @@ const community = page.community!;
 const location = page.location!;
 const ministriesPromo = page.ministriesPromo!;
 const valueStyles = {
-  prayer: { className: 'value-prayer', icon: 'pray', href: '/beliefs/#prayer' },
-  proclamation: { className: 'value-proclamation', icon: 'script', href: '/beliefs/#proclamation' },
-  people: { className: 'value-people', icon: 'users-group', href: '/beliefs/#people' },
+  prayer: { className: 'value-prayer', href: '/beliefs/#prayer' },
+  proclamation: { className: 'value-proclamation', href: '/beliefs/#proclamation' },
+  people: { className: 'value-people', href: '/beliefs/#people' },
 } as const;
-const expectStyles = {
-  worship: { color: 'coral', icon: 'music' },
-  teaching: { color: 'blue', icon: 'book' },
-  family: { color: 'gold', icon: 'heart-handshake' },
-} as const;
+const expectKinds = new Set(['worship', 'teaching', 'family']);
 const visitUrl = cmsLink(heroActions.visitUrl);
 const welcomeUrl = cmsLink(welcome.linkUrl);
 const storyUrl = cmsLink(storyFeature.linkUrl);
@@ -151,7 +147,6 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
   <div class="hero-scrim" aria-hidden="true"></div>
   <div class="shell hero-content">
     <div class="hero-copy">
-      <span class="eyebrow eyebrow-light hero-desktop-detail" data-tina-field={tinaField(hero, 'eyebrow')}>{hero.eyebrow}</span>
       <h1><span data-tina-field={tinaField(hero, 'title')}>{hero.title}</span><br /><em data-tina-field={tinaField(hero, 'emphasis')}>{hero.emphasis}</em><br /><span data-tina-field={tinaField(hero, 'closing')}>{hero.closing}</span></h1>
       <p class="hero-desktop-detail" data-tina-field={tinaField(hero, 'intro')}>{hero.intro}</p>
       <div class="button-row">
@@ -164,6 +159,7 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
           </span>
         </a>}
       </div>
+      <p class="hero-meta hero-desktop-detail" data-tina-field={tinaField(hero, 'eyebrow')}>{hero.eyebrow}</p>
     </div>
   </div>
   {mapsUrl && <a class="hero-location" href={mapsUrl} target="_blank" rel="noreferrer" data-tina-field={tinaField(address, 'maps')}>
@@ -175,8 +171,8 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
 
 <section class="mobile-hero-continuation" aria-label="About Temple Aviv Judea">
   <div class="shell">
-    <span class="eyebrow eyebrow-light" data-tina-field={tinaField(hero, 'eyebrow')}>{hero.eyebrow}</span>
     <p data-tina-field={tinaField(hero, 'intro')}>{hero.intro}</p>
+    <p class="hero-meta" data-tina-field={tinaField(hero, 'eyebrow')}>{hero.eyebrow}</p>
   </div>
 </section>
 
@@ -232,7 +228,6 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
       return (
         <a class={`value-card ${style.className}`} href={cmsLink(style.href)}>
           <img class="value-card-art" src={cmsImageSource(value.image)} alt="" width="720" height="640" loading="lazy" data-tina-field={tinaField(value, 'image')} />
-          <div class="value-icon"><SiteIcon name={style.icon} size={32} /></div>
           <h3 data-tina-field={tinaField(value, 'title')}>{value.title}</h3>
           <p data-tina-field={tinaField(value, 'text')}>{value.text}</p>
         </a>
@@ -263,27 +258,25 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
 
 <section class="section visit-preview">
   <div class="shell">
-    <div class="section-heading centered">
+    <div class="section-heading section-heading-split">
       <h2 data-tina-field={tinaField(visitPreview, 'heading')}>{visitPreview.heading}</h2>
-      <p data-tina-field={tinaField(visitPreview, 'intro')}>{visitPreview.intro}</p>
+      <div>
+        <p data-tina-field={tinaField(visitPreview, 'intro')}>{visitPreview.intro}</p>
+        {previewUrl && <a class="arrow-link" href={previewUrl} data-tina-field={tinaField(visitPreview, 'buttonLabel')}>{visitPreview.buttonLabel} <SiteIcon name="arrow-right" size={19} /></a>}
+      </div>
     </div>
     <div class="expect-grid">
       {visitPreview.items?.map((item) => {
-        const style = item && item.kind
-          ? expectStyles[item.kind as keyof typeof expectStyles]
-          : undefined;
-        if (!item || !style) return null;
+        if (!item || !item.kind || !expectKinds.has(item.kind)) return null;
         return (
           <article data-tina-field={tinaField(item)}>
             <img class="expect-card-art" src={cmsImageSource(item.image)} alt={item.imageAlt} width="900" height="900" loading="lazy" data-tina-field={tinaField(item, 'image')} />
-            <span class={`expect-icon ${style.color}`}><SiteIcon name={style.icon} size={25} /></span>
             <h3 data-tina-field={tinaField(item, 'title')}>{item.title}</h3>
             <p data-tina-field={tinaField(item, 'text')}>{item.text}</p>
           </article>
         );
       })}
     </div>
-    {previewUrl && <div class="centered-action"><a class="button" href={previewUrl} data-tina-field={tinaField(visitPreview, 'buttonLabel')}>{visitPreview.buttonLabel}</a></div>}
   </div>
 </section>
 
