@@ -251,7 +251,8 @@ test("the Cloudflare build validates content before Astro emits a Worker", async
 	const command = packageJson.scripts["build:cloudflare"];
 	assert.match(
 		command,
-		/^bun run validate:content && TINA_CMS=true tinacms build/,
+		// The Workers Builds image caps open files below what the Tina admin bundle needs.
+		/^ulimit -n "\$\(ulimit -Hn\)" 2>\/dev\/null \|\| true; echo "open-file limit: \$\(ulimit -n\)"; bun run validate:content && TINA_CMS=true tinacms build/,
 	);
 	assert.match(command, /-c "astro check && astro build"$/);
 });

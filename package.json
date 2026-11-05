@@ -13,7 +13,7 @@
 		"dev:cms": "TINA_CMS=true tinacms dev -c \"astro dev\"",
 		"build": "bun run validate:content && astro check && astro build",
 		"build:cms:local": "bun run validate:content && TINA_CMS=true tinacms build --local --skip-cloud-checks -c \"astro check && astro build\"",
-		"build:cloudflare": "bun run validate:content && TINA_CMS=true tinacms build --content=local -c \"astro check && astro build\"",
+		"build:cloudflare": "ulimit -n \"$(ulimit -Hn)\" 2>/dev/null || true; echo \"open-file limit: $(ulimit -n)\"; bun run validate:content && TINA_CMS=true tinacms build --content=local -c \"astro check && astro build\"",
 		"check": "astro check",
 		"generate:tina-types": "tinacms build --local --skip-cloud-checks --skip-indexing --noTelemetry -c \"true\"",
 		"preview": "astro preview",
