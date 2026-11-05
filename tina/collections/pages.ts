@@ -363,13 +363,6 @@ const homeTemplate = pageTemplate("home", "Home", [
 			text("body", "Story summary"),
 			string("linkLabel", "Button label"),
 			link("linkUrl", "Button URL"),
-			list(
-				"stats",
-				"Milestones",
-				[string("value", "Year or value"), string("label", "Description")],
-				4,
-				"value",
-			),
 		],
 	},
 	{
@@ -603,8 +596,6 @@ const storyTemplate = pageTemplate("story", "Our Story", [
 			string("eyebrow", "Small heading"),
 			string("heading", "Heading"),
 			text("body", "Body"),
-			string("buttonLabel", "Button label"),
-			link("buttonUrl", "Button URL"),
 		],
 	},
 ]);
@@ -831,19 +822,6 @@ const ministriesTemplate = pageTemplate("ministries", "Ministries", [
 			string("buttonLabel", "Gallery button label"),
 			string("contactLabel", "Creative arts contact label"),
 			link("contactUrl", "Creative arts contact link"),
-		],
-	},
-	{
-		name: "callToAction",
-		label: "Bottom call to action",
-		type: "object",
-		required: true,
-		fields: [
-			string("eyebrow", "Small heading"),
-			string("heading", "Heading"),
-			text("body", "Description"),
-			string("buttonLabel", "Button label"),
-			link("buttonUrl", "Button URL"),
 		],
 	},
 ]);

@@ -50,7 +50,6 @@ export const EventCollection: Collection = {
 			type: "object",
 			required: true,
 			fields: [
-				{ name: "eyebrow", label: "Eyebrow", type: "string", required: true },
 				{ name: "heading", label: "Heading", type: "string", required: true },
 				{
 					name: "intro",

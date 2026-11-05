@@ -898,44 +898,6 @@
 										"required": true,
 										"ui": {},
 										"namespace": ["page", "home", "storyFeature", "linkUrl"]
-									},
-									{
-										"name": "stats",
-										"label": "Milestones",
-										"type": "object",
-										"list": true,
-										"required": true,
-										"openFormOnCreate": true,
-										"fields": [
-											{
-												"name": "value",
-												"label": "Year or value",
-												"type": "string",
-												"required": true,
-												"namespace": [
-													"page",
-													"home",
-													"storyFeature",
-													"stats",
-													"value"
-												]
-											},
-											{
-												"name": "label",
-												"label": "Description",
-												"type": "string",
-												"required": true,
-												"namespace": [
-													"page",
-													"home",
-													"storyFeature",
-													"stats",
-													"label"
-												]
-											}
-										],
-										"ui": { "min": 1, "max": 4 },
-										"namespace": ["page", "home", "storyFeature", "stats"]
 									}
 								],
 								"namespace": ["page", "home", "storyFeature"],
@@ -3037,21 +2999,6 @@
 										"required": true,
 										"ui": { "component": "textarea" },
 										"namespace": ["page", "story", "vision", "body"]
-									},
-									{
-										"name": "buttonLabel",
-										"label": "Button label",
-										"type": "string",
-										"required": true,
-										"namespace": ["page", "story", "vision", "buttonLabel"]
-									},
-									{
-										"name": "buttonUrl",
-										"label": "Button URL",
-										"type": "string",
-										"required": true,
-										"ui": {},
-										"namespace": ["page", "story", "vision", "buttonUrl"]
 									}
 								],
 								"namespace": ["page", "story", "vision"],
@@ -5071,74 +5018,6 @@
 								"uid": false
 							},
 							{
-								"name": "callToAction",
-								"label": "Bottom call to action",
-								"type": "object",
-								"required": true,
-								"fields": [
-									{
-										"name": "eyebrow",
-										"label": "Small heading",
-										"type": "string",
-										"required": true,
-										"namespace": [
-											"page",
-											"ministries",
-											"callToAction",
-											"eyebrow"
-										]
-									},
-									{
-										"name": "heading",
-										"label": "Heading",
-										"type": "string",
-										"required": true,
-										"namespace": [
-											"page",
-											"ministries",
-											"callToAction",
-											"heading"
-										]
-									},
-									{
-										"name": "body",
-										"label": "Description",
-										"type": "string",
-										"required": true,
-										"ui": { "component": "textarea" },
-										"namespace": ["page", "ministries", "callToAction", "body"]
-									},
-									{
-										"name": "buttonLabel",
-										"label": "Button label",
-										"type": "string",
-										"required": true,
-										"namespace": [
-											"page",
-											"ministries",
-											"callToAction",
-											"buttonLabel"
-										]
-									},
-									{
-										"name": "buttonUrl",
-										"label": "Button URL",
-										"type": "string",
-										"required": true,
-										"ui": {},
-										"namespace": [
-											"page",
-											"ministries",
-											"callToAction",
-											"buttonUrl"
-										]
-									}
-								],
-								"namespace": ["page", "ministries", "callToAction"],
-								"searchable": true,
-								"uid": false
-							},
-							{
 								"name": "sections",
 								"label": "Optional additional sections",
 								"type": "object",
@@ -6351,15 +6230,6 @@
 						"type": "object",
 						"required": true,
 						"fields": [
-							{
-								"name": "eyebrow",
-								"label": "Eyebrow",
-								"type": "string",
-								"required": true,
-								"namespace": ["eventSchedule", "sectionCopy", "eyebrow"],
-								"searchable": true,
-								"uid": false
-							},
 							{
 								"name": "heading",
 								"label": "Heading",
@@ -9256,38 +9126,6 @@
 				"kind": "ObjectTypeDefinition",
 				"interfaces": [],
 				"directives": [],
-				"name": { "kind": "Name", "value": "PageHomeStoryFeatureStats" },
-				"fields": [
-					{
-						"kind": "FieldDefinition",
-						"name": { "kind": "Name", "value": "value" },
-						"arguments": [],
-						"type": {
-							"kind": "NonNullType",
-							"type": {
-								"kind": "NamedType",
-								"name": { "kind": "Name", "value": "String" }
-							}
-						}
-					},
-					{
-						"kind": "FieldDefinition",
-						"name": { "kind": "Name", "value": "label" },
-						"arguments": [],
-						"type": {
-							"kind": "NonNullType",
-							"type": {
-								"kind": "NamedType",
-								"name": { "kind": "Name", "value": "String" }
-							}
-						}
-					}
-				]
-			},
-			{
-				"kind": "ObjectTypeDefinition",
-				"interfaces": [],
-				"directives": [],
 				"name": { "kind": "Name", "value": "PageHomeStoryFeature" },
 				"fields": [
 					{
@@ -9377,27 +9215,6 @@
 							"type": {
 								"kind": "NamedType",
 								"name": { "kind": "Name", "value": "String" }
-							}
-						}
-					},
-					{
-						"kind": "FieldDefinition",
-						"name": { "kind": "Name", "value": "stats" },
-						"arguments": [],
-						"type": {
-							"kind": "NonNullType",
-							"type": {
-								"kind": "ListType",
-								"type": {
-									"kind": "NonNullType",
-									"type": {
-										"kind": "NamedType",
-										"name": {
-											"kind": "Name",
-											"value": "PageHomeStoryFeatureStats"
-										}
-									}
-								}
 							}
 						}
 					}
@@ -12091,30 +11908,6 @@
 								"name": { "kind": "Name", "value": "String" }
 							}
 						}
-					},
-					{
-						"kind": "FieldDefinition",
-						"name": { "kind": "Name", "value": "buttonLabel" },
-						"arguments": [],
-						"type": {
-							"kind": "NonNullType",
-							"type": {
-								"kind": "NamedType",
-								"name": { "kind": "Name", "value": "String" }
-							}
-						}
-					},
-					{
-						"kind": "FieldDefinition",
-						"name": { "kind": "Name", "value": "buttonUrl" },
-						"arguments": [],
-						"type": {
-							"kind": "NonNullType",
-							"type": {
-								"kind": "NamedType",
-								"name": { "kind": "Name", "value": "String" }
-							}
-						}
 					}
 				]
 			},
@@ -14625,74 +14418,6 @@
 				"kind": "ObjectTypeDefinition",
 				"interfaces": [],
 				"directives": [],
-				"name": { "kind": "Name", "value": "PageMinistriesCallToAction" },
-				"fields": [
-					{
-						"kind": "FieldDefinition",
-						"name": { "kind": "Name", "value": "eyebrow" },
-						"arguments": [],
-						"type": {
-							"kind": "NonNullType",
-							"type": {
-								"kind": "NamedType",
-								"name": { "kind": "Name", "value": "String" }
-							}
-						}
-					},
-					{
-						"kind": "FieldDefinition",
-						"name": { "kind": "Name", "value": "heading" },
-						"arguments": [],
-						"type": {
-							"kind": "NonNullType",
-							"type": {
-								"kind": "NamedType",
-								"name": { "kind": "Name", "value": "String" }
-							}
-						}
-					},
-					{
-						"kind": "FieldDefinition",
-						"name": { "kind": "Name", "value": "body" },
-						"arguments": [],
-						"type": {
-							"kind": "NonNullType",
-							"type": {
-								"kind": "NamedType",
-								"name": { "kind": "Name", "value": "String" }
-							}
-						}
-					},
-					{
-						"kind": "FieldDefinition",
-						"name": { "kind": "Name", "value": "buttonLabel" },
-						"arguments": [],
-						"type": {
-							"kind": "NonNullType",
-							"type": {
-								"kind": "NamedType",
-								"name": { "kind": "Name", "value": "String" }
-							}
-						}
-					},
-					{
-						"kind": "FieldDefinition",
-						"name": { "kind": "Name", "value": "buttonUrl" },
-						"arguments": [],
-						"type": {
-							"kind": "NonNullType",
-							"type": {
-								"kind": "NamedType",
-								"name": { "kind": "Name", "value": "String" }
-							}
-						}
-					}
-				]
-			},
-			{
-				"kind": "ObjectTypeDefinition",
-				"interfaces": [],
-				"directives": [],
 				"name": { "kind": "Name", "value": "PageMinistriesSectionsContent" },
 				"fields": [
 					{
@@ -15227,21 +14952,6 @@
 								"name": {
 									"kind": "Name",
 									"value": "PageMinistriesArtistFeature"
-								}
-							}
-						}
-					},
-					{
-						"kind": "FieldDefinition",
-						"name": { "kind": "Name", "value": "callToAction" },
-						"arguments": [],
-						"type": {
-							"kind": "NonNullType",
-							"type": {
-								"kind": "NamedType",
-								"name": {
-									"kind": "Name",
-									"value": "PageMinistriesCallToAction"
 								}
 							}
 						}
@@ -16497,28 +16207,6 @@
 			},
 			{
 				"kind": "InputObjectTypeDefinition",
-				"name": { "kind": "Name", "value": "PageHomeStoryFeatureStatsFilter" },
-				"fields": [
-					{
-						"kind": "InputValueDefinition",
-						"name": { "kind": "Name", "value": "value" },
-						"type": {
-							"kind": "NamedType",
-							"name": { "kind": "Name", "value": "StringFilter" }
-						}
-					},
-					{
-						"kind": "InputValueDefinition",
-						"name": { "kind": "Name", "value": "label" },
-						"type": {
-							"kind": "NamedType",
-							"name": { "kind": "Name", "value": "StringFilter" }
-						}
-					}
-				]
-			},
-			{
-				"kind": "InputObjectTypeDefinition",
 				"name": { "kind": "Name", "value": "PageHomeStoryFeatureFilter" },
 				"fields": [
 					{
@@ -16575,17 +16263,6 @@
 						"type": {
 							"kind": "NamedType",
 							"name": { "kind": "Name", "value": "StringFilter" }
-						}
-					},
-					{
-						"kind": "InputValueDefinition",
-						"name": { "kind": "Name", "value": "stats" },
-						"type": {
-							"kind": "NamedType",
-							"name": {
-								"kind": "Name",
-								"value": "PageHomeStoryFeatureStatsFilter"
-							}
 						}
 					}
 				]
@@ -18525,22 +18202,6 @@
 							"kind": "NamedType",
 							"name": { "kind": "Name", "value": "StringFilter" }
 						}
-					},
-					{
-						"kind": "InputValueDefinition",
-						"name": { "kind": "Name", "value": "buttonLabel" },
-						"type": {
-							"kind": "NamedType",
-							"name": { "kind": "Name", "value": "StringFilter" }
-						}
-					},
-					{
-						"kind": "InputValueDefinition",
-						"name": { "kind": "Name", "value": "buttonUrl" },
-						"type": {
-							"kind": "NamedType",
-							"name": { "kind": "Name", "value": "StringFilter" }
-						}
 					}
 				]
 			},
@@ -20314,52 +19975,6 @@
 			},
 			{
 				"kind": "InputObjectTypeDefinition",
-				"name": { "kind": "Name", "value": "PageMinistriesCallToActionFilter" },
-				"fields": [
-					{
-						"kind": "InputValueDefinition",
-						"name": { "kind": "Name", "value": "eyebrow" },
-						"type": {
-							"kind": "NamedType",
-							"name": { "kind": "Name", "value": "StringFilter" }
-						}
-					},
-					{
-						"kind": "InputValueDefinition",
-						"name": { "kind": "Name", "value": "heading" },
-						"type": {
-							"kind": "NamedType",
-							"name": { "kind": "Name", "value": "StringFilter" }
-						}
-					},
-					{
-						"kind": "InputValueDefinition",
-						"name": { "kind": "Name", "value": "body" },
-						"type": {
-							"kind": "NamedType",
-							"name": { "kind": "Name", "value": "StringFilter" }
-						}
-					},
-					{
-						"kind": "InputValueDefinition",
-						"name": { "kind": "Name", "value": "buttonLabel" },
-						"type": {
-							"kind": "NamedType",
-							"name": { "kind": "Name", "value": "StringFilter" }
-						}
-					},
-					{
-						"kind": "InputValueDefinition",
-						"name": { "kind": "Name", "value": "buttonUrl" },
-						"type": {
-							"kind": "NamedType",
-							"name": { "kind": "Name", "value": "StringFilter" }
-						}
-					}
-				]
-			},
-			{
-				"kind": "InputObjectTypeDefinition",
 				"name": {
 					"kind": "Name",
 					"value": "PageMinistriesSectionsContentFilter"
@@ -20794,17 +20409,6 @@
 							"name": {
 								"kind": "Name",
 								"value": "PageMinistriesArtistFeatureFilter"
-							}
-						}
-					},
-					{
-						"kind": "InputValueDefinition",
-						"name": { "kind": "Name", "value": "callToAction" },
-						"type": {
-							"kind": "NamedType",
-							"name": {
-								"kind": "Name",
-								"value": "PageMinistriesCallToActionFilter"
 							}
 						}
 					},
@@ -21570,18 +21174,6 @@
 				"fields": [
 					{
 						"kind": "FieldDefinition",
-						"name": { "kind": "Name", "value": "eyebrow" },
-						"arguments": [],
-						"type": {
-							"kind": "NonNullType",
-							"type": {
-								"kind": "NamedType",
-								"name": { "kind": "Name", "value": "String" }
-							}
-						}
-					},
-					{
-						"kind": "FieldDefinition",
 						"name": { "kind": "Name", "value": "heading" },
 						"arguments": [],
 						"type": {
@@ -21809,14 +21401,6 @@
 				"kind": "InputObjectTypeDefinition",
 				"name": { "kind": "Name", "value": "EventScheduleSectionCopyFilter" },
 				"fields": [
-					{
-						"kind": "InputValueDefinition",
-						"name": { "kind": "Name", "value": "eyebrow" },
-						"type": {
-							"kind": "NamedType",
-							"name": { "kind": "Name", "value": "StringFilter" }
-						}
-					},
 					{
 						"kind": "InputValueDefinition",
 						"name": { "kind": "Name", "value": "heading" },
@@ -23261,31 +22845,6 @@
 			},
 			{
 				"kind": "InputObjectTypeDefinition",
-				"name": {
-					"kind": "Name",
-					"value": "PageHomeStoryFeatureStatsMutation"
-				},
-				"fields": [
-					{
-						"kind": "InputValueDefinition",
-						"name": { "kind": "Name", "value": "value" },
-						"type": {
-							"kind": "NamedType",
-							"name": { "kind": "Name", "value": "String" }
-						}
-					},
-					{
-						"kind": "InputValueDefinition",
-						"name": { "kind": "Name", "value": "label" },
-						"type": {
-							"kind": "NamedType",
-							"name": { "kind": "Name", "value": "String" }
-						}
-					}
-				]
-			},
-			{
-				"kind": "InputObjectTypeDefinition",
 				"name": { "kind": "Name", "value": "PageHomeStoryFeatureMutation" },
 				"fields": [
 					{
@@ -23345,20 +22904,6 @@
 						"type": {
 							"kind": "NamedType",
 							"name": { "kind": "Name", "value": "String" }
-						}
-					},
-					{
-						"kind": "InputValueDefinition",
-						"name": { "kind": "Name", "value": "stats" },
-						"type": {
-							"kind": "ListType",
-							"type": {
-								"kind": "NamedType",
-								"name": {
-									"kind": "Name",
-									"value": "PageHomeStoryFeatureStatsMutation"
-								}
-							}
 						}
 					}
 				]
@@ -25315,22 +24860,6 @@
 							"kind": "NamedType",
 							"name": { "kind": "Name", "value": "String" }
 						}
-					},
-					{
-						"kind": "InputValueDefinition",
-						"name": { "kind": "Name", "value": "buttonLabel" },
-						"type": {
-							"kind": "NamedType",
-							"name": { "kind": "Name", "value": "String" }
-						}
-					},
-					{
-						"kind": "InputValueDefinition",
-						"name": { "kind": "Name", "value": "buttonUrl" },
-						"type": {
-							"kind": "NamedType",
-							"name": { "kind": "Name", "value": "String" }
-						}
 					}
 				]
 			},
@@ -27181,55 +26710,6 @@
 				"kind": "InputObjectTypeDefinition",
 				"name": {
 					"kind": "Name",
-					"value": "PageMinistriesCallToActionMutation"
-				},
-				"fields": [
-					{
-						"kind": "InputValueDefinition",
-						"name": { "kind": "Name", "value": "eyebrow" },
-						"type": {
-							"kind": "NamedType",
-							"name": { "kind": "Name", "value": "String" }
-						}
-					},
-					{
-						"kind": "InputValueDefinition",
-						"name": { "kind": "Name", "value": "heading" },
-						"type": {
-							"kind": "NamedType",
-							"name": { "kind": "Name", "value": "String" }
-						}
-					},
-					{
-						"kind": "InputValueDefinition",
-						"name": { "kind": "Name", "value": "body" },
-						"type": {
-							"kind": "NamedType",
-							"name": { "kind": "Name", "value": "String" }
-						}
-					},
-					{
-						"kind": "InputValueDefinition",
-						"name": { "kind": "Name", "value": "buttonLabel" },
-						"type": {
-							"kind": "NamedType",
-							"name": { "kind": "Name", "value": "String" }
-						}
-					},
-					{
-						"kind": "InputValueDefinition",
-						"name": { "kind": "Name", "value": "buttonUrl" },
-						"type": {
-							"kind": "NamedType",
-							"name": { "kind": "Name", "value": "String" }
-						}
-					}
-				]
-			},
-			{
-				"kind": "InputObjectTypeDefinition",
-				"name": {
-					"kind": "Name",
 					"value": "PageMinistriesSectionsContentMutation"
 				},
 				"fields": [
@@ -27671,17 +27151,6 @@
 							"name": {
 								"kind": "Name",
 								"value": "PageMinistriesArtistFeatureMutation"
-							}
-						}
-					},
-					{
-						"kind": "InputValueDefinition",
-						"name": { "kind": "Name", "value": "callToAction" },
-						"type": {
-							"kind": "NamedType",
-							"name": {
-								"kind": "Name",
-								"value": "PageMinistriesCallToActionMutation"
 							}
 						}
 					},
@@ -28398,14 +27867,6 @@
 				"kind": "InputObjectTypeDefinition",
 				"name": { "kind": "Name", "value": "EventScheduleSectionCopyMutation" },
 				"fields": [
-					{
-						"kind": "InputValueDefinition",
-						"name": { "kind": "Name", "value": "eyebrow" },
-						"type": {
-							"kind": "NamedType",
-							"name": { "kind": "Name", "value": "String" }
-						}
-					},
 					{
 						"kind": "InputValueDefinition",
 						"name": { "kind": "Name", "value": "heading" },

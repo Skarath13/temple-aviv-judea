@@ -141,7 +141,6 @@ test("the final save guard reports nested errors without discarding typed conten
 	const actions = [];
 	const values = {
 		sectionCopy: {
-			eyebrow: "Gather",
 			heading: "Events",
 			intro: "Join us",
 			detailsLabel: "Details",

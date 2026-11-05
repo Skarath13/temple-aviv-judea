@@ -26,7 +26,7 @@ export const parseEventScheduleRecord = (value) => {
 	if (!isRecord(sectionCopy)) {
 		throw new Error('events.json: "sectionCopy" must be an object.');
 	}
-	for (const key of ["eyebrow", "heading", "intro", "detailsLabel"]) {
+	for (const key of ["heading", "intro", "detailsLabel"]) {
 		requireString(sectionCopy, key, "sectionCopy");
 	}
 
@@ -78,7 +78,7 @@ export const assertEventScheduleReadyForSave = (value) => {
 			? value
 			: parseEventScheduleRecord(value);
 	if (isRecord(schedule.sectionCopy)) {
-		for (const key of ["eyebrow", "heading", "intro", "detailsLabel"]) {
+		for (const key of ["heading", "intro", "detailsLabel"]) {
 			if (
 				typeof schedule.sectionCopy[key] !== "string" ||
 				!schedule.sectionCopy[key].trim()

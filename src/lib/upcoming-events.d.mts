@@ -13,7 +13,6 @@ export interface UpcomingEventRecordSource {
 
 export interface EventScheduleRecord {
 	sectionCopy: {
-		eyebrow: string;
 		heading: string;
 		intro: string;
 		detailsLabel: string;

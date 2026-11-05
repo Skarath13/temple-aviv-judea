@@ -20,7 +20,6 @@ const event = (overrides = {}) => ({
 
 const eventSchedule = (overrides = {}) => ({
 	sectionCopy: {
-		eyebrow: "Gather with us",
 		heading: "Upcoming events.",
 		intro: "Join our community.",
 		detailsLabel: "Event details",
