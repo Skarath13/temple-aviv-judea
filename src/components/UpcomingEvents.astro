@@ -54,6 +54,13 @@ const formatStart = (startsAt: string) =>
 )}
 
 {visibleEvents.length === 0 && (
+  <script is:inline>
+    // The empty state is only an editing target inside Tina's preview frame.
+    if (window.self !== window.top) document.documentElement.classList.add('in-preview-frame');
+  </script>
+)}
+
+{visibleEvents.length === 0 && (
   <section
     class="section upcoming-events-section tina-empty-events"
     aria-labelledby="empty-upcoming-events-title"

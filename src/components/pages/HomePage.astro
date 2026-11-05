@@ -246,13 +246,6 @@ const heroVideoWebm = withBase(mobileHeroMedia.webm);
     </h2>
     <p data-tina-field={tinaField(storyFeature, 'body')}>{storyFeature.body}</p>
     {storyUrl && <a class="button button-ghost-light" href={storyUrl} data-tina-field={tinaField(storyFeature, 'linkLabel')}>{storyFeature.linkLabel}</a>}
-    <div class="story-stats">
-      {storyFeature.stats?.map((stat) => stat && (
-        <div data-tina-field={tinaField(stat)}>
-          <strong data-tina-field={tinaField(stat, 'value')}>{stat.value}</strong><span data-tina-field={tinaField(stat, 'label')}>{stat.label}</span>
-        </div>
-      ))}
-    </div>
   </div>
 </section>
 

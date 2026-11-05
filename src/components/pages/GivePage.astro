@@ -51,7 +51,7 @@ const givingUrl = cmsPayPalLink(site.giving);
     <aside class="give-card">
       <img class="give-photo" src={cmsImageSource(supportPanel.image)} alt={supportPanel.imageAlt} width="1280" height="853" data-tina-field={tinaField(supportPanel, 'image')} />
       <div class="give-card-body">
-        <span class="eyebrow eyebrow-light" data-tina-field={tinaField(supportPanel, 'eyebrow')}>{supportPanel.eyebrow}</span>
+        <h3 class="give-card-heading" data-tina-field={tinaField(supportPanel, 'eyebrow')}>{supportPanel.eyebrow}</h3>
         <ul data-tina-field={tinaField(supportPanel, 'items')}>
           {supportPanel.items?.map((item) => <li>{item}</li>)}
         </ul>

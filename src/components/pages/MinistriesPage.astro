@@ -15,9 +15,7 @@ const { page, site } = Astro.props;
 const hero = page.hero!;
 const bibleStudy = page.bibleStudy!;
 const artistFeature = page.artistFeature!;
-const callToAction = page.callToAction!;
 const cardStyles = new Set(['coral', 'blue', 'gold', 'teal']);
-const ctaUrl = cmsLink(callToAction.buttonUrl);
 const bibleStudyHref = cmsLink(`mailto:${site.email}?subject=${encodeURIComponent(bibleStudy.emailSubject)}`);
 const etsyUrl = cmsEtsyLink(site.baruchDesignsEtsy);
 const artistContactUrl = cmsLink(artistFeature.contactUrl);
@@ -43,7 +41,6 @@ const artistContactUrl = cmsLink(artistFeature.contactUrl);
     })}
 
     <article class="ministry-card blue-card wide-card study-card" data-tina-field={tinaField(bibleStudy)}>
-      <span class="ministry-symbol"><SiteIcon name="book" size={30} /></span>
       <div>
         <h2 data-tina-field={tinaField(bibleStudy, 'heading')}>{bibleStudy.heading}</h2>
         <p data-tina-field={tinaField(bibleStudy, 'body')}>{bibleStudy.body}</p>
@@ -73,14 +70,5 @@ const artistContactUrl = cmsLink(artistFeature.contactUrl);
   </div>
 </section>
 
-<section class="cta-section">
-  <div class="shell cta-inner">
-    <div>
-      <h2 data-tina-field={tinaField(callToAction, 'heading')}>{callToAction.heading}</h2>
-      <p data-tina-field={tinaField(callToAction, 'body')}>{callToAction.body}</p>
-    </div>
-    {ctaUrl && <a class="button" href={ctaUrl} data-tina-field={tinaField(callToAction, 'buttonLabel')}>{callToAction.buttonLabel}</a>}
-  </div>
-</section>
 
 <CmsSections sections={page.sections} />
