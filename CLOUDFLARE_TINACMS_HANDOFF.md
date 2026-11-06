@@ -71,10 +71,10 @@ bun audit --prod
 bunx wrangler deploy --dry-run
 ```
 
-Keep Astro 7.2.6, the Cloudflare adapter 14.2.4, Vite 8.2.2, Rolldown
-1.2.5, the Cloudflare Vite plugin 1.53.1, and Wrangler 4.125.0 exact and
+Keep Astro 7.3.8, the Cloudflare adapter 14.3.4, Vite 8.3.5, Rolldown
+1.2.16, the Cloudflare Vite plugin 1.63.1, and Wrangler 4.149.0 exact and
 coherent. Updating only the direct bundler packages can make Bun retain a
-nested adapter graph while Tina still needs its separate Vite 4 dependency.
+nested adapter graph while Tina still needs its separate Vite 6 dependency.
 That split can pass prerendering while failing a dynamic Worker route. Upgrade
 the set together and rerun both the Tina island and hero-media smoke tests.
 

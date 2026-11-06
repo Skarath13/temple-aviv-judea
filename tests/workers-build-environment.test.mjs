@@ -118,28 +118,30 @@ test("locks the coherent Worker toolchain that preserves dynamic routes", async 
 	);
 	const lock = await readFile(new URL("../bun.lock", import.meta.url), "utf8");
 
-	assert.equal(packageJson.dependencies.astro, "7.2.9");
-	assert.equal(packageJson.dependencies["@astrojs/cloudflare"], "14.2.5");
-	assert.equal(packageJson.devDependencies.vite, "8.2.2");
-	assert.equal(packageJson.devDependencies.rolldown, "1.2.6");
+	assert.equal(packageJson.dependencies.astro, "7.3.8");
+	assert.equal(packageJson.dependencies["@astrojs/cloudflare"], "14.3.4");
+	assert.equal(packageJson.devDependencies.vite, "8.3.5");
+	assert.equal(packageJson.devDependencies.rolldown, "1.2.16");
 	assert.equal(
 		packageJson.devDependencies["@cloudflare/vite-plugin"],
-		"1.54.2",
+		"1.63.1",
 	);
-	assert.equal(packageJson.devDependencies.wrangler, "4.127.1");
-	assert.match(lock, /"astro": \["astro@7\.2\.9"/);
+	assert.equal(packageJson.devDependencies.wrangler, "4.149.0");
+	assert.match(lock, /"astro": \["astro@7\.3\.8"/);
 	assert.match(
 		lock,
-		/"@astrojs\/cloudflare": \["@astrojs\/cloudflare@14\.2\.5"/,
+		/"@astrojs\/cloudflare": \["@astrojs\/cloudflare@14\.3\.4"/,
 	);
-	assert.match(lock, /"vite": \["vite@8\.2\.2"/);
-	assert.match(lock, /"rolldown": \["rolldown@1\.2\.6"/);
+	assert.match(lock, /"vite": \["vite@8\.3\.5"/);
+	assert.match(lock, /"rolldown": \["rolldown@1\.2\.16"/);
 	assert.match(
 		lock,
-		/"@cloudflare\/vite-plugin": \["@cloudflare\/vite-plugin@1\.54\.2"/,
+		/"@cloudflare\/vite-plugin": \["@cloudflare\/vite-plugin@1\.63\.1"/,
 	);
-	assert.match(lock, /"wrangler": \["wrangler@4\.127\.1"/);
+	assert.match(lock, /"wrangler": \["wrangler@4\.149\.0"/);
 	assert.doesNotMatch(lock, /"(?:astro|@astrojs\/cloudflare)\/vite":/);
+	assert.doesNotMatch(lock, /"(?:astro|vite|@astrojs\/cloudflare)\/rolldown":/);
+	assert.doesNotMatch(lock, /"@cloudflare\/vite-plugin\/wrangler":/);
 });
 
 test("validation errors never disclose environment values", () => {

@@ -11,10 +11,10 @@ bun run dev
 
 Use Node 24, which is pinned in `.node-version`, and Bun 1.2.15, which is pinned in `package.json`. Bun is the package manager and script runner; Node remains the supported runtime for TinaCMS, Astro diagnostics, and the strict test suite.
 
-The exact Astro 7.2.6, Cloudflare adapter 14.2.4, Vite 8.2.2,
-Rolldown 1.2.5, Cloudflare Vite plugin 1.53.1, and Wrangler 4.125.0
+The exact Astro 7.3.8, Cloudflare adapter 14.3.4, Vite 8.3.5,
+Rolldown 1.2.16, Cloudflare Vite plugin 1.63.1, and Wrangler 4.149.0
 versions form one tested Worker toolchain while Tina CLI retains its separate
-Vite 4 dependency. Updating only part of that graph can create nested bundler
+Vite 6 dependency. Updating only part of that graph can create nested bundler
 versions. Do not float these packages independently or upgrade them without
 rerunning the Tina island and hero-media Worker smoke tests.
 
