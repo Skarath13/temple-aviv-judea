@@ -19,8 +19,12 @@ export const EventCollection: Collection = {
 	ui: {
 		global: true,
 		beforeSubmit: async ({ values, cms, form }) => {
+			// Tina's final-form 4 stores a list emptied in the editor as undefined.
+			// Save it as the empty array the content contract requires.
+			const schedule =
+				values.events == null ? { ...values, events: [] } : values;
 			try {
-				assertEventScheduleReadyForSave(values);
+				assertEventScheduleReadyForSave(schedule);
 			} catch (error) {
 				// Open the invalid group before Tina records a submit error, so its
 				// navigation guard cannot prevent correcting the rejected fields.
@@ -37,6 +41,7 @@ export const EventCollection: Collection = {
 				);
 				throw error;
 			}
+			return schedule;
 		},
 		allowedActions: {
 			create: false,

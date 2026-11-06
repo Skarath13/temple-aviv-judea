@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createRequire } from "node:module";
 import test from "node:test";
 import { createForm } from "final-form";
 import arrayMutators from "final-form-arrays";
@@ -7,9 +8,26 @@ import { act, createElement, StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { Form, useField } from "react-final-form";
 
+const patchedForms = { createForm, arrayMutators, Form, useField };
+// Tina 3.14+ ships its own final-form 4 family, so the admin does not load the
+// patched react-final-form 7 copy above. Exercise the copy Tina resolves too.
+const tinaRequire = createRequire(import.meta.resolve("tinacms"));
+const tinaArrayMutators = tinaRequire("final-form-arrays");
+const tinaForms = {
+	createForm: tinaRequire("final-form").createForm,
+	arrayMutators: tinaArrayMutators.default ?? tinaArrayMutators,
+	Form: tinaRequire("react-final-form").Form,
+	useField: tinaRequire("react-final-form").useField,
+};
+
 // Exercise the same field mount/unmount cycle Tina uses for list breadcrumbs.
 // Checking the underlying values catches edits disappearing without a UI error.
-const withEditor = async (initialValues, run, destroyOnUnregister = false) => {
+const withEditor = async (
+	initialValues,
+	run,
+	destroyOnUnregister = false,
+	{ createForm, arrayMutators, Form, useField } = patchedForms,
+) => {
 	const dom = new JSDOM("<div id='root'></div>");
 	const previous = {
 		window: globalThis.window,
@@ -133,5 +151,46 @@ test("forms that explicitly destroy unmounted values retain their initialization
 			assert.equal(form.getFieldState("title").value, "Original");
 		},
 		true,
+	);
+});
+
+test("Tina's bundled form library retains list and field edits across navigation", async () => {
+	await withEditor(
+		{ events: [{ title: "Past event", summary: "Old summary" }] },
+		async ({ form, show, change }) => {
+			await show("events");
+			await act(async () => form.mutators.push("events", { published: false }));
+			await show("events.1.title");
+			await change("events.1.title", "Shabbat שלום 🕯️");
+			await show("events.0.summary");
+			await change("events.0.summary", "New summary");
+			await show("events");
+			assert.equal(form.getState().values.events.length, 2);
+			await show("events.1.title");
+			assert.equal(
+				form.getFieldState("events.1.title").value,
+				"Shabbat שלום 🕯️",
+			);
+			await show("events.0.summary");
+			assert.equal(form.getFieldState("events.0.summary").value, "New summary");
+			assert.equal(form.getState().dirty, true);
+		},
+		false,
+		tinaForms,
+	);
+});
+
+test("Tina's bundled form library leaves an emptied list undefined for the save guard to normalize", async () => {
+	await withEditor(
+		{ events: [{ title: "One" }] },
+		async ({ form, show }) => {
+			await show("events");
+			await act(async () => form.mutators.remove("events", 0));
+			await show("sectionCopy.heading");
+			await show("events");
+			assert.equal(form.getState().values.events, undefined);
+		},
+		false,
+		tinaForms,
 	);
 });

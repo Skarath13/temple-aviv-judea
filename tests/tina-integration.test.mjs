@@ -172,6 +172,27 @@ test("the final save guard reports nested errors without discarding typed conten
 	]);
 });
 
+test("the final save guard stores a schedule emptied in the editor as an empty list", async () => {
+	const values = {
+		sectionCopy: {
+			heading: "Events",
+			intro: "Join us",
+			detailsLabel: "Details",
+		},
+		events: undefined,
+	};
+	const saved = await EventCollection.ui.beforeSubmit({
+		values,
+		form: { id: "src/content/events/events.json" },
+		cms: {
+			dispatch: () => assert.fail("no field should be activated"),
+			alerts: { error: (message) => assert.fail(message) },
+		},
+	});
+	assert.deepEqual(saved, { ...values, events: [] });
+	assert.equal(values.events, undefined);
+});
+
 test("event date controls match the schema TinaCloud indexes", async () => {
 	const lock = JSON.parse(await read("tina/tina-lock.json"));
 	const lockedEvents = lock.schema.collections
